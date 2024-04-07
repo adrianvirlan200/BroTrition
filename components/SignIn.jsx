@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const SignIn = () => {

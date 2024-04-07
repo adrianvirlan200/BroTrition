@@ -15,15 +15,11 @@ const RootLayout = ({ children }) => {
   return (
     <html eng="en">
       <body className="">
-        <div className="main">
-          <div className="gradient" />
-        </div>
-        <main className="app">
+        <div className="bg-scroll grid">
           <TopNav />
-
           {children}
           <Footer />
-        </main>
+        </div>
       </body>
     </html>
   );

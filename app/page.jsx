@@ -7,11 +7,11 @@ const first_page = async () => {
   const result = await executeQuery(query, []);
 
   return (
-    <section>
-      <div className="grid grid-cols-1 divide-y">
+    <div>
+      <div className="p-5">
         <SignIn />
       </div>
-    </section>
+    </div>
   );
 };
 

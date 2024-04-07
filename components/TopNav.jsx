@@ -1,3 +1,4 @@
+"use client";
 import {
   Navbar,
   NavbarBrand,
@@ -6,44 +7,65 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
-
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const TopNav = () => {
-  return (
-    <div className="lg:mb-16 w-screen flex-top-0">
-      <Navbar shouldHideOnScroll isBordered>
-        <NavbarBrand>
-          <Image
-            src="/brotrition_assets/png/pear.png"
-            width={36}
-            height={36}
-            alt="Description of your image"
-          />
+  const router = useRouter();
+  const handleLogIn = () => {
+    router.push("/LogIn");
+  };
 
-          <p className="font-bold text-inherit green_gradient">BroTrition</p>
+  return (
+    <div className="lg:mb-16 w-screen h-16 pr-5">
+      <Navbar shouldHideOnScroll isBordered maxWidth="full">
+        <NavbarBrand>
+          <Link color="foreground" className="text-xl text-bold" href="/">
+            <Image
+              src="/brotrition_assets/png/pear.png"
+              width={60}
+              height={60}
+              alt="Description of your image"
+            />
+            <p className="font-bold text-inherit text-4xl green_gradient">
+              BroTrition
+            </p>
+          </Link>
         </NavbarBrand>
-        <NavbarContent className="hidden lg:flex gap-4" justify="center">
+        <NavbarContent className="hidden lg:flex gap-16" justify="end">
           <NavbarItem>
-            <Link color="foreground" href="#">
-              Features
+            <Link color="foreground" className="text-xl text-bold" href="#">
+              About
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link href="#" aria-current="page">
-              Customers
+            <Link color="foreground" className="text-xl text-bold" href="#">
+              Products
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">
-              Integrations
+            <Link href="#" aria-current="page" className="text-xl text-bold">
+              Support
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link color="foreground" href="#" className="text-xl text-bold">
+              Blog
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link color="foreground" href="#" className="text-xl text-bold">
+              Forum
             </Link>
           </NavbarItem>
         </NavbarContent>
-        <NavbarContent justify="end">
+        <NavbarContent className="lg:flex gap-16" justify="end">
           <NavbarItem className="lg:flex">
-            <Button as={Link} color="primary" href="#" variant="flat">
-              Sign Up
+            <Button
+              onClick={handleLogIn}
+              className="border-2 border-green-700 bg-transparent text-2xl text-bold"
+            >
+              Log In
             </Button>
           </NavbarItem>
         </NavbarContent>
