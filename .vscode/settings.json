@@ -1,0 +1,24 @@
+/**
+ * Configuration file for Visual Studio Code settings.
+ */
+
+{
+    // Specifies custom words for spell checking.
+    "cSpell.words": [
+        "brotrition",
+        "mysqldb",
+        "Trition"
+    ],
+   
+    // Specifies the languages to include for Tailwind CSS IntelliSense.
+    "tailwindCSS.includeLanguages": {
+        "html": "html",
+        "javascript": "javascript",
+        "css": "css"
+    },
+    
+    // Enables quick suggestions for strings in the editor.
+    "editor.quickSuggestions": {
+        "strings": true
+    }
+}
