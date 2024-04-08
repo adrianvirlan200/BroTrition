@@ -1,7 +1,12 @@
 import React from "react";
+import LogIn from "/components/Login";
 
 const login = () => {
-  return <div className="h-4/5">test</div>;
+  return (
+    <div>
+      <LogIn />
+    </div>
+  );
 };
 
 export default login;
