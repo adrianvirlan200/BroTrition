@@ -2,17 +2,12 @@
 import React from "react";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const SignIn = () => {
-  const [videoUrl, setVideoUrl] = useState(
-    "https://www.youtube.com/embed/SkJaRIX7c1k"
-  );
-
+const WelcomePage = () => {
   const router = useRouter();
   const handleSignIn = () => {
-    router.push("/Home");
+    router.push("/SignUp");
   };
 
   return (
@@ -38,9 +33,8 @@ const SignIn = () => {
       <div className="">
         <iframe
           style={{ width: "600px", height: "400px" }}
-          src={videoUrl}
+          src={"https://www.youtube.com/embed/SkJaRIX7c1k"}
           title="YouTube video player"
-          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
@@ -49,4 +43,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default WelcomePage;

@@ -1,5 +1,5 @@
 import executeQuery from "./api/mysqldb.jsx";
-import SignIn from "@components/SignIn.jsx"; // Path: app/page.jsx6+9`+9`
+import WelcomePage from "@components/WelcomePage.jsx"; // Path: app/page.jsx6+9`+9`
 import Image from "next/image";
 
 const first_page = async () => {
@@ -9,7 +9,7 @@ const first_page = async () => {
   return (
     <div>
       <div className="p-5">
-        <SignIn />
+        <WelcomePage />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const RootLayout = ({ children }) => {
     <html eng="en">
       <body className="bg-amber-50">
         <div className="bg-scroll grid">
-          {pathname === "/LogIn" ? <LoginNav /> : <TopNav />}
+          {pathname === "/" ? <TopNav /> : <LoginNav />}
           {children}
           <Footer />
         </div>
