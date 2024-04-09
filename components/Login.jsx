@@ -49,7 +49,7 @@ const Login = () => {
             className="underline text-base text-bold"
             href="/SignUp"
           >
-            Sign In
+            Sign Up
           </Link>
         </div>
       </div>

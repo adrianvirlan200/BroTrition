@@ -20,13 +20,13 @@ const WelcomePage = () => {
           Keep track of your diet, exercise and health.
         </p1>
         <p2 className="text-3xl font-bold text-left text-slate-700 decoration-1">
-          Join now! It's free!
+          Join us! It's free!
         </p2>
         <button
           onClick={handleSignIn}
           className=" rounded-xl bg-gradient-to-tr from-pink-500 to-yellow-500 hover:bg-gradient-to-tr hover:from-red-600 hover:to-orange-500 text-white font-bold lg:text-4xl sm:4xl shadow-lg"
         >
-          Sign In Now!
+          Sign Up Now
         </button>
       </div>
 

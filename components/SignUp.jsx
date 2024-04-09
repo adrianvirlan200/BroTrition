@@ -4,11 +4,25 @@ import { Input } from "@nextui-org/react";
 import Link from "next/link";
 import { CheckboxGroup, Checkbox } from "@nextui-org/react";
 import { useState } from "react";
+import axios from "axios";
 
 const SignUp = () => {
-  const [registerUsername, setRegisterUsername] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerRetypePassword, setRetypeRegisterPassword] = useState("");
+
+  const register = () => {
+    axios({
+      method: "post",
+      url: "http://localhost:3000/SignUp",
+      data: {
+        email: registerEmail,
+        password: registerPassword,
+      },
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <form className="text-center w-screen h-auto flex justify-center items-center">
@@ -17,7 +31,7 @@ const SignUp = () => {
           Create your account for Free
         </h1>
         <Input
-          onChange={(e) => setRegisterUsername(e.target.value)}
+          onChange={(e) => setRegisterEmail(e.target.value)}
           name="email"
           type="email"
           label="Email"
@@ -33,30 +47,36 @@ const SignUp = () => {
           className="border-2 rounded-2xl border-slate-200"
         />
         <Input
-          onChange={(e) => setRegisterPassword(e.target.value)}
+          onChange={(e) => setRetypeRegisterPassword(e.target.value)}
           name="retype_password"
           type="password"
           label="Validate Password"
           size={"lg"}
           className="border-2 rounded-2xl border-slate-200"
         />
-        <CheckboxGroup className="content-start">
-          <Checkbox required value="termsAndCond" color="success" className="">
+        <div className="static grid grid-cols-1 gap-2 content-stretch">
+          <Checkbox
+            required={true}
+            value="termsAndCond"
+            color="success"
+            className=""
+          >
             You agree to{" "}
             <a href="#" className="underline text-bold">
               BroTrition's Terms and Conditions
             </a>
           </Checkbox>
           <Checkbox
-            defaultChecked
+            defaultSelected={true}
             color="success"
             value="promotions"
             className=""
           >
             You agree to receive Promotions from BroTrition
           </Checkbox>
-        </CheckboxGroup>
+        </div>
         <Button
+          onClick={register}
           color="danger"
           className="mx-auto border-2 border-red-700 text-bold text-xl font-bold flex justify-center"
         >
