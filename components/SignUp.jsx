@@ -14,7 +14,8 @@ const SignUp = () => {
   const register = () => {
     axios({
       method: "post",
-      url: "http://localhost:3000/SignUp",
+      url: "http://localhost:3001/SignUp",
+      withCredentials: true,
       data: {
         email: registerEmail,
         password: registerPassword,

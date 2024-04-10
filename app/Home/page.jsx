@@ -3,13 +3,33 @@ import { NextUIProvider } from "@nextui-org/react";
 import MainTable from "@components/MainTable";
 import Circular_protein from "@components/Circular_protein";
 import Image from "next/image";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { get } from "mongoose";
 const Home = () => {
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = () => {
+    axios({
+      method: "get",
+      url: "http://localhost:3001/Home",
+      withCredentials: true,
+    })
+      .then((res) => {
+        setUsername(res.data.email);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <NextUIProvider>
       <section className="w-full flex-center flex-col">
         <h1 className="head_text text-center green_gradient">BroTrition</h1>
-
+        <h2>Logged user: {username}</h2>
         <p className="desc text-center">
           BroTrition is a web application that helps you track your daily
           nutrition intake. It provides you with a list of foods and their
