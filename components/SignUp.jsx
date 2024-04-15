@@ -11,19 +11,19 @@ const SignUp = () => {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerRetypePassword, setRetypeRegisterPassword] = useState("");
 
-  const register = () => {
-    axios({
-      method: "post",
-      url: "http://localhost:3001/SignUp",
-      withCredentials: true,
-      data: {
-        email: registerEmail,
-        password: registerPassword,
-      },
-    })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
+  // const register = () => {
+  //   axios({
+  //     method: "post",
+  //     url: "http://localhost:3001/SignUp",
+  //     withCredentials: true,
+  //     data: {
+  //       email: registerEmail,
+  //       password: registerPassword,
+  //     },
+  //   })
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <form className="text-center w-screen h-auto flex justify-center items-center">
@@ -77,7 +77,7 @@ const SignUp = () => {
           </Checkbox>
         </div>
         <Button
-          onClick={register}
+          //onClick={register}
           color="danger"
           className="mx-auto border-2 border-red-700 text-bold text-xl font-bold flex justify-center"
         >
@@ -88,7 +88,7 @@ const SignUp = () => {
           <Link
             color="blue"
             className="underline text-base text-bold"
-            href="/LogIn"
+            href="/login"
           >
             Log In!
           </Link>

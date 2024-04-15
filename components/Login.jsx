@@ -12,19 +12,19 @@ const Login = () => {
 
   const router = useRouter();
 
-  const login = () => {
-    axios({
-      method: "post",
-      url: "http://localhost:3001/LogIn",
-      withCredentials: true,
-      data: {
-        email: loginEmail,
-        password: loginPassword,
-      },
-    })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
+  // const login = () => {
+  //   axios({
+  //     method: "post",
+  //     url: "http://localhost:3001/LogIn",
+  //     withCredentials: true,
+  //     data: {
+  //       email: loginEmail,
+  //       password: loginPassword,
+  //     },
+  //   })
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <form className="text-center w-screen h-auto flex justify-center items-center">
@@ -49,7 +49,7 @@ const Login = () => {
         />
         <div className=" grid grid-cols-1 content-center px-20">
           <Button
-            onClick={login}
+            //onClick={login}
             color="success"
             className="mb-3 border-2 border-green-600 text-bold text-xl font-bold"
           >
@@ -66,7 +66,7 @@ const Login = () => {
           <Link
             color="blue"
             className="underline text-base text-bold"
-            href="/SignUp"
+            href="/signup"
           >
             Sign Up
           </Link>

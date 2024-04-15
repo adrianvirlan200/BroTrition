@@ -14,7 +14,7 @@ const TopNav = () => {
   const router = useRouter();
 
   const handleLogIn = () => {
-    router.push("/LogIn");
+    router.push("/Login");
   };
 
   return (

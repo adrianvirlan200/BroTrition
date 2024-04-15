@@ -1,35 +1,58 @@
 "use client";
-import { NextUIProvider } from "@nextui-org/react";
+import { NextUIProvider, user } from "@nextui-org/react";
 import MainTable from "@components/MainTable";
 import Circular_protein from "@components/Circular_protein";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { get } from "mongoose";
+import { useRouter } from "next/navigation";
+
 const Home = () => {
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
-  const getUser = () => {
-    axios({
-      method: "get",
-      url: "http://localhost:3001/Home",
-      withCredentials: true,
-    })
-      .then((res) => {
-        setUsername(res.data.email);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getUser = () => {
+  //   axios({
+  //     method: "get",
+  //     url: "http://localhost:3001/Home",
+  //     withCredentials: true,
+  //   })
+  //     .then((res) => {
+  //       setUsername(res.data.email);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+  // const handleLogout = async () => {
+  //   try {
+  //     // Make a GET request to the logout endpoint
+  //     const response = await fetch("/Home", {
+  //       method: "GET",
+  //       credentials: "include", // Necessary for including cookies in the request
+  //     });
+
+  //     // Check if the logout was successful
+  //     if (response.ok) {
+  //       // Redirect the user to the login page
+  //       window.location.href = "/";
+  //     } else {
+  //       // Handle errors, for example, by showing an error message
+  //       console.error("Logout failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("There was an error logging out", error);
+  //   }
+  // };
 
   return (
     <NextUIProvider>
       <section className="w-full flex-center flex-col">
         <h1 className="head_text text-center green_gradient">BroTrition</h1>
-        <h2>Logged user: {username}</h2>
+        <h2>Logged user: {}</h2>
         <p className="desc text-center">
           BroTrition is a web application that helps you track your daily
           nutrition intake. It provides you with a list of foods and their

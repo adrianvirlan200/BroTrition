@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const WelcomePage = () => {
   const router = useRouter();
   const handleSignIn = () => {
-    router.push("/SignUp");
+    router.push("/Signup");
   };
 
   return (

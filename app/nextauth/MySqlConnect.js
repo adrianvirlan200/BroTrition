@@ -1,17 +1,5 @@
-//const mysql = require("mysql2");
-
-// const db = mysql.createPool({
-//   connectionLimit: 10,
-//   host: "localhost",
-//   user: "root",
-//   password: "root",
-//   database: "brotrition",
-//   port: 3002,
-// });
-
-//module.exports = db;
-
 import mysql from "mysql2/promise";
+
 const executeQuery = async (query, data) => {
   try {
     const db = await mysql.createConnection({
@@ -23,14 +11,11 @@ const executeQuery = async (query, data) => {
     });
 
     const [result] = await db.execute(query, data);
-
-    await db.end();
-    //console.log(result);
+    db.end();
 
     return result;
   } catch (error) {
-    console.log(error);
-    return error;
+    return null;
   }
 };
 

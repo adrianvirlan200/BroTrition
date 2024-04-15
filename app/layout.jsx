@@ -2,20 +2,38 @@
 import "@styles/globals.css";
 import Nav from "@components/LoginNav";
 import Footer from "@components/Footer";
-import Provider from "@components/Provider";
 import TopNav from "@components/TopNav";
 import LoginNav from "@components/LoginNav";
+import HomeNav from "@components/HomeNav";
 import { usePathname } from "next/navigation";
+import NextAuthSessionProvider from "./nextauth/NextAuthSessionProvider";
 
 const RootLayout = ({ children }) => {
   const pathname = usePathname();
 
+  let nav;
+
+  switch (pathname) {
+    case "/":
+      nav = <TopNav />;
+      break;
+    case "/Login":
+      nav = <LoginNav />;
+      break;
+    case "/Home":
+      nav = <HomeNav />;
+      break;
+    default:
+      nav = <LoginNav />;
+      break;
+  }
+
   return (
-    <html eng="en">
+    <html lang="en">
       <body className="bg-amber-50">
         <div className="bg-scroll grid">
-          {pathname === "/" ? <TopNav /> : <LoginNav />}
-          {children}
+          {nav}
+          <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
           <Footer />
         </div>
       </body>

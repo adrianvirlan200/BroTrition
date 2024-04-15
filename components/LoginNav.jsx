@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 const LoginNav = () => {
   const router = useRouter();
   const handleLogIn = () => {
-    router.push("/LogIn");
+    router.push("/Login");
   };
 
   return (
