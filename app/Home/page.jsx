@@ -5,7 +5,6 @@ import Circular_protein from "@components/Circular_protein";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { get } from "mongoose";
 import { useRouter } from "next/navigation";
 
 const Home = () => {
