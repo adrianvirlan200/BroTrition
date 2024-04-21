@@ -1,6 +1,5 @@
 import executeQuery from "@server/db.js";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
 
 export async function POST(request) {
   const data = await request.json();
@@ -20,13 +19,12 @@ export async function POST(request) {
     );
   }
 
-  //const hashedPassword = await bcrypt.hash(data.data.password);
-
+  const bcrypt = require("bcrypt");
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(data.data.password, saltRounds);
+  console.log(hashedPassword);
   const query = "INSERT INTO user (email, password) VALUES (?, ?);";
-  const result = await executeQuery(query, [
-    data.data.email,
-    data.data.password,
-  ]);
+  const result = await executeQuery(query, [data.data.email, hashedPassword]);
 
   return new Response(
     JSON.stringify({ message: "Registration successful.", status: 201 })

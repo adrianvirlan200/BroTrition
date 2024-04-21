@@ -66,7 +66,7 @@ const Login = () => {
           <Link
             color="blue"
             className="underline text-base text-bold"
-            href="/signup"
+            href="/Signup"
           >
             Sign Up
           </Link>
