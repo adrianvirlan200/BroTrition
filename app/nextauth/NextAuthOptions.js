@@ -1,5 +1,5 @@
 import Credentials from "next-auth/providers/credentials";
-import executeQuery from "./MySqlConnect";
+import executeQuery from "@server/db";
 
 export const authOptions = {
   session: {
@@ -24,7 +24,8 @@ export const authOptions = {
       async authorize(credentials) {
         const { email, password } = credentials;
 
-        const query = "SELECT * FROM brotrition.user WHERE email = ?;";
+        const query =
+          "SELECT userID, email, password FROM brotrition.user WHERE email = ?;";
         const user = await executeQuery(query, [email]);
 
         //if the query executed correctly && the user exists in the db
@@ -45,19 +46,22 @@ export const authOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/Login",
+  },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      return true; // Return true if sign-in is allowed, otherwise false
-    },
-    async redirect({ url, baseUrl }) {
-      // Check if the redirection is after sign-in or sign-out
-      if (url.startsWith(baseUrl + "/api/auth/signout")) {
-        // Redirect to '/' after sign-out
-        return "/";
-      }
-      // Redirect to '/Home' after sign-in
-      return "/Home";
-    },
+    // async signIn({ user, account, profile, email, credentials }) {
+    //   return true; // Return true if sign-in is allowed, otherwise false
+    // },
+    // async redirect({ url, baseUrl }) {
+    //   // Check if the redirection is after sign-in or sign-out
+    //   if (url.startsWith(baseUrl + "/api/auth/signout")) {
+    //     // Redirect to '/' after sign-out
+    //     return "/";
+    //   }
+    //   // Redirect to '/Home' after sign-in
+    //   return "/Home";
+    // },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
         token.id = user.id; // Persist the user ID in the JWT

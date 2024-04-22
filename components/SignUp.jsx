@@ -248,8 +248,8 @@ const SignUp = () => {
         <h1 className="text-center text-bold text-2xl">
           Now tell us more about yourself 🤗
         </h1>
-        <div className="grid grid-cols-1 gap-5 mt-10">
-          <div className="grid grid-cols-2 mb-2">
+        <div className="grid grid-cols-1 gap-4 mt-10">
+          <div className="grid grid-cols-2">
             <div className="text-center py-5">
               <p1>Your Name</p1>
             </div>
@@ -312,7 +312,7 @@ const SignUp = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 mb-2">
+        <div className="grid grid-cols-2 mb-2 mt-4">
           <div className="text-center py-5">
             <p1>Weight</p1>
           </div>

@@ -8,7 +8,6 @@ import HomeNav from "@components/HomeNav";
 import { usePathname } from "next/navigation";
 import NextAuthSessionProvider from "./nextauth/NextAuthSessionProvider";
 
-
 const RootLayout = ({ children }) => {
   const pathname = usePathname();
 
@@ -31,7 +30,7 @@ const RootLayout = ({ children }) => {
 
   return (
     <html lang="en">
-      <body className="bg-amber-50">
+      <body className="bg-gradient-to-r from-gray-100 to-amber-100">
         <div className="bg-scroll grid">
           {nav}
           <NextAuthSessionProvider>{children}</NextAuthSessionProvider>

@@ -1,33 +1,40 @@
 "use client";
-import { Button } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
-import { Input } from "@nextui-org/react";
-import { useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { set } from "mongoose";
 
 const Login = () => {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-
   const router = useRouter();
 
-  // const login = () => {
-  //   axios({
-  //     method: "post",
-  //     url: "http://localhost:3001/LogIn",
-  //     withCredentials: true,
-  //     data: {
-  //       email: loginEmail,
-  //       password: loginPassword,
-  //     },
-  //   })
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // };
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [error, setError] = useState("");
+  const [borderColor, setBorderColor] = useState("border-slate-200");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const result = await signIn("credentials", {
+      email: loginEmail,
+      password: loginPassword,
+      redirect: false,
+      //callback: "/Home",
+    });
+
+    if (result.error) {
+      setError("Invalid email or password");
+      setBorderColor("border-red-500");
+    } else {
+      setError("");
+      setBorderColor("border-slate-200");
+    }
+  };
 
   return (
-    <form className="text-center w-screen h-auto flex justify-center items-center">
+    <div className="text-center w-screen h-auto flex justify-center items-center">
       <div className="min-w-96 font-medium bg-white m-2 w-2/6 p-12 border-slate-200 border-1 shadow-2xl rounded-xl grid grid-cols-1 gap-8 content-center justify-center">
         <h1 className="text-center text-bold text-2xl">Welcome Back!</h1>
         <Input
@@ -36,7 +43,7 @@ const Login = () => {
           type="email"
           label="Email"
           size="lg"
-          className="border-2 rounded-2xl border-slate-200"
+          className={`border-2 rounded-2xl ${borderColor}`}
         />
 
         <Input
@@ -45,11 +52,16 @@ const Login = () => {
           type="password"
           label="Password"
           size={"lg"}
-          className="border-2 rounded-2xl border-slate-200"
+          className={`border-2 rounded-2xl ${borderColor}`}
         />
+
+        <p className="justify-self-start right-14 bottom-7 text-red-700 text-sm">
+          {error}
+        </p>
+
         <div className=" grid grid-cols-1 content-center px-20">
           <Button
-            //onClick={login}
+            onClick={handleLogin}
             color="success"
             className="mb-3 border-2 border-green-600 text-bold text-xl font-bold"
           >
@@ -72,7 +84,7 @@ const Login = () => {
           </Link>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 
