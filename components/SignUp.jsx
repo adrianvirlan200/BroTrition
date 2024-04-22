@@ -71,14 +71,18 @@ const SignUp = () => {
   const [weightColor, setWeightColor] = useState("border-slate-200");
   const [heightColor, setHeightColor] = useState("border-slate-200");
 
+  const [formErrors, setFormErrors] = useState("");
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(registerEmail)) {
       setErrMessage("Invalid Email!");
       setEmailColor("border-red-700");
+      setFormErrors("The Form has errors!");
       return;
     } else {
+      setFormErrors("");
       setEmailColor("border-slate-200");
       setErrMessage("");
     }
@@ -86,9 +90,10 @@ const SignUp = () => {
     if (registerPassword !== registerRetypePassword) {
       setErrMessage("Passwords do not match!");
       setPasswordColor("border-red-700");
-      console.log(errMessage);
+      setFormErrors("The Form has errors!");
       return;
     } else {
+      setFormErrors("");
       setErrMessage("");
       setPasswordColor("border-slate-200");
     }
@@ -97,9 +102,11 @@ const SignUp = () => {
       setErrMessage(
         "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
       );
+      setFormErrors("The Form has errors!");
       setPasswordColor("border-red-700");
       return;
     } else {
+      setFormErrors("");
       setPasswordColor("border-slate-200");
       setErrMessage("");
     }
@@ -107,8 +114,10 @@ const SignUp = () => {
     if (!validateNickname(nickname)) {
       setSpecsError("Invalid nickname!");
       setNicknameColor("border-red-700");
+      setFormErrors("The Form has errors!");
       return;
     } else {
+      setFormErrors("");
       setSpecsError("");
       setNicknameColor("border-slate-200");
     }
@@ -116,17 +125,21 @@ const SignUp = () => {
     if (!validateHeight(height)) {
       setSpecsError("Invalid height!");
       setHeightColor("border-red-700");
+      setFormErrors("The Form has errors!");
       return;
     } else {
+      setFormErrors("");
       setSpecsError("");
       setHeightColor("border-slate-200");
     }
 
     if (!validateWeight(weight)) {
+      setFormErrors("The Form has errors!");
       setSpecsError("Invalid weight!");
       setWeightColor("border-red-700");
       return;
     } else {
+      setFormErrors("");
       setSpecsError("");
       setWeightColor("border-slate-200");
     }
@@ -346,6 +359,9 @@ const SignUp = () => {
             You agree to receive Personalized Ads and Promotions from BroTrition
           </Checkbox>
         </div>
+        <p className="mt-5 mb-0 justify-self-start right-14 bottom-7 text-red-700 text-sm">
+          {formErrors}
+        </p>
         <Button
           isDisabled={!termsCheckbox}
           onClick={handleRegister}
