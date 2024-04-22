@@ -49,15 +49,15 @@ export const authOptions = {
     async signIn({ user, account, profile, email, credentials }) {
       return true; // Return true if sign-in is allowed, otherwise false
     },
-    // async redirect({ url, baseUrl }) {
-    //   // Check if the redirection is after sign-in or sign-out
-    //   if (url.startsWith(baseUrl + "/api/auth/signout")) {
-    //     // Redirect to '/' after sign-out
-    //     return "/";
-    //   }
-    //   // Redirect to '/Home' after sign-in
-    //   return "/Home";
-    // },
+    async redirect({ url, baseUrl }) {
+      // Check if the redirection is after sign-in or sign-out
+      if (url.startsWith(baseUrl + "/api/auth/signout")) {
+        // Redirect to '/' after sign-out
+        return "/";
+      }
+      // Redirect to '/Home' after sign-in
+      return "/Home";
+    },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
         token.id = user.id; // Persist the user ID in the JWT

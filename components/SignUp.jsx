@@ -16,7 +16,7 @@ function validateEmail(email) {
   return regex.test(email);
 }
 
-function validatePassword(password) {
+function validatePassword(password, password2) {
   // Criteria:
   // Minimum 8 characters long
   // Contains at least one uppercase letter
@@ -28,12 +28,36 @@ function validatePassword(password) {
   return regex.test(password);
 }
 
+function validateNickname(nickname) {
+  const regex = /^[a-zA-Z0-9._-]{3,20}$/;
+  return regex.test(nickname);
+}
+
+function validateHeight(height) {
+  // Allow decimal heights and range from 50 to 272 cm (approx range of shortest to tallest recorded humans)
+  const regex = /^[0-9]{2,3}(\.[0-9]{1,2})?$/;
+  const value = parseFloat(height);
+  return regex.test(height) && value >= 50 && value <= 272;
+}
+
+function validateWeight(weight) {
+  // Allow decimal weights and range from 2 to 635 kg (approx range of lightest to heaviest recorded humans)
+  const regex = /^[0-9]{1,3}(\.[0-9]{1,2})?$/;
+  const value = parseFloat(weight);
+  return regex.test(weight) && value >= 2 && value <= 635;
+}
+
 const SignUp = () => {
   const router = useRouter();
 
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerRetypePassword, setRetypeRegisterPassword] = useState("");
+
+  const [nickname, SetNickname] = useState("");
+  const [selectedGender, setSelectedGender] = useState("not");
+  const [height, SetHeight] = useState("");
+  const [weight, SetWeight] = useState("");
 
   const [adsCheckbox, setAdsCheckbox] = useState(true);
   const [termsCheckbox, setTermsCheckbox] = useState(false);
@@ -42,80 +66,121 @@ const SignUp = () => {
   const [emailColor, setEmailColor] = useState("border-slate-200");
   const [passwordColor, setPasswordColor] = useState("border-slate-200");
 
-  const [selectedGender, setSelectedGender] = useState("");
-  const handleSelectChange = (event) => {
-    setSelectedGender(event.target.value);
-  };
-
-  let specsError = "";
+  const [specsError, setSpecsError] = useState("");
+  const [nicknameColor, setNicknameColor] = useState("border-slate-200");
+  const [weightColor, setWeightColor] = useState("border-slate-200");
+  const [heightColor, setHeightColor] = useState("border-slate-200");
 
   const handleRegister = async (e) => {
-    // if (!validateEmail(registerEmail)) {
-    //   setErrMessage("Invalid Email!");
-    //   setEmailColor("border-red-700");
-    //   return;
-    // } else {
-    //   setEmailColor("border-slate-200");
-    //   setErrMessage("");
-    // }
-
-    // if (registerPassword !== registerRetypePassword) {
-    //   setErrMessage("Passwords do not match!");
-    //   setPasswordColor("border-red-700");
-    //   console.log(errMessage);
-    //   return;
-    // } else {
-    //   setErrMessage("");
-    //   setPasswordColor("border-slate-200");
-    // }
-
-    // if (!validatePassword(registerPassword)) {
-    //   setErrMessage(
-    //     "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
-    //   );
-    //   setPasswordColor("border-red-700");
-    //   return;
-    // } else {
-    //   setPasswordColor("border-slate-200");
-    //   setErrMessage("");
-    // }
     e.preventDefault();
 
-    const data = { email: registerEmail, password: registerPassword };
+    if (!validateEmail(registerEmail)) {
+      setErrMessage("Invalid Email!");
+      setEmailColor("border-red-700");
+      return;
+    } else {
+      setEmailColor("border-slate-200");
+      setErrMessage("");
+    }
 
-    // try {
-    //   const response = await fetch("http://localhost:3000/api/register/", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       data,
-    //     }),
-    //   });
+    if (registerPassword !== registerRetypePassword) {
+      setErrMessage("Passwords do not match!");
+      setPasswordColor("border-red-700");
+      console.log(errMessage);
+      return;
+    } else {
+      setErrMessage("");
+      setPasswordColor("border-slate-200");
+    }
 
-    //   if (response.ok) {
-    //     const data = await response.json();
+    if (!validatePassword(registerPassword)) {
+      setErrMessage(
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+      );
+      setPasswordColor("border-red-700");
+      return;
+    } else {
+      setPasswordColor("border-slate-200");
+      setErrMessage("");
+    }
 
-    //     if (data.status === 500) {
-    //       setErrMessage("User already exists. Please log in.");
-    //       return;
-    //     } else if (data.status === 201) {
-    //       setErrMessage("");
-    //       console.log("Registration successful");
-    //       router.push("/Home");
-    //     } else {
-    //       setErrMessage(
-    //         "An error occurred while registering. Please try again."
-    //       );
-    //     }
-    //   } else {
-    //     const data = await response.json();
-    //     console.log("NOT OKAY");
-    //   }
-    // } catch (error) {
-    //   console.error("catch block executed, Error:", error);
-    // }
+    if (!validateNickname(nickname)) {
+      setSpecsError("Invalid nickname!");
+      setNicknameColor("border-red-700");
+      return;
+    } else {
+      setSpecsError("");
+      setNicknameColor("border-slate-200");
+    }
+
+    if (!validateHeight(height)) {
+      setSpecsError("Invalid height!");
+      setHeightColor("border-red-700");
+      return;
+    } else {
+      setSpecsError("");
+      setHeightColor("border-slate-200");
+    }
+
+    if (!validateWeight(weight)) {
+      setSpecsError("Invalid weight!");
+      setWeightColor("border-red-700");
+      return;
+    } else {
+      setSpecsError("");
+      setWeightColor("border-slate-200");
+    }
+
+    let finalGender = selectedGender;
+    if (selectedGender === "not" || selectedGender === "mechanic") {
+      finalGender = "";
+    }
+
+    const data = {
+      email: registerEmail,
+      password: registerPassword,
+      nickname: nickname,
+      gender: finalGender,
+      height: height,
+      weight: weight,
+      ads: adsCheckbox,
+    };
+
+    console.log(data);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/register/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data.status === 500) {
+          setErrMessage("User already exists. Please log in.");
+          return;
+        } else if (data.status === 201) {
+          setErrMessage("");
+          console.log("Registration successful");
+          router.push("/Login");
+        } else {
+          setErrMessage(
+            "An error occurred while registering. Please try again."
+          );
+        }
+      } else {
+        const data = await response.json();
+        console.log("NOT OKAY");
+      }
+    } catch (error) {
+      console.error("catch block executed, Error:", error);
+    }
   };
 
   return (
@@ -177,15 +242,13 @@ const SignUp = () => {
             </div>
             <div className="content-start">
               <Input
-                //onChange={(e) => setRegisterEmail(e.target.value)}
-                name="name"
-                type="name"
-                label="Your name"
+                onChange={(e) => SetNickname(e.target.value)}
+                name="nickname"
+                type="nickname"
+                label="Nickname"
                 placeholder="How should we call you?"
                 size="lg"
-                variant={"bordered"}
-                className=""
-                //className={`border-2 rounded-2xl ${emailColor}`}
+                className={`border-2 rounded-2xl ${nicknameColor}`}
               />
             </div>
           </div>
@@ -197,7 +260,7 @@ const SignUp = () => {
             <div className="content-start">
               <Select
                 isRequired={true}
-                onChange={handleSelectChange}
+                onChange={(e) => setSelectedGender(e.target.value)}
                 defaultSelectedKeys={["not"]}
                 label="Select your gender"
                 className="max-w-xs m-auto"
@@ -225,15 +288,13 @@ const SignUp = () => {
           </div>
           <div className="content-start">
             <Input
-              //onChange={(e) => setRegisterEmail(e.target.value)}
+              onChange={(e) => SetHeight(e.target.value)}
               name="name"
               type="name"
               label="Cm"
               placeholder="Enter your height in cm"
               size="lg"
-              variant={"bordered"}
-              className=""
-              //className={`border-2 rounded-2xl ${emailColor}`}
+              className={`border-2 rounded-2xl ${heightColor}`}
             />
           </div>
         </div>
@@ -244,15 +305,13 @@ const SignUp = () => {
           </div>
           <div className="content-start">
             <Input
-              //onChange={(e) => setRegisterEmail(e.target.value)}
+              onChange={(e) => SetWeight(e.target.value)}
               name="name"
               type="name"
               label="Kg"
               placeholder="Enter your weight in kg"
               size="lg"
-              variant={"bordered"}
-              className=""
-              //className={`border-2 rounded-2xl ${emailColor}`}
+              className={`border-2 rounded-2xl ${weightColor}`}
             />
           </div>
         </div>

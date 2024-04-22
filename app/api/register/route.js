@@ -1,32 +1,45 @@
 import executeQuery from "@server/db.js";
 import { NextResponse } from "next/server";
+const bcrypt = require("bcrypt");
 
 export async function POST(request) {
-  const data = await request.json();
+  try {
+    const data = await request.json();
+    const { email, password, nickname, gender, height, weight, ads } =
+      data.data;
 
-  // console.log(data);
-  // console.log(data.data.email);
-  // console.log(data.data.password);
+    const verifyQuery = "SELECT * FROM user WHERE email = ?;";
+    const verifyResult = await executeQuery(verifyQuery, [email]);
+    if (verifyResult.length > 0) {
+      return new Response(
+        JSON.stringify({
+          message: "User already exists with that email.",
+          status: 500,
+        })
+      );
+    }
 
-  const verifyQuery = "SELECT * FROM user WHERE email = ?;";
-  const verifyResult = await executeQuery(verifyQuery, [data.data.email]);
-  if (verifyResult.length > 0) {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const query =
+      "INSERT INTO user (email, password, username, sex, height, weight, wantsCustomAds) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    const result = await executeQuery(query, [
+      email,
+      hashedPassword,
+      nickname,
+      gender,
+      height,
+      weight,
+      ads,
+    ]);
+
     return new Response(
-      JSON.stringify({
-        message: "User already exists with that email.",
-        status: 500,
-      })
+      JSON.stringify({ message: "Registration successful.", status: 201 })
+    );
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ message: "An error occurred.", status: 500 })
     );
   }
-
-  const bcrypt = require("bcrypt");
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(data.data.password, saltRounds);
-  console.log(hashedPassword);
-  const query = "INSERT INTO user (email, password) VALUES (?, ?);";
-  const result = await executeQuery(query, [data.data.email, hashedPassword]);
-
-  return new Response(
-    JSON.stringify({ message: "Registration successful.", status: 201 })
-  );
 }

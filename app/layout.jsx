@@ -8,6 +8,7 @@ import HomeNav from "@components/HomeNav";
 import { usePathname } from "next/navigation";
 import NextAuthSessionProvider from "./nextauth/NextAuthSessionProvider";
 
+
 const RootLayout = ({ children }) => {
   const pathname = usePathname();
 

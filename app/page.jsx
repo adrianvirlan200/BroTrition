@@ -1,13 +1,23 @@
-//"use client";
+"use client";
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import WelcomePage from "@components/WelcomePage.jsx"; // Path: app/page.jsx6+9`+9`
 import Image from "next/image";
-import executeQuery from "../server/db";
-// Rest of the code...
 
-const first_page = async () => {
-  //const q = "SELECT * FROM brotrition.user;";
-  //const result = await executeQuery(q, []);
-  // {JSON.stringify(result) || "No data found"}
+const first_page = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  //prevent user to come back to login, signup and welcome page if he has already logged in
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (pathname === "/Login" || pathname === "/Signup" || pathname === "/")
+      if (session) router.push("/Home");
+  }, [session, router, pathname]);
+
   return (
     <div>
       <div className="p-5">
