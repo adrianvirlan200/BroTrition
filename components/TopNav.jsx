@@ -10,16 +10,15 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-
 const TopNav = () => {
   const router = useRouter();
-  
+
   const handleLogIn = () => {
     router.push("/Login");
   };
 
   return (
-    <div className="lg:mb-16 w-screen h-16 pr-5">
+    <div className="mb-16 w-screen h-16">
       <Navbar shouldHideOnScroll isBordered maxWidth="full">
         <NavbarBrand>
           <Link color="foreground" className="text-xl text-bold" href="/">
@@ -65,7 +64,7 @@ const TopNav = () => {
           <NavbarItem className="lg:flex">
             <Button
               onClick={handleLogIn}
-              className="border-2 border-green-700 bg-transparent text-2xl text-bold"
+              className="mr-5 border-2 border-green-700 bg-transparent text-2xl text-bold"
             >
               Log In
             </Button>

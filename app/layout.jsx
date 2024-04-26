@@ -1,6 +1,5 @@
 "use client";
 import "@styles/globals.css";
-import Nav from "@components/LoginNav";
 import Footer from "@components/Footer";
 import TopNav from "@components/TopNav";
 import LoginNav from "@components/LoginNav";
@@ -29,8 +28,8 @@ const RootLayout = ({ children }) => {
   }
 
   return (
-    <html lang="en">
-      <body className="bg-gradient-to-r from-gray-100 to-amber-100">
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-gradient-to-tr from-gray-100 to-lime-200">
         <div className="bg-scroll grid">
           {nav}
           <NextAuthSessionProvider>{children}</NextAuthSessionProvider>

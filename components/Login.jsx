@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useCallback, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { set } from "mongoose";
 
 const Login = () => {
   const router = useRouter();
@@ -21,7 +20,6 @@ const Login = () => {
       email: loginEmail,
       password: loginPassword,
       redirect: false,
-      //callback: "/Home",
     });
 
     if (result.error) {
