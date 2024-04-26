@@ -17,7 +17,7 @@ const LoginNav = () => {
   };
 
   return (
-    <div className="lg:mb-16 w-screen h-16 pr-5">
+    <div className="mb-16 w-screen h-16">
       <Navbar shouldHideOnScroll isBordered maxWidth="full">
         <NavbarBrand>
           <Link color="foreground" className="text-xl text-bold" href="/">

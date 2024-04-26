@@ -4,6 +4,9 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
   Link,
   Button,
 } from "@nextui-org/react";
@@ -29,26 +32,27 @@ const HomeNav = () => {
   };
 
   return (
-    <div className="lg:mb-16 w-screen h-16 pr-5">
+    <div className="mb-5 w-screen h-16">
       <Navbar shouldHideOnScroll isBordered maxWidth="full">
-        <NavbarBrand>
-          <Link
-            color="foreground"
-            className="text-xl text-bold"
-            href={homeLink}
-          >
-            <Image
-              src="/brotrition_assets/png/pear.png"
-              width={60}
-              height={60}
-              alt="Description of your image"
-            />
-            <p className="font-bold text-inherit text-4xl green_gradient">
-              BroTrition
-            </p>
-          </Link>
-        </NavbarBrand>
-
+        <NavbarContent>
+          <NavbarBrand>
+            <Link
+              color="foreground"
+              className="text-xl text-bold"
+              href={homeLink}
+            >
+              <Image
+                src="/brotrition_assets/png/pear.png"
+                width={60}
+                height={60}
+                alt="Description of your image"
+              />
+              <p className="font-bold text-inherit text-4xl green_gradient">
+                BroTrition
+              </p>
+            </Link>
+          </NavbarBrand>
+        </NavbarContent>
         <NavbarContent className="lg:flex gap-16" justify="end">
           <NavbarItem className="lg:flex">
             <Button

@@ -1,0 +1,11 @@
+INSERT INTO foods (name, unit, carbs, fats, proteins, fiber, sugar, vitamin_a, vitamin_c, calcium, iron, lysine, leucine, calories, sodium, cholesterol, description, category) VALUES
+('Apple','g', 25.00, 0.30, 0.50, 4.40, 19.00, 0.05, 4.60, 6.00, 0.12, 0.03, 0.04, 95.00, 2.00, 0.00, 'Fresh red apple', 'Fruits'),
+('Chicken Breast','g', 0.00, 3.60, 31.00, 0.00, 0.00, 0.00, 0.00, 13.00, 0.90, 2.90, 3.50, 165.00, 74.00, 85.00, 'Grilled chicken breast', 'Meats'),
+('Spinach','g', 3.63, 0.39, 2.86, 2.20, 0.42, 9377.00, 28.10, 99.00, 2.71, 0.24, 0.27, 23.00, 79.00, 0.00, 'Raw spinach leaves', 'Vegetables'),
+('Almonds','g', 21.55, 49.93, 21.15, 12.50, 4.35, 1.00, 0.00, 269.00, 3.71, 0.91, 1.49, 575.00, 1.00, 0.00, 'Raw almonds', 'Nuts'),
+('Salmon','g', 0.00, 13.42, 19.84, 0.00, 0.00, 3.00, 0.00, 9.00, 0.80, 2.00, 2.30, 208.00, 59.00, 55.00, 'Baked salmon fillet', 'Fish'),
+('Oatmeal','g', 27.89, 2.39, 5.94, 4.00, 0.99, 0.00, 0.00, 21.00, 2.10, 0.63, 0.79, 145.00, 2.00, 0.00, 'Cooked oatmeal', 'Grains'),
+('Broccoli','g', 6.64, 0.37, 2.82, 2.60, 1.70, 623.00, 89.20, 47.00, 0.73, 0.27, 0.31, 34.00, 33.00, 0.00, 'Steamed broccoli', 'Vegetables'),
+('Whole Milk','ml', 4.88, 3.25, 3.15, 0.00, 5.26, 46.00, 0.00, 125.00, 0.03, 0.29, 0.31, 61.00, 41.00, 10.00, 'Fresh whole milk', 'Dairy'),
+('Quinoa', 'g',21.30, 1.92, 4.40, 2.80, 0.87, 0.00, 0.00, 17.00, 1.49, 0.35, 0.40, 120.00, 7.00, 0.00, 'Cooked quinoa', 'Grains'),
+('Beef Steak','g', 0.00, 7.00, 25.00, 0.00, 0.00, 0.00, 0.00, 16.00, 2.69, 1.82, 2.04, 271.00, 58.00, 85.00, 'Grilled beef steak', 'Meats');
