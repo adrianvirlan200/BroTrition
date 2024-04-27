@@ -5,13 +5,6 @@ import { EyeIcon } from "./NextUi/EyeIcon";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useCallback } from "react";
-("use client");
-import { EditIcon } from "./NextUi/EditIcon";
-import { DeleteIcon } from "./NextUi/DeleteIcon";
-import { EyeIcon } from "./NextUi/EyeIcon";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import { useCallback } from "react";
 import {
   Table,
   TableHeader,
