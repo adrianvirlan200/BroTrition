@@ -14,9 +14,11 @@ import {
   TableCell,
   Tooltip,
   Button,
+  Spinner,
 } from "@nextui-org/react";
+import { set } from "mongoose";
 
-export default function MainTable({ outData }) {
+export default function MainTable({ outUpdate }) {
   const columns = [
     { name: "NAME", uid: "name" },
     { name: "QUANTITY", uid: "quantity" },
@@ -24,12 +26,13 @@ export default function MainTable({ outData }) {
     { name: "ACTIONS", uid: "actions" },
   ];
 
-  const [idOdDeletedFood, setIdOfDeletedFood] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [updateTable, setUpdateTable] = useState(false);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Handling the delete action
   const handleDelete = async (foodID) => {
-    setIdOfDeletedFood(foodID);
+    setIsLoading(true);
     try {
       const response = await fetch(
         "http://localhost:3000/api/mainTable/delete",
@@ -54,7 +57,8 @@ export default function MainTable({ outData }) {
     } catch (error) {
       console.error("catch block executed, Error:", error);
     }
-    setIdOfDeletedFood("");
+    setUpdateTable(!updateTable);
+    setIsLoading(false);
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +66,7 @@ export default function MainTable({ outData }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           "http://localhost:3000/api/mainTable/fetch",
@@ -79,6 +84,7 @@ export default function MainTable({ outData }) {
           throw new Error("Network response was not ok");
         } else {
           setData(fetchedData.data);
+          setIsLoading(false);
         }
 
         if (fetchedData.status === 500) {
@@ -90,7 +96,7 @@ export default function MainTable({ outData }) {
     };
 
     fetchData();
-  }, [idOdDeletedFood, outData]);
+  }, [updateTable, outUpdate]);
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Rendering of the table cells
@@ -176,7 +182,12 @@ export default function MainTable({ outData }) {
         )}
       </TableHeader>
 
-      <TableBody items={data}>
+      <TableBody
+        isLoading={isLoading}
+        loadingContent={<Spinner color="success" size="lg" />}
+        emptyContent={"No foods added today."}
+        items={data}
+      >
         {(item) => (
           <TableRow key={item.foodID}>
             {(columnKey) => (
