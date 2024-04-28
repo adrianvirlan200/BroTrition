@@ -1,13 +1,7 @@
 import executeQuery from "@server/db.js";
 import { data } from "autoprefixer";
 import { NextResponse } from "next/server";
-
-function displayNumberOfCalories(pr, ca, ft) {
-  let x = pr * 4 + ca * 4 + ft * 9;
-  x = Math.trunc(100 * x) / 100;
-  x = x.toString();
-  return x;
-}
+import { displayNumberOfCalories } from "@server/utils.js";
 
 export async function GET(request) {
   try {

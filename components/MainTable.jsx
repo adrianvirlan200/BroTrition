@@ -16,9 +16,8 @@ import {
   Button,
   Spinner,
 } from "@nextui-org/react";
-import { set } from "mongoose";
 
-export default function MainTable({ outUpdate }) {
+export default function MainTable({ outUpdateTable }) {
   const columns = [
     { name: "NAME", uid: "name" },
     { name: "QUANTITY", uid: "quantity" },
@@ -57,7 +56,8 @@ export default function MainTable({ outUpdate }) {
     } catch (error) {
       console.error("catch block executed, Error:", error);
     }
-    setUpdateTable(!updateTable);
+
+    setUpdateTable((prevState) => !prevState);
     setIsLoading(false);
   };
 
@@ -65,8 +65,8 @@ export default function MainTable({ outUpdate }) {
   // Fetching the data
   const [data, setData] = useState([]);
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
-      setIsLoading(true);
       try {
         const response = await fetch(
           "http://localhost:3000/api/mainTable/fetch",
@@ -96,7 +96,7 @@ export default function MainTable({ outUpdate }) {
     };
 
     fetchData();
-  }, [updateTable, outUpdate]);
+  }, [updateTable, outUpdateTable]);
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Rendering of the table cells
@@ -113,7 +113,7 @@ export default function MainTable({ outUpdate }) {
                 width="0"
                 height="0"
                 alt="food icon"
-                className="w-6 h-auto"
+                className="w-6 h-auto min-w-6 min-h-6"
               />
             </div>
             <div>{data.name}</div>

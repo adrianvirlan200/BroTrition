@@ -28,22 +28,51 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { use } from "passport";
 import { set } from "mongoose";
 
-const AddFoodButton = ({ handleUpdateTable }) => {
-  const [proteinsChart, setProteinsChart] = useState(0);
-  const [carbsChart, setCarbsChart] = useState(0);
-  const [fatsChart, setFatsChart] = useState(0);
+//row: {
+//     Category: "",
+//     Description: "",
+//     Calories: 0,
+//     Protein: 0,
+//     Carbohydrate: 0,
+//     Total_Lipid: 0,
+//     ProteinPercentage: 0,
+//     CarbohydratePercentage: 0,
+//     Total_LipidPercentage: 0,
+//}
 
-  //prot #44d07b80
-  //carbs #1ccad780
-  //fats #ea3b0480
+const AddFoodButton = ({ handleUpdateTable }) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const [searchBoxValue, setSearchBoxValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [servingSize, setServingSize] = useState(100);
+  const [invalidServingSize, setInvalidServingSize] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({
+    Category: "",
+    Description: "",
+    Calories: 0,
+    Protein: 0,
+    Carbohydrate: 0,
+    Total_Lipid: 0,
+    ProteinPercentage: 0,
+    CarbohydratePercentage: 0,
+    Total_LipidPercentage: 0,
+  });
+  const [reference, setReference] = useState(selectedRow);
 
   const data_chart = {
     labels: ["Proteins", "Carbs", "Fats"],
     datasets: [
       {
-        data: [proteinsChart, carbsChart, fatsChart],
+        data: [
+          selectedRow.Protein,
+          selectedRow.Carbohydrate,
+          selectedRow.Lipid,
+        ],
 
         backgroundColor: [
           "rgba(68,208,123,0.5)",
@@ -59,37 +88,18 @@ const AddFoodButton = ({ handleUpdateTable }) => {
       },
     ],
   };
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const [searchBoxValue, setSearchBoxValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [selectedRow, setSelectedRow] = useState("");
-
-  const handleSearchValue = (value) => {
-    const _value = value.replace(/\d+/g, "");
-    setSearchBoxValue(_value);
-  };
 
   const handleSearching = async () => {
-    let query = "";
-
-    if (searchBoxValue === "") {
-      query = "rice chicken potato beef egg fish pork lamb goat turkey duck";
-    } else {
-      query = searchBoxValue;
-    }
-
     try {
       const response = await fetch(
-        "http://localhost:3000/api/mainTable/modals/foodTable",
+        "http://localhost:3000/api/mainTable/modals/foodSearchTable",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            query,
+            searchBoxValue,
           }),
         }
       );
@@ -103,14 +113,14 @@ const AddFoodButton = ({ handleUpdateTable }) => {
         } else {
           console.log("Fatal Error;");
         }
-        //console.log(data[0].calories);
       }
-      console.log(data);
     } catch (error) {
-      console.error("catch block executed, Error:", error);
+      console.error("Catch block executed, Error:", error);
     }
   };
 
+  //search the food to find and save
+  // the current selected row
   useEffect(() => {
     setIsLoading(true);
     const handler = setTimeout(() => {
@@ -122,18 +132,58 @@ const AddFoodButton = ({ handleUpdateTable }) => {
     };
   }, [searchBoxValue]);
 
-  const handleChart = (item) => {
-    console.log(item);
-
+  const handleChart = (itemId) => {
     for (let i = 0; i < data.length; i++) {
-      if (data[i].name === item) {
-        setSelectedRow(item);
-        setProteinsChart(data[i].protein_g);
-        setCarbsChart(data[i].carbohydrates_total_g);
-        setFatsChart(data[i].fat_total_g);
+      if (data[i].Id == itemId) {
+        setSelectedRow(data[i]);
+        setReference(data[i]);
+        break;
       }
     }
   };
+
+  //this is used to update the macro nutrients
+  // based on the number entered
+  useEffect(() => {
+    const regex = /^[0-9]+$/;
+    if (!regex.test(servingSize)) {
+      setInvalidServingSize(true);
+      return;
+    } else {
+      setInvalidServingSize(false);
+    }
+
+    console.log(servingSize);
+
+    setSelectedRow({
+      Category: reference.Category,
+      Description: reference.Description,
+      Calories: Math.trunc((reference.Calories * servingSize) / 10) / 10,
+      Protein: Math.trunc((reference.Protein * servingSize) / 10) / 10,
+      Carbohydrate:
+        Math.trunc((reference.Carbohydrate * servingSize) / 10) / 10,
+      Total_Lipid: Math.trunc((reference.Total_Lipid * servingSize) / 10) / 10,
+      ProteinPercentage: reference.ProteinPercentage,
+      CarbohydratePercentage: reference.CarbohydratePercentage,
+      Total_LipidPercentage: reference.Total_LipidPercentage,
+    });
+  }, [servingSize, reference]);
+
+  // let servingValue = 0;
+  // if(serving)
+
+  //   setSelectedRow({
+  //     Calories: (reference.Calories * servingSize) / 100,
+  //     Description: reference.Description,
+  //     Category: reference.Category,
+  //     Protein: (reference.Protein * servingSize) / 100,
+  //     Carbohydrate: (reference.Carbohydrate * servingSize) / 100,
+  //     Total_Lipid: (reference.Total_Lipid * servingSize) / 100,
+  //     ProteinPercentage: reference.ProteinPercentage,
+  //     CarbohydratePercentage: reference.CarbohydratePercentage,
+  //     Total_LipidPercentage: reference.Total_LipidPercentage,
+  //   });
+  // }, [servingSize]);
 
   return (
     <>
@@ -163,7 +213,7 @@ const AddFoodButton = ({ handleUpdateTable }) => {
 
               <ModalBody>
                 <Input
-                  onChange={(e) => handleSearchValue(e.target.value)}
+                  onChange={(e) => setSearchBoxValue(e.target.value)}
                   placeholder="Search all foods & ingredients & recipes..."
                   startContent={
                     <Image
@@ -188,11 +238,10 @@ const AddFoodButton = ({ handleUpdateTable }) => {
                 ></Input>
 
                 <Table
-                  //isStriped
-
+                  isStriped
                   selectionMode="single"
                   onRowAction={(row) => handleChart(row)}
-                  color="success"
+                  //color="success"
                   aria-label="Chose an aliment to add to your meal."
                   classNames={{
                     base: "max-h-[225px] overflow-scroll",
@@ -201,54 +250,83 @@ const AddFoodButton = ({ handleUpdateTable }) => {
                 >
                   <TableHeader>
                     <TableColumn key="name">Name</TableColumn>
-                    <TableColumn key="macro">
-                      Proteins/Carbs/Fats/100g
-                    </TableColumn>
+                    <TableColumn key="description">Description</TableColumn>
                     <TableColumn key="calories">Calories/100g</TableColumn>
                   </TableHeader>
 
                   <TableBody
                     loadingContent={<Spinner color="success" size="lg" />}
                     isLoading={isLoading}
-                    emptyContent={"No such food exist."}
+                    emptyContent={"Type something to search."}
                     items={data}
                   >
                     {(item) => (
-                      <TableRow key={item.name}>
-                        <TableCell>{item.name}</TableCell>
-                        <TableCell>
-                          {item.protein_g}/{item.fat_total_g}/
-                          {item.carbohydrates_total_g}
-                        </TableCell>
-                        <TableCell>{item.calories}</TableCell>
+                      <TableRow key={item.Id}>
+                        <TableCell>{item.Category}</TableCell>
+                        <TableCell>{item.Description}</TableCell>
+                        <TableCell>{item.Calories}</TableCell>
                       </TableRow>
                     )}
                   </TableBody>
                 </Table>
 
                 <div className="border-gray-300 border-2 rounded-2xl p-3">
-                  <h1 className="flex-center mb-5 text-lg font-medium">
-                    {selectedRow.toUpperCase()}
-                  </h1>
-                  <div className="grid grid-cols-2 mb-3 content-center">
+                  <div className="min-h-12 border-b-2 border-b-gray-300">
+                    <h1 className="flex-center text-lg font-bold">
+                      {reference.Category}
+                    </h1>
+                    <p className="mb-2">
+                      <span className="flex-center text-sm">
+                        {reference.Description}
+                      </span>{" "}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 mt-1 content-center">
                     <div>
                       <Pie
                         className="min-w-fit w-32 max-w-fit ml-8 max-h-36"
                         data={data_chart}
                       />
                     </div>
-                    <div className="mt-2 grid grid-cols-1 gap-5 text-sm">
+                    <div className="m-auto grid grid-cols-1 gap-3 text-sm">
                       <p>
-                        Proteins: {proteinsChart}g{" ("}
-                        <span className="font-bold text-[#1cc961]">10%</span>)
+                        Total Calories:{" "}
+                        <span className="font-bold">
+                          {selectedRow.Calories} kcal
+                        </span>
                       </p>
                       <p>
-                        Carbs: {carbsChart}g{" ("}
-                        <span className="font-bold text-[#13cedb]">12%</span>)
+                        Protein:{" "}
+                        <span className="font-semibold">
+                          {selectedRow.Protein}g
+                        </span>
+                        {" ("}
+                        <span className="font-bold text-[#1cc961]">
+                          {selectedRow.ProteinPercentage}%
+                        </span>
+                        )
                       </p>
                       <p>
-                        Fats: {fatsChart}g{" ("}
-                        <span className="font-bold text-[#ec6737]">14%</span>)
+                        Carbs:{" "}
+                        <span className="font-semibold">
+                          {selectedRow.Carbohydrate}g
+                        </span>
+                        {" ("}
+                        <span className="font-bold text-[#13cedb]">
+                          {selectedRow.CarbohydratePercentage}%
+                        </span>
+                        )
+                      </p>
+                      <p>
+                        Fats:{" "}
+                        <span className="font-semibold">
+                          {selectedRow.Total_Lipid}g
+                        </span>
+                        {" ("}
+                        <span className="font-bold text-[#ec6737]">
+                          {selectedRow.Total_LipidPercentage}%
+                        </span>
+                        )
                       </p>
                     </div>
                   </div>
@@ -256,10 +334,27 @@ const AddFoodButton = ({ handleUpdateTable }) => {
               </ModalBody>
 
               <ModalFooter>
+                <div className="w-full content-start">
+                  <div className="border-gray-300 border-2 rounded-xl grid grid-cols-2 w-96 px-5 py-1">
+                    <h1 className="my-auto">Enter the serving size: </h1>
+                    <Input
+                      onChange={(e) => setServingSize(e.target.value)}
+                      isInvalid={invalidServingSize}
+                      endContent={"g"}
+                      defaultValue={servingSize}
+                      variant="bordered"
+                      className="w-20"
+                    ></Input>
+                  </div>
+                </div>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success" onPress={onClose}>
+                <Button
+                  isDisabled={invalidServingSize}
+                  color="success"
+                  onPress={onClose}
+                >
                   Add food
                 </Button>
               </ModalFooter>
