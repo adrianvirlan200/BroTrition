@@ -31,8 +31,10 @@ const RootLayout = ({ children }) => {
     <html lang="en" suppressHydrationWarning>
       <body className="bg-gradient-to-tr from-gray-100 to-lime-200">
         <div className="bg-scroll grid">
-          {nav}
-          <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+          <NextAuthSessionProvider>
+            {nav}
+            {children}
+          </NextAuthSessionProvider>
           <Footer />
         </div>
       </body>
