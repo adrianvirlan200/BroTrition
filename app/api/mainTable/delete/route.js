@@ -1,13 +1,19 @@
 import executeQuery from "@server/db.js";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@app/nextauth/NextAuthOptions";
 
 export async function DELETE(request) {
   try {
+    const session = await getServerSession(authOptions);
     const data = await request.json();
-    console.log(data.foodID);
 
-    const deleteQuery = "DELETE FROM foods WHERE foodID = ?;";
-    const result = await executeQuery(deleteQuery, [data.foodID]);
+    const deleteQuery =
+      "DELETE FROM food_log WHERE foodID = ? AND userID = ?;";
+    const result = await executeQuery(deleteQuery, [
+      data.foodID,
+      session.user.id,
+    ]);
 
     return new Response(
       JSON.stringify({ message: "Deletion successful.", status: 201 })

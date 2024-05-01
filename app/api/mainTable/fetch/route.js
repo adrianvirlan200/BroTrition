@@ -2,19 +2,25 @@ import executeQuery from "@server/db.js";
 import { data } from "autoprefixer";
 import { NextResponse } from "next/server";
 import { displayNumberOfCalories } from "@server/utils.js";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@app/nextauth/NextAuthOptions";
 
 export async function GET(request) {
   try {
-    const selectFoodQuery = "SELECT * FROM foods WHERE 1;";
-    const result = await executeQuery(selectFoodQuery, []);
+    const session = await getServerSession(authOptions);
 
-    //console.log(result[0].foodID);
+    const selectFoodQuery =
+      "SELECT foodID, Category, quantity, Protein, Carbohydrate, Total_Lipid\
+      FROM brotrition.food_log \
+      INNER JOIN nutrition_data ON nutrition_data.Id = food_log.foodID\
+      WHERE userID = ? AND DATE(dateCreated) = CURRENT_DATE()";
+    const result = await executeQuery(selectFoodQuery, [session.user.id]);
 
     for (let i = 0; i < result.length; i++) {
       result[i].calories = displayNumberOfCalories(
-        parseFloat(result[i].proteins),
-        parseFloat(result[i].carbs),
-        parseFloat(result[i].fats)
+        parseFloat(result[i].Protein),
+        parseFloat(result[i].Carbohydrate),
+        parseFloat(result[i].Total_Lipid)
       );
     }
 
@@ -23,7 +29,7 @@ export async function GET(request) {
         JSON.stringify({
           message: "Fetching successful.",
           data: result,
-          status: 200,
+          status: 201,
         })
       );
     } else {
@@ -31,7 +37,7 @@ export async function GET(request) {
         JSON.stringify({
           message: "No entries found.",
           data: [],
-          status: 200,
+          status: 201,
         })
       );
     }

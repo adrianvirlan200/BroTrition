@@ -28,22 +28,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { use } from "passport";
-import { set } from "mongoose";
 
-//row: {
-//     Category: "",
-//     Description: "",
-//     Calories: 0,
-//     Protein: 0,
-//     Carbohydrate: 0,
-//     Total_Lipid: 0,
-//     ProteinPercentage: 0,
-//     CarbohydratePercentage: 0,
-//     Total_LipidPercentage: 0,
-//}
-
-const AddFoodButton = ({ handleUpdateTable }) => {
+const AddFoodButton = ({ onUpdate }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [searchBoxValue, setSearchBoxValue] = useState("");
@@ -51,7 +37,9 @@ const AddFoodButton = ({ handleUpdateTable }) => {
   const [data, setData] = useState([]);
   const [servingSize, setServingSize] = useState(100);
   const [invalidServingSize, setInvalidServingSize] = useState(false);
+  const [isGrayedOut, setIsGrayedOut] = useState(true);
   const [selectedRow, setSelectedRow] = useState({
+    Id: 0,
     Category: "",
     Description: "",
     Calories: 0,
@@ -64,6 +52,7 @@ const AddFoodButton = ({ handleUpdateTable }) => {
   });
   const [reference, setReference] = useState(selectedRow);
 
+  //data in the macronutrients chart
   const data_chart = {
     labels: ["Proteins", "Carbs", "Fats"],
     datasets: [
@@ -71,7 +60,7 @@ const AddFoodButton = ({ handleUpdateTable }) => {
         data: [
           selectedRow.Protein,
           selectedRow.Carbohydrate,
-          selectedRow.Lipid,
+          selectedRow.Total_Lipid,
         ],
 
         backgroundColor: [
@@ -89,6 +78,7 @@ const AddFoodButton = ({ handleUpdateTable }) => {
     ],
   };
 
+  //handles the backend requests for searching the food
   const handleSearching = async () => {
     try {
       const response = await fetch(
@@ -120,7 +110,7 @@ const AddFoodButton = ({ handleUpdateTable }) => {
   };
 
   //search the food to find and save
-  // the current selected row
+  //all data of the current selected row
   useEffect(() => {
     setIsLoading(true);
     const handler = setTimeout(() => {
@@ -142,20 +132,20 @@ const AddFoodButton = ({ handleUpdateTable }) => {
     }
   };
 
-  //this is used to update the macro nutrients
-  // based on the number entered
+  //change of the macronutrients in regard with the serving size
   useEffect(() => {
     const regex = /^[0-9]+$/;
     if (!regex.test(servingSize)) {
       setInvalidServingSize(true);
+      setIsGrayedOut(true);
       return;
     } else {
       setInvalidServingSize(false);
+      if (reference.Id != 0) setIsGrayedOut(false);
     }
 
-    console.log(servingSize);
-
     setSelectedRow({
+      Id: reference.Id,
       Category: reference.Category,
       Description: reference.Description,
       Calories: Math.trunc((reference.Calories * servingSize) / 10) / 10,
@@ -169,21 +159,48 @@ const AddFoodButton = ({ handleUpdateTable }) => {
     });
   }, [servingSize, reference]);
 
-  // let servingValue = 0;
-  // if(serving)
+  //make a request to insert the data into the database
+  const handleInsert = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/mainTable/modals/foodInsert",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            quantity: servingSize,
+            foodId: reference.Id,
+          }),
+        }
+      );
 
-  //   setSelectedRow({
-  //     Calories: (reference.Calories * servingSize) / 100,
-  //     Description: reference.Description,
-  //     Category: reference.Category,
-  //     Protein: (reference.Protein * servingSize) / 100,
-  //     Carbohydrate: (reference.Carbohydrate * servingSize) / 100,
-  //     Total_Lipid: (reference.Total_Lipid * servingSize) / 100,
-  //     ProteinPercentage: reference.ProteinPercentage,
-  //     CarbohydratePercentage: reference.CarbohydratePercentage,
-  //     Total_LipidPercentage: reference.Total_LipidPercentage,
-  //   });
-  // }, [servingSize]);
+      if (response.ok) {
+      }
+    } catch (error) {
+      console.error("Catch block executed, Error:", error);
+    }
+  };
+
+  //auxiliary function that allows us to call both functions
+  //when modal is closing
+  const InsertAndOnClose = () => {
+    handleInsert();
+    onUpdate();
+    onOpenChange();
+  };
+
+  // this useEffect updates the state of the Add food button
+  // to be grayed out if the serving size is invalid
+  // it also takes into account the reference state(
+  //it doesn't override the state when no reference is selected)
+
+  useEffect(() => {
+    if (reference.Id != 0)
+      if (invalidServingSize) setIsGrayedOut(true);
+      else setIsGrayedOut(false);
+  }, [reference]);
 
   return (
     <>
@@ -202,7 +219,7 @@ const AddFoodButton = ({ handleUpdateTable }) => {
         placement="top"
         size={"3xl"}
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={InsertAndOnClose}
       >
         <ModalContent>
           {(onClose) => (
@@ -347,11 +364,9 @@ const AddFoodButton = ({ handleUpdateTable }) => {
                     ></Input>
                   </div>
                 </div>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
+
                 <Button
-                  isDisabled={invalidServingSize}
+                  isDisabled={isGrayedOut}
                   color="success"
                   onPress={onClose}
                 >

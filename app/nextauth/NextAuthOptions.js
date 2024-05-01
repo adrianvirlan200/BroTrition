@@ -24,18 +24,21 @@ export const authOptions = {
       async authorize(credentials) {
         const { email, password } = credentials;
 
-        const query =
-          "SELECT userID, email, password FROM brotrition.user WHERE email = ?;";
+        const query = "SELECT * FROM brotrition.user WHERE email = ?;";
         const user = await executeQuery(query, [email]);
 
         //if the query executed correctly && the user exists in the db
         if (user && user.length > 0) {
           const bcrypt = require("bcrypt");
           if (bcrypt.compareSync(password, user[0].password)) {
+            // console.log(user[0].sex);
             return {
               id: user[0].userID,
-              email: email,
-              userName: "student",
+              email: user[0].email,
+              username: user[0].username,
+              sex: user[0].sex,
+              height: user[0].height,
+              weight: user[0].weight,
             };
           } else {
             return null;
@@ -50,27 +53,27 @@ export const authOptions = {
     signIn: "/Login",
   },
   callbacks: {
-    // async signIn({ user, account, profile, email, credentials }) {
-    //   return true; // Return true if sign-in is allowed, otherwise false
-    // },
-    // async redirect({ url, baseUrl }) {
-    //   // Check if the redirection is after sign-in or sign-out
-    //   if (url.startsWith(baseUrl + "/api/auth/signout")) {
-    //     // Redirect to '/' after sign-out
-    //     return "/";
-    //   }
-    //   // Redirect to '/Home' after sign-in
-    //   return "/Home";
-    // },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id; // Persist the user ID in the JWT
+        token.email = user.email;
+        token.username = user.username;
+        token.sex = user.sex;
+        token.weight = user.weight;
+        token.height = user.height;
+        token.accessToken = user.accessToken;
       }
       return token;
     },
-    async session({ session, token }) {
+    session: async ({ session, token, user }) => {
       if (token) {
-        session.id = token.id; // Make the user ID available on the session object
+        session.user.id = token.id; // Make the user ID available on the session object
+        session.user.email = token.email;
+        session.user.name = token.username;
+        session.user.sex = token.sex;
+        session.user.weight = token.weight;
+        session.user.height = token.height;
+        session.user.accessToken = token.accessToken;
       }
       return session;
     },

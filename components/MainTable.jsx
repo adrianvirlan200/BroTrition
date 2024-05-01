@@ -17,7 +17,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 
-export default function MainTable({ outUpdateTable }) {
+export default function MainTable({ updateSignal }) {
   const columns = [
     { name: "NAME", uid: "name" },
     { name: "QUANTITY", uid: "quantity" },
@@ -27,6 +27,7 @@ export default function MainTable({ outUpdateTable }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [updateTable, setUpdateTable] = useState(false);
+  const [data, setData] = useState([]);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Handling the delete action
@@ -63,40 +64,41 @@ export default function MainTable({ outUpdateTable }) {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Fetching the data
-  const [data, setData] = useState([]);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/mainTable/fetch",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const fetchedData = await response.json();
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      } else {
+        setData(fetchedData.data);
+        setIsLoading(false);
+      }
+
+      if (fetchedData.status === 500) {
+        console.log("Fatal Error;");
+      }
+    } catch (error) {
+      console.error("catch block executed, Error:", error);
+    }
+  };
+
+
+  //this hook is used to fetch data automatically
   useEffect(() => {
     setIsLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3000/api/mainTable/fetch",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const fetchedData = await response.json();
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        } else {
-          setData(fetchedData.data);
-          setIsLoading(false);
-        }
-
-        if (fetchedData.status === 500) {
-          console.log("Fatal Error;");
-        }
-      } catch (error) {
-        console.error("catch block executed, Error:", error);
-      }
-    };
-
     fetchData();
-  }, [updateTable, outUpdateTable]);
+  }, [updateTable, updateSignal]);
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Rendering of the table cells
@@ -106,29 +108,27 @@ export default function MainTable({ outUpdateTable }) {
     switch (columnKey) {
       case "name":
         return (
-          <div className="flex">
-            <div>
-              <Image
-                src="/brotrition_assets/svg/food.svg"
-                width="0"
-                height="0"
-                alt="food icon"
-                className="w-6 h-auto min-w-6 min-h-6"
-              />
-            </div>
-            <div>{data.name}</div>
+          <div className="flex min-w-48">
+            <Image
+              src="/brotrition_assets/svg/food.svg"
+              width="0"
+              height="0"
+              alt="food icon"
+              className="w-6 h-auto min-w-6 min-h-6"
+            />
+            <div>{data.Category}</div>
           </div>
         );
       case "quantity":
         return (
           <div className="grid grid-cols-2 w-16">
-            <div>69</div>
-            <div>{data.unit}</div>
+            <div>{data.quantity}</div>
+            <div>g</div>
           </div>
         );
       case "calories":
         return (
-          <div className="grid grid-cols-2 gap-x-0 w-28">
+          <div className="grid grid-cols-2 gap-x-0 w-24">
             <div>{data.calories}</div>
             <div>Kcal</div>
           </div>
