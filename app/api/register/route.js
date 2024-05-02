@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 export async function POST(request) {
   try {
     const data = await request.json();
-    const { email, password, nickname, gender, height, weight, ads } =
+    const { email, password, nickname, gender, goal, height, weight, ads } =
       data.data;
 
     const verifyQuery = "SELECT * FROM user WHERE email = ?;";
@@ -14,7 +14,7 @@ export async function POST(request) {
       return new Response(
         JSON.stringify({
           message: "User already exists with that email.",
-          status: 500,
+          status: 501,
         })
       );
     }
@@ -22,11 +22,12 @@ export async function POST(request) {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const query =
-      "INSERT INTO user (email, password, username, sex, height, weight, wantsCustomAds) VALUES (?, ?, ?, ?, ?, ?, ?);";
+      "INSERT INTO user (email, password, username, goal, sex, height, weight, wantsCustomAds) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     const result = await executeQuery(query, [
       email,
       hashedPassword,
       nickname,
+      goal,
       gender,
       height,
       weight,

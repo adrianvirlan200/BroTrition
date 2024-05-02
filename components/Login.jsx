@@ -10,8 +10,7 @@ const Login = () => {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [error, setError] = useState("");
-  const [borderColor, setBorderColor] = useState("border-slate-200");
+  const [isInvalid, setIsInvalid] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,11 +22,10 @@ const Login = () => {
     });
 
     if (result.error) {
-      setError("Invalid email or password");
-      setBorderColor("border-red-500");
+      setIsInvalid(true);
     } else {
-      setError("");
-      setBorderColor("border-slate-200");
+      setIsInvalid(false);
+      router.push("Home");
     }
   };
 
@@ -37,25 +35,26 @@ const Login = () => {
         <h1 className="text-center text-bold text-2xl">Welcome Back!</h1>
         <Input
           onChange={(e) => setLoginEmail(e.target.value)}
+          isInvalid={isInvalid}
+          color={isInvalid ? "error" : "default"}
           name="email"
           type="email"
           label="Email"
           size="lg"
-          className={`border-2 rounded-2xl ${borderColor}`}
+          variant="bordered"
         />
 
         <Input
           onChange={(e) => setLoginPassword(e.target.value)}
+          isInvalid={isInvalid}
+          errorMessage={isInvalid && "Invalid email or password"}
+          color={isInvalid ? "error" : "default"}
           name="password"
           type="password"
           label="Password"
           size={"lg"}
-          className={`border-2 rounded-2xl ${borderColor}`}
+          variant="bordered"
         />
-
-        <p className="justify-self-start right-14 bottom-7 text-red-700 text-sm">
-          {error}
-        </p>
 
         <div className=" grid grid-cols-1 content-center px-20">
           <Button
