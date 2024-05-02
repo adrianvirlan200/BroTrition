@@ -19,8 +19,10 @@ const SignUp = () => {
   const [registerRetypePassword, setRetypeRegisterPassword] = useState("");
 
   const [nickname, SetNickname] = useState("");
-  const [selectedGender, setSelectedGender] = useState("not");
   const [goal, setGoal] = useState("maintain");
+  const [lifestyle, setLifestyle] = useState("lightly"); // [sedentary, lightly, moderately, very, extra
+  const [yearOfBirth, setYearOfBirth] = useState("2000");
+  const [selectedGender, setSelectedGender] = useState("not");
   const [height, SetHeight] = useState("");
   const [weight, SetWeight] = useState("");
 
@@ -36,6 +38,12 @@ const SignUp = () => {
   const [isInvalidWeight, setIsInvalidWeight] = useState(false);
 
   const [userExists, setUserExists] = useState(false);
+
+  const currentYear = new Date().getFullYear();
+  const years = [];
+  for (let i = 1970; i <= currentYear; i++) {
+    years.push(i.toString());
+  }
 
   function validateEmail() {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -160,13 +168,13 @@ const SignUp = () => {
       password: registerPassword,
       nickname: nickname,
       goal: goal,
+      lifestyle: lifestyle,
+      yearOfBirth: yearOfBirth,
       gender: selectedGender,
       height: height,
       weight: weight,
       ads: adsCheckbox,
     };
-
-    // console.log(data);
 
     try {
       const response = await fetch("http://localhost:3000/api/register/", {
@@ -301,6 +309,46 @@ const SignUp = () => {
             </SelectItem>
           </Select>
 
+          <p1 className="text-start my-auto">How active are you?</p1>
+          <Select
+            variant="bordered"
+            onChange={(e) => setLifestyle(e.target.value)}
+            defaultSelectedKeys={["lightly"]}
+            label="Lifestyle"
+            className="max-w-xs m-auto"
+          >
+            <SelectItem key="sedentary" value="male">
+              Sedentary
+            </SelectItem>
+            <SelectItem key="lightly" value="lightly">
+              Lightly active
+            </SelectItem>
+            <SelectItem key="moderately" value="moderately">
+              Moderately active
+            </SelectItem>
+            <SelectItem key="very" value="very">
+              Very active
+            </SelectItem>
+            <SelectItem key="extra" value="extra">
+              Extra active
+            </SelectItem>
+          </Select>
+
+          <p1 className="text-start my-auto">Year of Birth</p1>
+          <Select
+            variant="bordered"
+            onChange={(e) => setYearOfBirth(e.target.value)}
+            defaultSelectedKeys={["2000"]}
+            label="Birth Year"
+            className="max-w-xs m-auto"
+          >
+            {years.map((year) => (
+              <SelectItem key={year} value={year}>
+                {year}
+              </SelectItem>
+            ))}
+          </Select>
+
           <p1 className="text-start my-auto">Sex</p1>
           <Select
             variant="bordered"
@@ -394,7 +442,7 @@ const SignUp = () => {
           isDisabled={isGrayedOut}
           onClick={handleRegister}
           color="danger"
-          className="mx-auto mt-8 border-2 border-red-700 font-bold text-xl font-bold flex justify-center"
+          className="mx-auto mt-8 border-2 border-red-700 text-xl font-bold flex justify-center"
         >
           SIGN UP
         </Button>

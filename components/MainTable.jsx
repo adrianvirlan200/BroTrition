@@ -93,7 +93,6 @@ export default function MainTable({ updateSignal }) {
     }
   };
 
-
   //this hook is used to fetch data automatically
   useEffect(() => {
     setIsLoading(true);
