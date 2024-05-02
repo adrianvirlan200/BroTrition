@@ -41,7 +41,7 @@ const SignUp = () => {
 
   const currentYear = new Date().getFullYear();
   const years = [];
-  for (let i = 1970; i <= currentYear; i++) {
+  for (let i = 1960; i <= currentYear; i++) {
     years.push(i.toString());
   }
 
@@ -294,7 +294,7 @@ const SignUp = () => {
           <Select
             variant="bordered"
             onChange={(e) => setGoal(e.target.value)}
-            defaultSelectedKeys={["maintain"]}
+            defaultSelectedKeys={[goal]}
             label="Goal"
             className="max-w-xs m-auto"
           >
@@ -313,7 +313,7 @@ const SignUp = () => {
           <Select
             variant="bordered"
             onChange={(e) => setLifestyle(e.target.value)}
-            defaultSelectedKeys={["lightly"]}
+            defaultSelectedKeys={[lifestyle]}
             label="Lifestyle"
             className="max-w-xs m-auto"
           >
@@ -338,7 +338,7 @@ const SignUp = () => {
           <Select
             variant="bordered"
             onChange={(e) => setYearOfBirth(e.target.value)}
-            defaultSelectedKeys={["2000"]}
+            defaultSelectedKeys={[yearOfBirth]}
             label="Birth Year"
             className="max-w-xs m-auto"
           >
@@ -353,7 +353,7 @@ const SignUp = () => {
           <Select
             variant="bordered"
             onChange={(e) => setSelectedGender(e.target.value)}
-            defaultSelectedKeys={["not"]}
+            defaultSelectedKeys={[selectedGender]}
             label="Gender"
             className="max-w-xs m-auto"
           >
