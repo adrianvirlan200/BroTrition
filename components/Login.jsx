@@ -1,8 +1,8 @@
 "use client";
 import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
-import { useCallback, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 const Login = () => {
@@ -31,7 +31,10 @@ const Login = () => {
 
   return (
     <div className="text-center w-screen h-auto flex justify-center items-center">
-      <div className="min-w-96 font-medium bg-white m-2 w-2/6 p-12 border-slate-200 border-1 shadow-2xl rounded-xl grid grid-cols-1 gap-8 content-center justify-center">
+      <form
+        onSubmit={handleLogin}
+        className="min-w-96 font-medium bg-white m-2 w-2/6 p-12 border-slate-200 border-1 shadow-2xl rounded-xl grid grid-cols-1 gap-8 content-center justify-center"
+      >
         <h1 className="text-center text-bold text-2xl">Welcome Back!</h1>
         <Input
           onChange={(e) => setLoginEmail(e.target.value)}
@@ -60,6 +63,7 @@ const Login = () => {
           <Button
             onClick={handleLogin}
             color="success"
+            type="submit"
             className="mb-3 border-2 border-green-600 text-bold text-xl font-bold"
           >
             LOG IN
@@ -80,7 +84,7 @@ const Login = () => {
             Sign Up
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
