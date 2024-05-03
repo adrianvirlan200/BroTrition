@@ -86,9 +86,9 @@ const HomeNav = () => {
               </p>
             </DropdownItem>
             <DropdownItem key="settings">My Account</DropdownItem>
-            <DropdownItem key="team_settings">Settings</DropdownItem>
             <DropdownItem key="analytics">Analytics</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
+            <DropdownItem key="team_settings">Settings</DropdownItem>
             <DropdownItem key="logout" color="danger" onClick={handleLogout}>
               Log Out
             </DropdownItem>

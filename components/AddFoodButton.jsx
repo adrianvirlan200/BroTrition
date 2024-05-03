@@ -177,6 +177,7 @@ const AddFoodButton = ({ onUpdate }) => {
       );
 
       if (response.ok) {
+        onUpdate();
       }
     } catch (error) {
       console.error("Catch block executed, Error:", error);
@@ -187,7 +188,6 @@ const AddFoodButton = ({ onUpdate }) => {
   //when modal is closing
   const InsertAndOnClose = () => {
     handleInsert();
-    onUpdate();
     onOpenChange();
   };
 

@@ -1,12 +1,12 @@
 "use client";
 import "@styles/globals.css";
+import { NextUIProvider } from "@nextui-org/react";
 import Footer from "@components/Footer";
 import TopNav from "@components/TopNav";
 import LoginNav from "@components/LoginNav";
 import HomeNav from "@components/HomeNav";
 import { usePathname } from "next/navigation";
 import NextAuthSessionProvider from "./nextauth/NextAuthSessionProvider";
-
 const RootLayout = ({ children }) => {
   const pathname = usePathname();
 
@@ -32,10 +32,12 @@ const RootLayout = ({ children }) => {
       <body className="bg-gradient-to-tr from-gray-100 to-lime-200">
         <div className="bg-scroll grid">
           <NextAuthSessionProvider>
-            {nav}
-            {children}
+            <NextUIProvider>
+              {nav}
+              {children}
+              <Footer />
+            </NextUIProvider>
           </NextAuthSessionProvider>
-          <Footer />
         </div>
       </body>
     </html>

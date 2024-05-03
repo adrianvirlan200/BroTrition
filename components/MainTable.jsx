@@ -102,7 +102,7 @@ export default function MainTable({ updateSignal }) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Rendering of the table cells
   const renderCell = useCallback((data, columnKey) => {
-    const cellValue = data.foodID;
+    const cellValue = data.id;
 
     switch (columnKey) {
       case "name":
@@ -166,9 +166,8 @@ export default function MainTable({ updateSignal }) {
       selectionMode="single"
       defaultSelectedKeys={[]}
       isCompact
-      //isStriped
-      className="border-gray-400 font-medium"
-      aria-label="Example table with custom cells"
+      className="font-medium"
+      aria-label="MainTable"
     >
       <TableHeader columns={columns}>
         {(column) => (
@@ -188,7 +187,7 @@ export default function MainTable({ updateSignal }) {
         items={data}
       >
         {(item) => (
-          <TableRow key={item.foodID}>
+          <TableRow key={item.id}>
             {(columnKey) => (
               <TableCell>{renderCell(item, columnKey)}</TableCell>
             )}

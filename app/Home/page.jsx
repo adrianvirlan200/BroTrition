@@ -4,6 +4,7 @@ import AddFoodButton from "@components/AddFoodButton";
 import AddExerciseButton from "@components/AddExerciseButton";
 import AddBiometricsButton from "@components/AddBiometricsButton";
 import AddNoteButton from "@components/AddNoteButton";
+import MacroStats from "@components/MacroStats";
 
 import { useState } from "react";
 
@@ -15,14 +16,19 @@ export default function Home() {
   };
 
   return (
-    <div className="border-gray-400 content-center w-1/2 min-w-fit ml-unit-40 p-2 bg-white rounded-2xl">
-      <div className="m-2">
-        <AddFoodButton onUpdate={handleUpdateTable} />
-        <AddExerciseButton onUpdate={handleUpdateTable} />
-        <AddBiometricsButton onUpdate={handleUpdateTable} />
-        <AddNoteButton onUpdate={handleUpdateTable} />
+    <div className="ml-40">
+      <div className="border-gray-400 content-center w-2/3 min-w-fit p-2 bg-white rounded-2xl mb-5">
+        <div className="m-2">
+          <AddFoodButton onUpdate={handleUpdateTable} />
+          <AddExerciseButton onUpdate={handleUpdateTable} />
+          <AddBiometricsButton onUpdate={handleUpdateTable} />
+          <AddNoteButton onUpdate={handleUpdateTable} />
+        </div>
+        <MainTable updateSignal={updateSignal} />
       </div>
-      <MainTable updateSignal={updateSignal} />
+      <div className="border-gray-400 content-center w-2/3 min-w-fit p-2 bg-white rounded-2xl">
+        <MacroStats />
+      </div>
     </div>
   );
 }

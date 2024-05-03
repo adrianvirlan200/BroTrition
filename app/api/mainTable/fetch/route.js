@@ -10,7 +10,7 @@ export async function GET(request) {
     const session = await getServerSession(authOptions);
 
     const selectFoodQuery =
-      "SELECT foodID, Category, quantity, Protein, Carbohydrate, Total_Lipid\
+      "SELECT food_log.id, foodID, Category, quantity, Protein, Carbohydrate, Total_Lipid\
       FROM brotrition.food_log \
       INNER JOIN nutrition_data ON nutrition_data.Id = food_log.foodID\
       WHERE userID = ? AND DATE(dateCreated) = CURRENT_DATE()";

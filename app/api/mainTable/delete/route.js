@@ -9,7 +9,7 @@ export async function DELETE(request) {
     const data = await request.json();
 
     const deleteQuery =
-      "DELETE FROM food_log WHERE foodID = ? AND userID = ?;";
+      "DELETE FROM food_log WHERE id = ? AND userID = ?;";
     const result = await executeQuery(deleteQuery, [
       data.foodID,
       session.user.id,
