@@ -161,6 +161,8 @@ const AddFoodButton = ({ onUpdate }) => {
 
   //make a request to insert the data into the database
   const handleInsert = async () => {
+    onOpenChange(false); // close the modal
+
     try {
       const response = await fetch(
         "http://localhost:3000/api/mainTable/modals/foodInsert",
@@ -177,25 +179,17 @@ const AddFoodButton = ({ onUpdate }) => {
       );
 
       if (response.ok) {
-        onUpdate();
+        onUpdate(); // send a signal to the parent component to update the table
       }
     } catch (error) {
       console.error("Catch block executed, Error:", error);
     }
   };
 
-  //auxiliary function that allows us to call both functions
-  //when modal is closing
-  const InsertAndOnClose = () => {
-    handleInsert();
-    onOpenChange();
-  };
-
   // this useEffect updates the state of the Add food button
   // to be grayed out if the serving size is invalid
   // it also takes into account the reference state(
   //it doesn't override the state when no reference is selected)
-
   useEffect(() => {
     if (reference.Id != 0)
       if (invalidServingSize) setIsGrayedOut(true);
@@ -219,7 +213,7 @@ const AddFoodButton = ({ onUpdate }) => {
         placement="top"
         size={"3xl"}
         isOpen={isOpen}
-        onOpenChange={InsertAndOnClose}
+        onOpenChange={onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
@@ -230,6 +224,7 @@ const AddFoodButton = ({ onUpdate }) => {
 
               <ModalBody>
                 <Input
+                  autoFocus
                   onChange={(e) => setSearchBoxValue(e.target.value)}
                   placeholder="Search all foods & ingredients & recipes..."
                   startContent={
@@ -368,7 +363,7 @@ const AddFoodButton = ({ onUpdate }) => {
                 <Button
                   isDisabled={isGrayedOut}
                   color="success"
-                  onPress={onClose}
+                  onPress={handleInsert}
                 >
                   Add food
                 </Button>

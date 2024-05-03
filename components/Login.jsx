@@ -37,6 +37,7 @@ const Login = () => {
       >
         <h1 className="text-center text-bold text-2xl">Welcome Back!</h1>
         <Input
+          autoFocus
           onChange={(e) => setLoginEmail(e.target.value)}
           isInvalid={isInvalid}
           color={isInvalid ? "error" : "default"}

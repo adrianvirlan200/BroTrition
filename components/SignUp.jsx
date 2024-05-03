@@ -219,6 +219,7 @@ const SignUp = () => {
             Create your account for Free
           </h1>
           <Input
+            autoFocus
             onChange={(e) => setRegisterEmail(e.target.value)}
             onBlur={validateEmail}
             name="email"
