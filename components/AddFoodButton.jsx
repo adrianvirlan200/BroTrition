@@ -63,17 +63,7 @@ const AddFoodButton = ({ onUpdate }) => {
           selectedRow.Total_Lipid,
         ],
 
-        backgroundColor: [
-          "rgba(68,208,123,0.5)",
-          "rgba(28,202,215,0.5)",
-          "rgba(234,59,4,0.5)",
-        ],
-        borderColor: [
-          "rgba(68,208,123,0.8)",
-          "rgba(28,202,215,0.8)",
-          "rgba(234,59,4,0.8)",
-        ],
-        borderWidth: 2,
+        backgroundColor: ["#22c55e", "#3b82f6", "#ef4444"],
       },
     ],
   };
@@ -313,7 +303,7 @@ const AddFoodButton = ({ onUpdate }) => {
                           {selectedRow.Protein}g
                         </span>
                         {" ("}
-                        <span className="font-bold text-[#1cc961]">
+                        <span className="font-bold text-[#22c55e]">
                           {selectedRow.ProteinPercentage}%
                         </span>
                         )
@@ -324,7 +314,7 @@ const AddFoodButton = ({ onUpdate }) => {
                           {selectedRow.Carbohydrate}g
                         </span>
                         {" ("}
-                        <span className="font-bold text-[#13cedb]">
+                        <span className="font-bold text-[#3b82f6]">
                           {selectedRow.CarbohydratePercentage}%
                         </span>
                         )
@@ -335,7 +325,7 @@ const AddFoodButton = ({ onUpdate }) => {
                           {selectedRow.Total_Lipid}g
                         </span>
                         {" ("}
-                        <span className="font-bold text-[#ec6737]">
+                        <span className="font-bold text-[#ef4444]">
                           {selectedRow.Total_LipidPercentage}%
                         </span>
                         )
