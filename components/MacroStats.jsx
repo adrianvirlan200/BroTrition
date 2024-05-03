@@ -45,6 +45,7 @@ const MacroStats = () => {
 
         <div className="grid grid-cols-3 content-center min-w-fit">
           <Tooltip
+            placement="top"
             content={
               <div>
                 <h1 className="font-bold">Calories consumed: 2000 Kcal</h1>
@@ -68,6 +69,7 @@ const MacroStats = () => {
           </Tooltip>
 
           <Tooltip
+            placement="top"
             content={
               <div>
                 <h1 className="font-bold">Calories burned: 1800 Kcal</h1>
@@ -90,6 +92,7 @@ const MacroStats = () => {
           </Tooltip>
 
           <Tooltip
+            placement="top"
             content={
               <div>
                 <h1 className="font-bold">Calories Goal: 1800 Kcal</h1>
