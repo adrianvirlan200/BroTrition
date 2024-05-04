@@ -20,10 +20,10 @@ export async function GET(request) {
     const foodResult = await executeQuery(selectFoodQuery, [session.user.id]);
 
     for (let i = 0; i < foodResult.length; i++) {
-      const calories = displayNumberOfCalories(
-        parseFloat(foodResult[i].Protein),
-        parseFloat(foodResult[i].Carbohydrate),
-        parseFloat(foodResult[i].Total_Lipid)
+      let calories = displayNumberOfCalories(
+        parseFloat((foodResult[i].Protein * foodResult[i].quantity) / 100),
+        parseFloat((foodResult[i].Carbohydrate * foodResult[i].quantity) / 100),
+        parseFloat((foodResult[i].Total_Lipid * foodResult[i].quantity) / 100)
       );
 
       data.push({

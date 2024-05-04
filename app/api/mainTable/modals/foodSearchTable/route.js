@@ -11,17 +11,9 @@ export async function POST(request) {
     const searchingParams = data.searchBoxValue;
 
     const query =
-      " SELECT\
-          Id,\
-          Category,\
-          Description,\
-          Carbohydrate,\
-          Protein,\
-          Total_Lipid\
-        FROM\
-          brotrition.nutrition_data\
-        WHERE\
-          MATCH(Category) AGAINST(+? IN BOOLEAN MODE)\
+      " SELECT Id, Category, Description, Carbohydrate,Protein, Total_Lipid\
+        FROM brotrition.nutrition_data\
+        WHERE MATCH(Category) AGAINST(+? IN BOOLEAN MODE)\
         LIMIT 75";
     const result = await executeQuery(query, [searchingParams]);
 
