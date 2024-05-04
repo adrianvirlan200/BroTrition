@@ -4,6 +4,10 @@ export function displayNumberOfCalories(pr, ca, ft) {
   return x;
 }
 
+export function truncMacro(val) {
+  return Math.trunc(10 * val) / 10;
+}
+
 export function calculatePercentageOfNutrients(pr, ca, ft) {
   //calculate the percentage
   const total = pr + ca + ft;

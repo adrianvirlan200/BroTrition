@@ -6,14 +6,15 @@ import { authOptions } from "@app/nextauth/NextAuthOptions";
 export async function DELETE(request) {
   try {
     const session = await getServerSession(authOptions);
-    const data = await request.json();
+    const { logID, isFood } = await request.json();
 
-    const deleteQuery =
-      "DELETE FROM food_log WHERE id = ? AND userID = ?;";
-    const result = await executeQuery(deleteQuery, [
-      data.foodID,
-      session.user.id,
-    ]);
+    let deleteQuery = "";
+    if (isFood) {
+      deleteQuery = "DELETE FROM food_log WHERE id = ? AND userID = ?;";
+    } else {
+      deleteQuery = "DELETE FROM exercise_log WHERE id = ? AND userID = ?;";
+    }
+    const result = await executeQuery(deleteQuery, [logID, session.user.id]);
 
     return new Response(
       JSON.stringify({ message: "Deletion successful.", status: 201 })

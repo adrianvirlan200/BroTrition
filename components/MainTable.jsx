@@ -31,7 +31,7 @@ export default function MainTable({ updateSignal }) {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Handling the delete action
-  const handleDelete = async (foodID) => {
+  const handleDelete = async (logID, isFood) => {
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -41,30 +41,25 @@ export default function MainTable({ updateSignal }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ foodID }),
+          body: JSON.stringify({ logID, isFood }),
         }
       );
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      if (data.status === 500) {
-        console.log("Fatal Error;");
+      if (response.ok) {
+        setUpdateTable((prevState) => !prevState);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("catch block executed, Error:", error);
     }
-
-    setUpdateTable((prevState) => !prevState);
-    setIsLoading(false);
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Fetching the data
   const fetchData = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "http://localhost:3000/api/mainTable/fetch",
@@ -82,6 +77,8 @@ export default function MainTable({ updateSignal }) {
         throw new Error("Network response was not ok");
       } else {
         setData(fetchedData.data);
+
+        console.log(data);
         setIsLoading(false);
       }
 
@@ -102,33 +99,59 @@ export default function MainTable({ updateSignal }) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Rendering of the table cells
   const renderCell = useCallback((data, columnKey) => {
-    const cellValue = data.id;
+    let cellValue = "";
+    let name = "";
+    let quantity = "";
+    let calories = "";
+    let units = "";
+
+    if (data.isFood) {
+      cellValue = data.foodLogID;
+      name = data.Category;
+      quantity = data.quantity;
+      units = "g";
+      calories = data.calories;
+    } else {
+      cellValue = data.exerciseLogID;
+      name = data.activity;
+      quantity = data.duration;
+      units = "min";
+      calories = -data.caloriesBurned;
+    }
 
     switch (columnKey) {
       case "name":
         return (
           <div className="flex min-w-48">
             <Image
-              src="/brotrition_assets/svg/food.svg"
+              src={
+                data.isFood
+                  ? "/brotrition_assets/svg/food-cropped.svg"
+                  : "/brotrition_assets/svg/running-cropped.svg"
+              }
               width="0"
               height="0"
               alt="food icon"
-              className="w-6 h-auto min-w-6 min-h-6"
-            />
-            <div>{data.Category}</div>
+              className={
+                data.isFood
+                  ? "w-4 h-auto min-w-4 min-h-4 pb-1 mr-1"
+                  : "w-5 h-auto min-w-5 min-h-5 pb-1"
+              }
+            />{" "}
+            <div>{name}</div>
           </div>
         );
       case "quantity":
         return (
           <div className="grid grid-cols-2 w-16">
-            <div>{data.quantity}</div>
-            <div>g</div>
+            <div>{quantity}</div>
+            <div>{units}</div>
           </div>
         );
       case "calories":
         return (
           <div className="grid grid-cols-2 gap-x-0 w-24">
-            <div>{data.calories}</div>
+            <div>{calories}</div>
             <div>Kcal</div>
           </div>
         );
@@ -148,7 +171,7 @@ export default function MainTable({ updateSignal }) {
             <Tooltip color="danger" content="Delete food">
               <span
                 className="text-lg text-danger cursor-pointer active:opacity-50"
-                onClick={() => handleDelete(cellValue)}
+                onClick={() => handleDelete(cellValue, data.isFood)}
               >
                 <DeleteIcon />
               </span>
@@ -187,7 +210,7 @@ export default function MainTable({ updateSignal }) {
         items={data}
       >
         {(item) => (
-          <TableRow key={item.id}>
+          <TableRow key={item.index}>
             {(columnKey) => (
               <TableCell>{renderCell(item, columnKey)}</TableCell>
             )}

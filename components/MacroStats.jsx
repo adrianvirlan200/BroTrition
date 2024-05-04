@@ -75,6 +75,9 @@ const MacroStats = () => {
                 <h1 className="font-bold">Calories burned: 1800 Kcal</h1>
                 <Divider orientation="horizontal" />
                 <p className="text-purple-600 font-semibold">BMR: 1500 Kcal</p>
+                <p className="text-purple-600 font-semibold">
+                  Lifestyle Factor(1.2): 320 kcal
+                </p>
                 <p className="text-teal-600 font-semibold">
                   Activity: 300 Kcal
                 </p>
