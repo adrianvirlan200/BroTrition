@@ -22,11 +22,14 @@ import {
   Button,
 } from "@nextui-org/react";
 import { PlusIcon } from "./NextUi/plusIcon";
+import { useSession } from "next-auth/react";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const AddExerciseButton = ({ onUpdate }) => {
+  const { data: session, status } = useSession();
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [searchBoxValue, setSearchBoxValue] = useState("");
@@ -34,19 +37,26 @@ const AddExerciseButton = ({ onUpdate }) => {
   const [data, setData] = useState([]);
   const [duration, setDuration] = useState(30);
   const [calories, setCalories] = useState(0);
+  const [caloriesDisplayed, setCaloriesDisplayed] = useState(0);
   const [manual, setManual] = useState(false);
   const [invalidDuration, setInvalidDuration] = useState(false);
   const [invalidCalories, setInvalidCalories] = useState(false);
-  const [isGrayedOut, setIsGrayedOut] = useState(true);
+  const [isGrayedOut, setIsGrayedOut] = useState(false);
   const [selectedRow, setSelectedRow] = useState({
     id: 0,
     activity: "",
     calories: 0,
   });
-  const [reference, setReference] = useState(selectedRow);
 
   //handles the backend requests for searching exercises
   const handleSearching = async () => {
+    setIsLoading(true);
+    if (searchBoxValue.length < 3) {
+      setData([]);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch(
         "http://localhost:3000/api/mainTable/modals/exerciseSearchTable",
@@ -103,10 +113,16 @@ const AddExerciseButton = ({ onUpdate }) => {
           },
           body: JSON.stringify({
             duration: duration,
-            exerciseID: reference.id,
+            exerciseID: selectedRow.id,
+            manual: manual,
+            calories: manual
+              ? calories
+              : selectedRow.calories * (duration / 30),
           }),
         }
       );
+
+      setManual(false);
 
       if (response.ok) {
         onUpdate(); // send a signal to the parent component to update the table
@@ -121,11 +137,59 @@ const AddExerciseButton = ({ onUpdate }) => {
     for (let i = 0; i < data.length; i++) {
       if (data[i].id == row) {
         setSelectedRow(data[i]);
-        setReference(data[i]);
         break;
       }
     }
   };
+
+  //check the validity of the duration and calories
+  //update the displayed calories
+  useEffect(() => {
+    const regex = /^-?\d+$/;
+
+    if (
+      regex.test(duration) &&
+      duration > 0 &&
+      duration < 1440 &&
+      duration.toString().length != 0
+    ) {
+      setInvalidDuration(false);
+    } else {
+      setInvalidDuration(true);
+    }
+
+    if (!manual) {
+      setInvalidCalories(false);
+    } else {
+      if (calories == 0) {
+        setInvalidCalories(true);
+      } else {
+        setInvalidCalories(false);
+      }
+    }
+
+    if (manual) {
+      setCaloriesDisplayed(calories);
+    } else {
+      setCaloriesDisplayed(selectedRow.calories * (duration / 30));
+    }
+  }, [duration, selectedRow, manual, calories]);
+
+  const handleCaloriesChange = (e) => {
+    const regex = /^[0-9]*(\.[0-9]+)?$/;
+    if (regex.test(e) && e.length < 5) {
+      setCalories(e);
+    }
+  };
+
+  //check if the button should be grayed out
+  useEffect(() => {
+    if (selectedRow.id == 0 || invalidDuration || invalidCalories) {
+      setIsGrayedOut(true);
+    } else {
+      setIsGrayedOut(false);
+    }
+  }, [selectedRow, invalidDuration, invalidCalories]);
 
   return (
     <>
@@ -152,7 +216,6 @@ const AddExerciseButton = ({ onUpdate }) => {
               <ModalHeader className="flex flex-col gap-0 text-blue-500">
                 ADD EXERCISE
               </ModalHeader>
-
               <ModalBody>
                 <Input
                   autoFocus
@@ -179,7 +242,6 @@ const AddExerciseButton = ({ onUpdate }) => {
                   }
                   className="border-gray-300 border-2 rounded-xl"
                 ></Input>
-
                 <Table
                   selectionMode="single"
                   color="primary"
@@ -193,7 +255,7 @@ const AddExerciseButton = ({ onUpdate }) => {
                   <TableHeader>
                     <TableColumn key="name">Name</TableColumn>
                     <TableColumn align="end" key="calories">
-                      Calories/30min
+                      Calories/30min*
                     </TableColumn>
                   </TableHeader>
 
@@ -216,7 +278,7 @@ const AddExerciseButton = ({ onUpdate }) => {
               <ModalFooter>
                 <div className="w-full content-start border-gray-300 border-2 rounded-xl mb-4">
                   <h1 className="flex-center text-lg font-bold border-b-2 border-gray-300 min-h-12 mx-5">
-                    {reference.activity}
+                    {selectedRow.activity}
                   </h1>
                   <div className="grid grid-cols-3 w-full px-5 pr-32 py-1 mb-2">
                     <h1 className="my-auto text-md">Enter the duration: </h1>
@@ -226,19 +288,17 @@ const AddExerciseButton = ({ onUpdate }) => {
                       endContent={"min"}
                       defaultValue={duration}
                       variant="underlined"
-                      className="w-20"
+                      className="w-24"
                     ></Input>
                     <div></div>
                     <h1 className="my-auto text-md">Calories burned: </h1>
                     <Input
-                      onChange={(e) => setCalories(e.target.value)}
+                      onChange={(e) => handleCaloriesChange(e.target.value)}
                       isDisabled={!manual}
-                      isInvalid={invalidDuration}
                       endContent={"Kcal"}
-                      defaultValue={reference.calories}
-                      value={!manual ? reference.calories : calories}
+                      value={Math.trunc(caloriesDisplayed * 10) / 10}
                       variant="underlined"
-                      className="w-20"
+                      className="w-24"
                     ></Input>
                     <Checkbox
                       icon={<PlusIcon />}
@@ -249,13 +309,19 @@ const AddExerciseButton = ({ onUpdate }) => {
                       Enter manually
                     </Checkbox>
                   </div>
+                  <p className=" ml-5 mt-3 text-xs font-normal italic">
+                    *The calories are based on your current weight of:{" "}
+                    {status == "loading"
+                      ? ""
+                      : Math.trunc(session.user.weight * 10) / 10}{" "}
+                    kg
+                  </p>
                 </div>
-
                 <Button
                   isDisabled={isGrayedOut}
                   color="primary"
                   onPress={handleInsert}
-                  className="mt-auto mb-2"
+                  className="mt-auto mb-4 ml-3"
                 >
                   Add exercise
                 </Button>

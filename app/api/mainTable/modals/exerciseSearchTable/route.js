@@ -20,6 +20,7 @@ export async function POST(request) {
         LIMIT 75";
     const result = await executeQuery(query, [searchingParams]);
 
+    //convert weight to kg
     const w1 = 125 * 0.45359237;
     const w2 = 155 * 0.45359237;
     const w3 = 185 * 0.45359237;
