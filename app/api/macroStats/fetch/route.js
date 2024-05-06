@@ -22,31 +22,30 @@ export async function GET(request) {
       WHERE userID = ? AND DATE(dateCreated) = CURRENT_DATE();";
     const foodResult = await executeQuery(selectFoodQuery, [session.user.id]);
 
+    const selectExerciseQuery =
+      "SELECT calories_burned FROM exercise_log WHERE userID = ? AND DATE(created_at) = CURRENT_DATE();";
+    const exerciseResult = await executeQuery(selectExerciseQuery, [
+      session.user.id,
+    ]);
+
     //Basal metabolic rate (BMR)
     let BMR = 0;
     const currentYear = new Date().getFullYear();
 
+    const weight = parseFloat(userResult[0].weight);
+    const height = parseFloat(userResult[0].height);
+    const years = currentYear - userResult[0].birth_year;
+
+    //Mifflin-St Jeor Equation
     if (userResult[0].sex == "male") {
-      BMR =
-        88.362 +
-        13.397 * userResult[0].weight +
-        4.799 * userResult[0].height -
-        5.677 * (currentYear - userResult[0].birth_year);
+      BMR = 10 * weight + 6.5 * height - 5 * years + 5;
     } else if (userResult[0].sex == "female") {
-      BMR =
-        447.593 +
-        9.247 * userResult[0].weight +
-        3.098 * userResult[0].height -
-        4.33 * (currentYear - userResult[0].birth_year);
+      BMR = 10 * weight + 6.25 * height - 5 * years - 161;
     } else {
-      BMR =
-        (447.593 + 88.362) / 2 +
-        ((9.247 + 13.397) / 2) * userResult[0].weight +
-        ((3.098 + 4.799) / 2) * userResult[0].height -
-        ((4.33 + 5.677) / 2) * (currentYear - userResult[0].birth_year);
+      BMR = 10 * weight + 6.35 * height - 5 * years - 78;
     }
 
-    data.BMR = BMR;
+    data.BMR = Math.trunc(BMR * 10) / 10;
 
     //Total Daily Energy Expenditure (TDEE)
     let TDEE = 0;
@@ -73,15 +72,17 @@ export async function GET(request) {
         break;
     }
 
-    data.lifestyleCalories = TDEE - BMR;
+    data.lifestyleCalories = Math.trunc((TDEE - BMR) * 10) / 10;
 
     switch (userResult[0].goal) {
       case "lose":
         TDEE -= 300;
+        data.goalCalories = 300;
         data.goal = "lose";
         break;
       case "gain":
-        TDEE *= 1.1;
+        TDEE += 300;
+        data.goalCalories = 300;
         data.goal = "gain";
         break;
       case "maintain":
@@ -91,41 +92,77 @@ export async function GET(request) {
         data.goal = "maintain";
     }
 
-    data.TDEE = TDEE;
+    //BMI + lifestyle factor + goal
+    data.TDEE = truncMacro(TDEE);
 
-    data.totalCalories = 0;
-    data.totalProtein = 0;
-    data.totalCarbohydrate = 0;
-    data.totalLipid = 0;
+    //add the activity calories to form the total calories burned
+    let totalActivity = 0.0;
+    for (let i = 0; i < exerciseResult.length; i++) {
+      totalActivity += parseFloat(exerciseResult[i].calories_burned);
+    }
+
+    data.activity = truncMacro(totalActivity);
+    data.totalCaloriesBurned = truncMacro(data.TDEE + data.activity);
+
+    data.totalCaloriesConsumed = 0.0;
+    data.totalProteinConsumed = 0.0;
+    data.totalCarbohydrateConsumed = 0.0;
+    data.totalLipidConsumed = 0.0;
     for (let i = 0; i < foodResult.length; i++) {
-      const protein = foodResult[i].Protein * foodResult[i].quantity;
-      const carbohydrate = foodResult[i].Carbohydrate * foodResult[i].quantity;
-      const lipid = foodResult[i].Total_Lipid * foodResult[i].quantity;
+      const protein = (foodResult[i].Protein * foodResult[i].quantity) / 100;
+      const carbohydrate =
+        (foodResult[i].Carbohydrate * foodResult[i].quantity) / 100;
+      const lipid = (foodResult[i].Total_Lipid * foodResult[i].quantity) / 100;
 
-      data.totalCalories += displayNumberOfCalories(
+      data.totalCaloriesConsumed += displayNumberOfCalories(
         protein,
         carbohydrate,
         lipid
       );
 
-      data.totalProtein += truncMacro(protein);
-      data.totalCarbohydrate += truncMacro(carbohydrate);
-      data.totalLipid += truncMacro(lipid);
+      data.totalCaloriesConsumed = truncMacro(data.totalCaloriesConsumed);
+
+      data.totalProteinConsumed += protein;
+      data.totalCarbohydrateConsumed += carbohydrate;
+      data.totalLipidConsumed += lipid;
     }
 
-    const proteinPercentage = 30;
+    data.totalProteinConsumed = truncMacro(data.totalProteinConsumed);
+    data.totalCarbohydrateConsumed = truncMacro(data.totalCarbohydrateConsumed);
+    data.totalLipidConsumed = truncMacro(data.totalLipidConsumed);
+
+    data.totalProteinConsumedCalories = truncMacro(
+      data.totalProteinConsumed * 4
+    );
+    data.totalCarbohydrateConsumedCalories = truncMacro(
+      data.totalCarbohydrateConsumed * 4
+    );
+    data.totalLipidConsumedCalories = truncMacro(data.totalLipidConsumed * 9);
+
+    const proteinPercentage = 25;
     const carbohydratePercentage = 50;
-    const lipidPercentage = 20;
+    const lipidPercentage = 25;
 
-    data.proteinNeeded = (TDEE * proteinPercentage) / 100 / 4;
-    data.carbohydrateNeeded = (TDEE * carbohydratePercentage) / 100 / 4;
-    data.lipidNeeded = (TDEE * lipidPercentage) / 100 / 9;
+    data.proteinNeeded = truncMacro(
+      (data.totalCaloriesBurned * proteinPercentage) / 100 / 4
+    );
+    data.carbohydrateNeeded = truncMacro(
+      (data.totalCaloriesBurned * carbohydratePercentage) / 100 / 4
+    );
+    data.lipidNeeded = truncMacro(
+      (data.totalCaloriesBurned * lipidPercentage) / 100 / 9
+    );
 
-    data.caloriesPercentage = data.totalCalories / TDEE;
-    data.proteinPercentage = data.totalProtein / data.proteinNeeded;
+    data.caloriesPercentage =
+      (data.totalCaloriesConsumed / data.totalCaloriesBurned) * 100;
+    data.proteinPercentage =
+      (data.totalProteinConsumed / data.proteinNeeded) * 100;
     data.carbohydratePercentage =
-      data.totalCarbohydrate / data.carbohydrateNeeded;
-    data.lipidPercentage = data.totalLipid / data.lipidNeeded;
+      (data.totalCarbohydrateConsumed / data.carbohydrateNeeded) * 100;
+    data.lipidPercentage = (data.totalLipidConsumed / data.lipidNeeded) * 100;
+
+    data.caloriesRemaining =
+      data.totalCaloriesBurned - data.totalCaloriesConsumed;
 
     if (userResult.length > 0) {
       return new Response(

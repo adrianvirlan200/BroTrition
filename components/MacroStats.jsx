@@ -3,14 +3,53 @@ import { Progress, Tooltip } from "@nextui-org/react";
 import { Divider } from "@nextui-org/divider";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Legend } from "chart.js";
+import { useEffect, useState } from "react";
 ChartJS.register(ArcElement, Legend);
 
-const MacroStats = () => {
+const MacroStats = ({ updateSignal }) => {
+  const [data, setData] = useState({});
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/macroStats/fetch",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const fetchedData = await response.json();
+
+      if (response.ok) {
+        setData(fetchedData.data);
+
+        console.log(data);
+      }
+
+      if (fetchedData.status === 500) {
+        console.log("Fatal Error;");
+      }
+    } catch (error) {
+      console.error("catch block executed, Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [updateSignal]);
+
   const data_consumed = {
     // labels: ["Protein", "Carbs", "Fat"],
     datasets: [
       {
-        data: [300, 50, 100],
+        data: [
+          data.totalProteinConsumedCalories,
+          data.totalCarbohydrateConsumedCalories,
+          data.totalLipidConsumedCalories,
+        ],
         backgroundColor: ["#22c55e", "#3b82f6", "#ef4444"],
       },
     ],
@@ -22,17 +61,29 @@ const MacroStats = () => {
     // labels: ["Protein", "Carbs", "Fat"],
     datasets: [
       {
-        data: [2200, 350],
+        data: [data.TDEE, data.activity],
         backgroundColor: ["#9333ea", "#0d9488"],
       },
     ],
   };
 
+  // data.caloriesRemaining,
+  // Math.abs(data.totalCaloriesConsumed - data.caloriesRemaining),
+  let aux1 = 0;
+  let aux2 = 0;
+  if (data.caloriesRemaining > 0) {
+    aux2 = data.totalCaloriesConsumed;
+    aux1 = data.caloriesRemaining;
+  } else {
+    aux2 = data.totalCaloriesConsumed;
+    aux1 = 0;
+  }
+
   const data_remaining = {
     // labels: ["Protein", "Carbs", "Fat"],
     datasets: [
       {
-        data: [3000 - 350, 350],
+        data: [aux1, aux2],
         backgroundColor: ["#a8a29e", "#44403c"],
       },
     ],
@@ -48,13 +99,19 @@ const MacroStats = () => {
             placement="top"
             content={
               <div>
-                <h1 className="font-bold">Calories consumed: 2000 Kcal</h1>
+                <h1 className="font-bold">
+                  Calories consumed: {data.totalCaloriesConsumed} Kcal
+                </h1>
                 <Divider orientation="horizontal" />
                 <p className="text-green-600 font-semibold">
-                  Protein: 300 Kcal
+                  Protein: {data.totalProteinConsumedCalories} Kcal
                 </p>
-                <p className="text-blue-600 font-semibold">Carbs: 50 Kcal</p>
-                <p className="text-red-600 font-semibold">Fat: 100 Kcal</p>
+                <p className="text-blue-600 font-semibold">
+                  Carbs: {data.totalCarbohydrateConsumedCalories} Kcal
+                </p>
+                <p className="text-red-600 font-semibold">
+                  Fat: {data.totalLipidConsumedCalories} Kcal
+                </p>
               </div>
             }
           >
@@ -64,7 +121,9 @@ const MacroStats = () => {
                 className="min-w-28 max-w-28 min-h-28 max-h-28 mx-auto"
               />
               <p className="text-center font-bold text-base">Consumed</p>
-              <p className="text-center font-semibold text-sm">2300 Kcal</p>
+              <p className="text-center font-semibold text-sm">
+                {data.totalCaloriesConsumed} Kcal
+              </p>
             </div>
           </Tooltip>
 
@@ -72,14 +131,23 @@ const MacroStats = () => {
             placement="top"
             content={
               <div>
-                <h1 className="font-bold">Calories burned: 1800 Kcal</h1>
+                <h1 className="font-bold">
+                  Calories burned: {data.totalCaloriesBurned} Kcal
+                </h1>
                 <Divider orientation="horizontal" />
-                <p className="text-purple-600 font-semibold">BMR: 1500 Kcal</p>
                 <p className="text-purple-600 font-semibold">
-                  Lifestyle Factor(1.2): 320 kcal
+                  BMR: {data.BMR} Kcal
+                </p>
+                <p className="text-purple-600 font-semibold">
+                  Lifestyle Factor({data.lifestyleFactor}):{" "}
+                  {data.lifestyleCalories} kcal{" "}
+                </p>
+                <p className="text-purple-600 font-semibold">
+                  {String(data.goal).toUpperCase()} weight calories:{" "}
+                  {data.goalCalories} kcal
                 </p>
                 <p className="text-teal-600 font-semibold">
-                  Activity: 300 Kcal
+                  Activity: {data.activity} Kcal
                 </p>
               </div>
             }
@@ -90,7 +158,9 @@ const MacroStats = () => {
                 className="min-w-28 max-w-28 min-h-28 max-h-28 mx-auto"
               />
               <p className="text-center font-bold text-base">Burned</p>
-              <p className="text-center font-semibold text-sm">2300 Kcal</p>
+              <p className="text-center font-semibold text-sm">
+                {data.totalCaloriesBurned} Kcal
+              </p>
             </div>
           </Tooltip>
 
@@ -98,13 +168,16 @@ const MacroStats = () => {
             placement="top"
             content={
               <div>
-                <h1 className="font-bold">Calories Goal: 1800 Kcal</h1>
+                <h1 className="font-bold">
+                  Calories Goal: {data.totalCaloriesBurned} Kcal
+                </h1>
                 <Divider orientation="horizontal" />
                 <p className="text-stone-700 font-semibold">
-                  Consumed: 1500 Kcal
+                  Consumed: {data.totalCaloriesConsumed} Kcal
                 </p>
                 <p className="text-stone-500 font-semibold">
-                  Remaining: 300 Kcal
+                  {data.caloriesRemaining > 0 ? "Remaining: " : "Over: "}
+                  {Math.trunc(Math.abs(data.caloriesRemaining) * 10) / 10} Kcal
                 </p>
               </div>
             }
@@ -114,8 +187,12 @@ const MacroStats = () => {
                 data={data_remaining}
                 className="min-w-28 max-w-28 min-h-28 max-h-28 mx-auto"
               />
-              <p className="text-center font-bold text-base">Remaining</p>
-              <p className="text-center font-semibold text-sm">2300 Kcal</p>
+              <p className="text-center font-bold text-base">
+                {data.caloriesRemaining > 0 ? "Remaining: " : "Over: "}
+              </p>
+              <p className="text-center font-semibold text-sm">
+                {Math.trunc(Math.abs(data.caloriesRemaining) * 10) / 10} Kcal
+              </p>
             </div>
           </Tooltip>
         </div>
@@ -129,11 +206,16 @@ const MacroStats = () => {
       <div>
         <h1 className="text-lg font-semibold mb-4">Macronutrients targets</h1>
         <div className="grid grid-cols-[1fr_3fr]">
-          <p className="my-3 font-medium text-base">Energy</p>
+          <p className="my-2 font-medium text-base">Energy</p>
           <Progress
-            label="1200 Kcal / 2200 Kcal"
+            label={
+              data.totalCaloriesConsumed +
+              " kcal / " +
+              data.totalCaloriesBurned +
+              " kcal"
+            }
             color="success"
-            value={50}
+            value={data.caloriesPercentage}
             size="md"
             aria-label="Energy"
             showValueLabel={true}
@@ -147,9 +229,11 @@ const MacroStats = () => {
           />
           <p className="my-2 font-medium text-base">Protein</p>
           <Progress
-            label="20.3g / 120.6g"
+            label={
+              data.totalProteinConsumed + " g / " + data.proteinNeeded + " g"
+            }
             color="success"
-            value={65}
+            value={data.proteinPercentage}
             size="md"
             aria-label="Protein"
             showValueLabel={true}
@@ -163,9 +247,14 @@ const MacroStats = () => {
           />
           <p className="my-2 font-medium text-base">Carbs</p>
           <Progress
-            label="80.9g / 220.6g"
+            label={
+              data.totalCarbohydrateConsumed +
+              " g / " +
+              data.carbohydrateNeeded +
+              " g"
+            }
             color="primary"
-            value={85}
+            value={data.carbohydratePercentage}
             size="md"
             aria-label="Carbohydrates"
             showValueLabel={true}
@@ -179,9 +268,9 @@ const MacroStats = () => {
           />
           <p className="my-2 font-medium text-md">Fat</p>
           <Progress
-            label="18.4g / 60.2g"
+            label={data.totalLipidConsumed + " g / " + data.lipidNeeded + " g"}
             color="success"
-            value={60}
+            value={data.lipidPercentage}
             size="md"
             aria-label="Fat"
             showValueLabel={true}

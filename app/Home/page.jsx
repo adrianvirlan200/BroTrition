@@ -24,10 +24,13 @@ export default function Home() {
           <AddBiometricsButton onUpdate={handleUpdateTable} />
           <AddNoteButton onUpdate={handleUpdateTable} />
         </div>
-        <MainTable updateSignal={updateSignal} />
+        <MainTable onDelete={handleUpdateTable} updateSignal={updateSignal} />
+      </div>
+      <div className="border-gray-400 content-center w-1/5 min-w-fit p-2 bg-white rounded-2xl">
+        test
       </div>
       <div className="border-gray-400 content-center w-2/3 min-w-fit p-2 bg-white rounded-2xl">
-        <MacroStats />
+        <MacroStats updateSignal={updateSignal} />
       </div>
     </div>
   );

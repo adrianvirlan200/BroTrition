@@ -70,6 +70,13 @@ const AddFoodButton = ({ onUpdate }) => {
 
   //handles the backend requests for searching the food
   const handleSearching = async () => {
+    setIsLoading(true);
+    if (searchBoxValue === "") {
+      setData([]);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch(
         "http://localhost:3000/api/mainTable/modals/foodSearchTable",
@@ -215,6 +222,7 @@ const AddFoodButton = ({ onUpdate }) => {
               <ModalBody>
                 <Input
                   autoFocus
+                  color="success"
                   onChange={(e) => setSearchBoxValue(e.target.value)}
                   placeholder="Search all foods & ingredients & recipes..."
                   startContent={
@@ -354,6 +362,7 @@ const AddFoodButton = ({ onUpdate }) => {
                   isDisabled={isGrayedOut}
                   color="success"
                   onPress={handleInsert}
+                  className="mb-0"
                 >
                   Add food
                 </Button>

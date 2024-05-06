@@ -221,6 +221,7 @@ const AddExerciseButton = ({ onUpdate }) => {
               <ModalBody>
                 <Input
                   autoFocus
+                  color="primary"
                   onChange={(e) => setSearchBoxValue(e.target.value)}
                   placeholder="Search all exercises and workouts..."
                   startContent={

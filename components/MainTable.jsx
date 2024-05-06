@@ -17,7 +17,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 
-export default function MainTable({ updateSignal }) {
+export default function MainTable({ updateSignal, onDelete }) {
   const columns = [
     { name: "NAME", uid: "name" },
     { name: "QUANTITY", uid: "quantity" },
@@ -48,6 +48,7 @@ export default function MainTable({ updateSignal }) {
       const data = await response.json();
 
       if (response.ok) {
+        onDelete();
         setUpdateTable((prevState) => !prevState);
         setIsLoading(false);
       }
@@ -78,7 +79,6 @@ export default function MainTable({ updateSignal }) {
       } else {
         setData(fetchedData.data);
 
-        console.log(data);
         setIsLoading(false);
       }
 

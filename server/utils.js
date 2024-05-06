@@ -5,7 +5,7 @@ export function displayNumberOfCalories(pr, ca, ft) {
 }
 
 export function truncMacro(val) {
-  return Math.trunc(10 * val) / 10;
+  return Math.trunc(val * 10) / 10;
 }
 
 export function calculatePercentageOfNutrients(pr, ca, ft) {
