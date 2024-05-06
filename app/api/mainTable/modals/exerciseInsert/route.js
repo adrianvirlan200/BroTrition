@@ -25,6 +25,7 @@ export async function POST(request) {
         manual,
         calories,
       ]);
+
       return new Response(JSON.stringify({ message: "Success", status: 201 }));
     }
   } catch (error) {

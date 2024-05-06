@@ -35,6 +35,7 @@ const AddExerciseButton = ({ onUpdate }) => {
   const [searchBoxValue, setSearchBoxValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [userWeight, setUserWeight] = useState(0);
   const [duration, setDuration] = useState(30);
   const [calories, setCalories] = useState(0);
   const [caloriesDisplayed, setCaloriesDisplayed] = useState(0);
@@ -76,6 +77,7 @@ const AddExerciseButton = ({ onUpdate }) => {
 
         if (fetchedData.status === 201) {
           setData(fetchedData.data);
+          setUserWeight(fetchedData.userWeight);
           setIsLoading(false);
         } else {
           console.log("Fatal Error;");
@@ -309,13 +311,12 @@ const AddExerciseButton = ({ onUpdate }) => {
                       Enter manually
                     </Checkbox>
                   </div>
-                  <p className=" ml-5 mt-3 text-xs font-normal italic">
-                    *The calories are based on your current weight of:{" "}
-                    {status == "loading"
-                      ? ""
-                      : Math.trunc(session.user.weight * 10) / 10}{" "}
-                    kg
-                  </p>
+                  {userWeight != 0 ? (
+                    <p className=" ml-5 mt-3 text-xs font-normal italic">
+                      *The calories are based on your current weight of:{" "}
+                      {userWeight} kg
+                    </p>
+                  ) : null}
                 </div>
                 <Button
                   isDisabled={isGrayedOut}

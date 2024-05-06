@@ -31,14 +31,10 @@ export const authOptions = {
         if (user && user.length > 0) {
           const bcrypt = require("bcrypt");
           if (bcrypt.compareSync(password, user[0].password)) {
-            // console.log(user[0].sex);
             return {
               id: user[0].userID,
               email: user[0].email,
               username: user[0].username,
-              sex: user[0].sex,
-              height: user[0].height,
-              weight: user[0].weight,
             };
           } else {
             return null;
@@ -58,9 +54,6 @@ export const authOptions = {
         token.id = user.id; // Persist the user ID in the JWT
         token.email = user.email;
         token.username = user.username;
-        token.sex = user.sex;
-        token.weight = user.weight;
-        token.height = user.height;
         token.accessToken = user.accessToken;
       }
       return token;
@@ -70,9 +63,6 @@ export const authOptions = {
         session.user.id = token.id; // Make the user ID available on the session object
         session.user.email = token.email;
         session.user.name = token.username;
-        session.user.sex = token.sex;
-        session.user.weight = token.weight;
-        session.user.height = token.height;
         session.user.accessToken = token.accessToken;
       }
       return session;
