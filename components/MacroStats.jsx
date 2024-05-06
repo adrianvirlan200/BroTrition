@@ -6,13 +6,13 @@ import { Chart as ChartJS, ArcElement, Legend } from "chart.js";
 import { useEffect, useState } from "react";
 ChartJS.register(ArcElement, Legend);
 
-const MacroStats = ({ updateSignal }) => {
+const MacroStats = ({ updateSignal, currentDate }) => {
   const [data, setData] = useState({});
 
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/macroStats/fetch",
+        "http://localhost:3000/api/macroStats/fetch" + "?date=" + currentDate,
         {
           method: "GET",
           headers: {
@@ -25,8 +25,6 @@ const MacroStats = ({ updateSignal }) => {
 
       if (response.ok) {
         setData(fetchedData.data);
-
-        console.log(data);
       }
 
       if (fetchedData.status === 500) {
@@ -39,7 +37,7 @@ const MacroStats = ({ updateSignal }) => {
 
   useEffect(() => {
     fetchData();
-  }, [updateSignal]);
+  }, [updateSignal, currentDate]);
 
   const data_consumed = {
     // labels: ["Protein", "Carbs", "Fat"],

@@ -17,7 +17,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 
-export default function MainTable({ updateSignal, onDelete }) {
+export default function MainTable({ currentDate, updateSignal, onDelete }) {
   const columns = [
     { name: "NAME", uid: "name" },
     { name: "QUANTITY", uid: "quantity" },
@@ -63,7 +63,7 @@ export default function MainTable({ updateSignal, onDelete }) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:3000/api/mainTable/fetch",
+        "http://localhost:3000/api/mainTable/fetch" + "?date=" + currentDate,
         {
           method: "GET",
           headers: {
@@ -94,7 +94,7 @@ export default function MainTable({ updateSignal, onDelete }) {
   useEffect(() => {
     setIsLoading(true);
     fetchData();
-  }, [updateTable, updateSignal]);
+  }, [updateTable, updateSignal, currentDate]);
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Rendering of the table cells

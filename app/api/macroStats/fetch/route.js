@@ -8,6 +8,9 @@ import { authOptions } from "@app/nextauth/NextAuthOptions";
 export async function GET(request) {
   try {
     const session = await getServerSession(authOptions);
+    const params = new URL(request.url).searchParams;
+    const date = params.get("date");
+
     let data = {};
 
     const userQuery =
@@ -19,13 +22,17 @@ export async function GET(request) {
       "SELECT Protein, Total_Lipid, Carbohydrate, quantity\
       FROM food_log \
       INNER JOIN nutrition_data ON nutrition_data.Id = food_log.foodID\
-      WHERE userID = ? AND DATE(dateCreated) = CURRENT_DATE();";
-    const foodResult = await executeQuery(selectFoodQuery, [session.user.id]);
+      WHERE userID = ? AND DATE(dateCreated) = ?;";
+    const foodResult = await executeQuery(selectFoodQuery, [
+      session.user.id,
+      date,
+    ]);
 
     const selectExerciseQuery =
-      "SELECT calories_burned FROM exercise_log WHERE userID = ? AND DATE(created_at) = CURRENT_DATE();";
+      "SELECT calories_burned FROM exercise_log WHERE userID = ? AND DATE(created_at) = ?;";
     const exerciseResult = await executeQuery(selectExerciseQuery, [
       session.user.id,
+      date,
     ]);
 
     //Basal metabolic rate (BMR)

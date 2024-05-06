@@ -8,6 +8,8 @@ import { authOptions } from "@app/nextauth/NextAuthOptions";
 export async function GET(request) {
   try {
     const session = await getServerSession(authOptions);
+    const params = new URL(request.url).searchParams;
+    const date = params.get("date");
 
     let data = [];
     let index = 0;
@@ -16,8 +18,11 @@ export async function GET(request) {
       "SELECT food_log.id, foodID, Category, quantity, Protein, Carbohydrate, Total_Lipid\
       FROM brotrition.food_log \
       INNER JOIN nutrition_data ON nutrition_data.Id = food_log.foodID\
-      WHERE userID = ? AND DATE(dateCreated) = CURRENT_DATE()";
-    const foodResult = await executeQuery(selectFoodQuery, [session.user.id]);
+      WHERE userID = ? AND DATE(dateCreated) = ?";
+    const foodResult = await executeQuery(selectFoodQuery, [
+      session.user.id,
+      date,
+    ]);
 
     for (let i = 0; i < foodResult.length; i++) {
       let calories = displayNumberOfCalories(
@@ -40,8 +45,11 @@ export async function GET(request) {
       "SELECT exercise_log.id, exerciseID, duration, manual, calories_burned, activity\
       FROM brotrition.exercise_log \
       INNER JOIN exercise_data ON exercise_data.id = exercise_log.exerciseID\
-      WHERE userID = ? AND DATE(created_at) = CURRENT_DATE()";
-    const exerciseResult = await executeQuery(exerciseQuery, [session.user.id]);
+      WHERE userID = ? AND DATE(created_at) = ?";
+    const exerciseResult = await executeQuery(exerciseQuery, [
+      session.user.id,
+      date,
+    ]);
 
     for (let i = 0; i < exerciseResult.length; i++) {
       data.push({
