@@ -52,7 +52,7 @@ export async function GET(request) {
       BMR = 10 * weight + 6.35 * height - 5 * years - 78;
     }
 
-    data.BMR = Math.trunc(BMR * 10) / 10;
+    data.BMR = truncMacro(BMR);
 
     //Total Daily Energy Expenditure (TDEE)
     let TDEE = 0;
@@ -79,7 +79,7 @@ export async function GET(request) {
         break;
     }
 
-    data.lifestyleCalories = Math.trunc((TDEE - BMR) * 10) / 10;
+    data.lifestyleCalories = truncMacro(TDEE - BMR);
 
     switch (userResult[0].goal) {
       case "lose":
@@ -121,18 +121,16 @@ export async function GET(request) {
         (foodResult[i].Carbohydrate * foodResult[i].quantity) / 100;
       const lipid = (foodResult[i].Total_Lipid * foodResult[i].quantity) / 100;
 
-      data.totalCaloriesConsumed += displayNumberOfCalories(
-        protein,
-        carbohydrate,
-        lipid
-      );
-
-      data.totalCaloriesConsumed = truncMacro(data.totalCaloriesConsumed);
-
       data.totalProteinConsumed += protein;
       data.totalCarbohydrateConsumed += carbohydrate;
       data.totalLipidConsumed += lipid;
     }
+
+    data.totalCaloriesConsumed += displayNumberOfCalories(
+      data.totalProteinConsumed,
+      data.totalCarbohydrateConsumed,
+      data.totalLipidConsumed
+    );
 
     data.totalProteinConsumed = truncMacro(data.totalProteinConsumed);
     data.totalCarbohydrateConsumed = truncMacro(data.totalCarbohydrateConsumed);

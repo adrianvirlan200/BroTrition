@@ -16,7 +16,7 @@ export default function MainCalendar({ setDate }) {
   return (
     <div className="flex gap-x-4">
       <Calendar
-        aria-label="Date (Max Date Value)"
+        aria-label="Calendar"
         value={dateValue}
         onChange={handleDateChange}
         maxValue={today(getLocalTimeZone())}
