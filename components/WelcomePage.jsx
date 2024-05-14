@@ -11,7 +11,7 @@ const WelcomePage = () => {
   };
 
   return (
-    <div className="mx-16 h-full grid lg:grid-cols-2 sm:grid-cols-1 lg:gap-24 sm:gap-6 content-center">
+    <div className="mx-16 mb-48 h-full grid lg:grid-cols-[3fr_2fr] sm:grid-cols-1 lg:gap-24 sm:gap-6 content-center">
       <div className="grid grid-col-1 gap-1">
         <h1 className="text-5xl font-bold text-slate-900 decoration-6">
           Start your journey Here!

@@ -10,7 +10,6 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-
 const TopNav = () => {
   const router = useRouter();
 
@@ -19,60 +18,63 @@ const TopNav = () => {
   };
 
   return (
-    <div className="mb-16 w-screen h-16">
-      <Navbar shouldHideOnScroll isBordered maxWidth="full">
-        <NavbarBrand>
-          <Link color="foreground" className="text-xl text-bold" href="/">
-            <Image
-              src="/brotrition_assets/png/pear.png"
-              width={60}
-              height={60}
-              alt="Description of your image"
-            />
-            <p className="font-bold text-inherit text-4xl green_gradient">
-              BroTrition
-            </p>
+    <Navbar
+      shouldHideOnScroll
+      isBordered
+      maxWidth="full"
+      className="mb-10 bg-zinc-800 text-white"
+    >
+      <NavbarBrand>
+        <Link color="foreground" className="text-xl text-bold" href="/">
+          <Image
+            src="/brotrition_assets/png/pear.png"
+            width={60}
+            height={60}
+            alt="Description of your image"
+          />
+          <p className="font-bold text-inherit text-4xl green_gradient">
+            BroTrition
+          </p>
+        </Link>
+      </NavbarBrand>
+      <NavbarContent className="hidden lg:flex gap-16" justify="end">
+        <NavbarItem>
+          <Link color="foreground" className="text-xl text-bold" href="#">
+            About
           </Link>
-        </NavbarBrand>
-        <NavbarContent className="hidden lg:flex gap-16" justify="end">
-          <NavbarItem>
-            <Link color="foreground" className="text-xl text-bold" href="#">
-              About
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" className="text-xl text-bold" href="#">
-              Products
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link href="#" aria-current="page" className="text-xl text-bold">
-              Support
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#" className="text-xl text-bold">
-              Blog
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#" className="text-xl text-bold">
-              Forum
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
-        <NavbarContent className="lg:flex gap-16" justify="end">
-          <NavbarItem className="lg:flex">
-            <Button
-              onClick={handleLogIn}
-              className="mr-5 border-2 border-green-700 bg-transparent text-2xl text-bold"
-            >
-              Log In
-            </Button>
-          </NavbarItem>
-        </NavbarContent>
-      </Navbar>
-    </div>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" className="text-xl text-bold" href="#">
+            Products
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link href="#" aria-current="page" className="text-xl text-bold">
+            Support
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#" className="text-xl text-bold">
+            Blog
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#" className="text-xl text-bold">
+            Forum
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent className="lg:flex gap-16" justify="end">
+        <NavbarItem className="lg:flex">
+          <Button
+            onClick={handleLogIn}
+            className="mr-5 border-2 border-green-700 bg-transparent text-2xl text-bold"
+          >
+            Log In
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
   );
 };
 

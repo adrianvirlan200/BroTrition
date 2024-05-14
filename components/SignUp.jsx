@@ -212,7 +212,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <div className="mb-16">
       <form className="text-center w-screen h-auto flex justify-center items-center">
         <div className="min-w-96 font-medium bg-white m-2 w-2/6 p-12 border-slate-200 border-1 rounded-xl grid grid-cols-1 gap-8">
           <h1 className="text-center text-bold text-2xl">
@@ -448,7 +448,7 @@ const SignUp = () => {
           SIGN UP
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

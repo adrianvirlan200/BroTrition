@@ -12,7 +12,7 @@ export async function GET(request) {
       "SELECT dateCreated AS date, quantity, Protein, Carbohydrate, Total_Lipid\
     FROM brotrition.food_log\
     JOIN nutrition_data on nutrition_data.Id = foodID\
-    WHERE userID = ? AND date(dateCreated) BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 WEEK) AND CURDATE() + 1\
+    WHERE userID = ? AND date(dateCreated) BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 WEEK) AND CURDATE()\
     ORDER BY dateCreated;";
     const result = await executeQuery(query, [session.user.id]);
     let values = [];
@@ -71,7 +71,6 @@ export async function GET(request) {
 
       for (let i = 0; i < result.length; i++) {
         const date = result[i].date.toISOString().split("T")[0];
-
         for (let j = 0; j < 21; j++) {
           if (aux[j].dateStr === date) {
             aux[j].protein += (result[i].Protein * result[i].quantity) / 100;

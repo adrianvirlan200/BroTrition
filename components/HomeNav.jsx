@@ -38,7 +38,13 @@ const HomeNav = () => {
   };
 
   return (
-    <Navbar shouldHideOnScroll isBordered maxWidth="full" className="mb-5">
+    <Navbar
+      position="static"
+      isBordered
+      maxWidth="full"
+      isBlurred="false"
+      className="bg-zinc-800 border-b-1 border-black max-h-14"
+    >
       <NavbarContent>
         <NavbarBrand>
           <Link

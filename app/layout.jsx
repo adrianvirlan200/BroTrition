@@ -7,20 +7,26 @@ import LoginNav from "@components/LoginNav";
 import HomeNav from "@components/HomeNav";
 import { usePathname } from "next/navigation";
 import NextAuthSessionProvider from "./nextauth/NextAuthSessionProvider";
+import Sidebar from "@components/Sidebar";
+
 const RootLayout = ({ children }) => {
   const pathname = usePathname();
 
   let nav;
+  let sidebar;
 
   switch (pathname) {
     case "/":
       nav = <TopNav />;
+      sidebar = "";
       break;
     case "/Login":
       nav = <LoginNav />;
+      sidebar = "";
       break;
     case "/Home":
       nav = <HomeNav />;
+      sidebar = <Sidebar />;
       break;
     default:
       nav = <LoginNav />;
@@ -29,16 +35,20 @@ const RootLayout = ({ children }) => {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-gradient-to-tr from-gray-100 to-lime-200">
-        <div className="bg-scroll grid">
-          <NextAuthSessionProvider>
-            <NextUIProvider>
+      {/* <body className="bg-gradient-to-tr from-gray-100 to-lime-200"> */}
+      <body className="bg-[#fffcf6]">
+        <NextAuthSessionProvider>
+          <NextUIProvider>
+            <div className="text-black">
               {nav}
-              {children}
+              <div className="flex">
+                {sidebar}
+                {children}
+              </div>
               <Footer />
-            </NextUIProvider>
-          </NextAuthSessionProvider>
-        </div>
+            </div>
+          </NextUIProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

@@ -189,8 +189,8 @@ export default function MainTable({ currentDate, updateSignal, onDelete }) {
       selectionMode="single"
       defaultSelectedKeys={[]}
       isCompact
-      className="font-medium"
       aria-label="MainTable"
+      className="font-medium"
     >
       <TableHeader columns={columns}>
         {(column) => (
