@@ -261,7 +261,7 @@ const AddFoodButton = ({ onUpdate }) => {
                   <TableHeader>
                     <TableColumn key="name">Name</TableColumn>
                     <TableColumn key="description">Description</TableColumn>
-                    <TableColumn key="calories">Calories/100g</TableColumn>
+                    <TableColumn key="calories">Kcal/100g</TableColumn>
                   </TableHeader>
 
                   <TableBody
@@ -328,7 +328,7 @@ const AddFoodButton = ({ onUpdate }) => {
                         )
                       </p>
                       <p>
-                        Fats:{" "}
+                        Fat:{" "}
                         <span className="font-semibold">
                           {selectedRow.Total_Lipid}g
                         </span>

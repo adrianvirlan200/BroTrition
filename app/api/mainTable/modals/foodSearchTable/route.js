@@ -3,6 +3,7 @@ import executeQuery from "@server/db.js";
 import {
   displayNumberOfCalories,
   calculatePercentageOfNutrients,
+  truncMacro,
 } from "@server/utils";
 
 export async function POST(request) {
@@ -11,7 +12,7 @@ export async function POST(request) {
     const searchingParams = data.searchBoxValue;
 
     const query =
-      " SELECT Id, Category, Description, Carbohydrate,Protein, Total_Lipid\
+      " SELECT Id, Category, Description, Carbohydrate, Protein, Total_Lipid\
         FROM brotrition.nutrition_data\
         WHERE MATCH(Category) AGAINST(+? IN BOOLEAN MODE)\
         LIMIT 75";
@@ -24,10 +25,6 @@ export async function POST(request) {
         result[i].Total_Lipid
       );
 
-      result[i].Protein = Math.trunc(10 * result[i].Protein) / 10;
-      result[i].Carbohydrate = Math.trunc(10 * result[i].Carbohydrate) / 10;
-      result[i].Total_Lipid = Math.trunc(10 * result[i].Total_Lipid) / 10;
-
       const [prProc, caProc, ftProc] = calculatePercentageOfNutrients(
         result[i].Protein,
         result[i].Carbohydrate,
@@ -37,6 +34,10 @@ export async function POST(request) {
       result[i].ProteinPercentage = prProc;
       result[i].CarbohydratePercentage = caProc;
       result[i].Total_LipidPercentage = ftProc;
+
+      result[i].Protein = truncMacro(result[i].Protein);
+      result[i].Carbohydrate = truncMacro(result[i].Carbohydrate);
+      result[i].Total_Lipid = truncMacro(result[i].Total_Lipid);
     }
 
     return new Response(JSON.stringify({ data: result, status: 201 }));

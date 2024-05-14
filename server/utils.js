@@ -11,9 +11,9 @@ export function truncMacro(val) {
 export function calculatePercentageOfNutrients(pr, ca, ft) {
   //calculate the percentage
   const total = pr + ca + ft;
-  let prProc = (pr / total) * 10;
-  let caProc = (ca / total) * 10;
-  let ftProc = (ft / total) * 10;
+  let prProc = (pr / total) * 100;
+  let caProc = (ca / total) * 100;
+  let ftProc = (ft / total) * 100;
 
   //truncate the values
   prProc = Math.trunc(10 * prProc) / 10;
