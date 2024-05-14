@@ -14,19 +14,22 @@ const RootLayout = ({ children }) => {
 
   let nav;
   let sidebar;
-
+  let footer;
   switch (pathname) {
     case "/":
       nav = <TopNav />;
       sidebar = "";
+      footer = <Footer />;
       break;
     case "/Login":
       nav = <LoginNav />;
       sidebar = "";
+      footer = <Footer />;
       break;
     case "/Home":
       nav = <HomeNav />;
       sidebar = <Sidebar />;
+      footer = "";
       break;
     default:
       nav = <LoginNav />;
@@ -45,7 +48,7 @@ const RootLayout = ({ children }) => {
                 {sidebar}
                 {children}
               </div>
-              <Footer />
+              {footer}
             </div>
           </NextUIProvider>
         </NextAuthSessionProvider>

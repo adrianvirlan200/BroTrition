@@ -39,7 +39,6 @@ const HomeNav = () => {
 
   return (
     <Navbar
-      position="static"
       isBordered
       maxWidth="full"
       isBlurred="false"
