@@ -17,23 +17,26 @@ const LoginNav = () => {
   };
 
   return (
-    <div className="mb-16 w-screen h-16">
-      <Navbar shouldHideOnScroll isBordered maxWidth="full">
-        <NavbarBrand>
-          <Link color="foreground" className="text-xl text-bold" href="/">
-            <Image
-              src="/brotrition_assets/png/pear.png"
-              width={60}
-              height={60}
-              alt="Description of your image"
-            />
-            <p className="font-bold text-inherit text-4xl green_gradient">
-              BroTrition
-            </p>
-          </Link>
-        </NavbarBrand>
-      </Navbar>
-    </div>
+    <Navbar
+      shouldHideOnScroll
+      isBordered
+      maxWidth="full"
+      className="max-h-16 bg-zinc-800 text-white mb-16 border-b-1 border-black"
+    >
+      <NavbarBrand>
+        <Link color="foreground" className="text-xl text-bold" href="/">
+          <Image
+            src="/brotrition_assets/png/pear.png"
+            width={60}
+            height={60}
+            alt="Description of your image"
+          />
+          <p className="font-bold text-inherit text-4xl green_gradient">
+            BroTrition
+          </p>
+        </Link>
+      </NavbarBrand>
+    </Navbar>
   );
 };
 
