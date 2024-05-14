@@ -39,12 +39,13 @@ const HomeNav = () => {
 
   return (
     <Navbar
+      position="static"
       isBordered
       maxWidth="full"
       isBlurred="false"
-      className="bg-zinc-800 border-b-1 border-black max-h-14"
+      className="ml-64 pr-64 bg-zinc-800 border-b-1 border-black max-h-14"
     >
-      <NavbarContent>
+      {/* <NavbarContent>
         <NavbarBrand>
           <Link
             color="foreground"
@@ -62,7 +63,7 @@ const HomeNav = () => {
             </p>
           </Link>
         </NavbarBrand>
-      </NavbarContent>
+      </NavbarContent> */}
 
       <NavbarContent as="div" justify="end" className="mr-5">
         <Dropdown placement="bottom-end">

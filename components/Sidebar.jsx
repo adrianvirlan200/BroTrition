@@ -1,10 +1,5 @@
-import {
-  Card,
-  Divider,
-  CardHeader,
-  CardBody,
-  CardFooter,
-} from "@nextui-org/card";
+import Image from "next/image";
+import { Link } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
@@ -15,8 +10,13 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="fixed border-r-1 border-black sm:invisible lg:visible min-h-full w-64 p-4 rounded-none bg-zinc-800 text-white">
-      <div className="grid grid-cols-1 gap-4"></div>
+    <div className="top-0 fixed sm:invisible lg:visible min-h-full w-64 rounded-none bg-zinc-800 text-white">
+      <Link href={"/Home"} className="text-xl text-bold pt-3 pl-4">
+        <Image src="/brotrition_assets/png/pear.png" width="40" height="40" />
+        <p className="font-bold text-inherit text-4xl green_gradient">
+          BroTrition
+        </p>
+      </Link>
       <div className="p-5">
         <button
           onClick={handleRedirect}
