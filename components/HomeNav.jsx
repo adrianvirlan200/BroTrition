@@ -43,7 +43,7 @@ const HomeNav = () => {
       isBordered
       maxWidth="full"
       isBlurred="false"
-      className="ml-64 pr-64 bg-zinc-800 border-b-1 border-black max-h-14"
+      className="ml-60 pr-60 bg-zinc-800 border-b-1 border-black max-h-14"
     >
       {/* <NavbarContent>
         <NavbarBrand>

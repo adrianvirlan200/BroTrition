@@ -26,8 +26,8 @@ export default function Home() {
   };
 
   return (
-    <div className="ml-72 m-8 w-full">
-      <div className="grid lg:grid-cols-[3fr_1fr] sm:grid-cols-1 gap-5">
+    <div className="ml-60 mt-6 w-full">
+      <div className="ml-6 grid lg:grid-cols-[3fr_1fr] sm:grid-cols-1 gap-5">
         <div className="border-1 border-gray-300 w-full p-2 bg-white rounded-2xl">
           <div className="m-2">
             <AddFoodButton onUpdate={handleUpdateTable} />
