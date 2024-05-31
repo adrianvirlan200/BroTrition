@@ -39,21 +39,41 @@ const MacroStats = ({ updateSignal, currentDate }) => {
     fetchData();
   }, [updateSignal, currentDate]);
 
-  const data_consumed = {
-    // labels: ["Protein", "Carbs", "Fat"],
-    datasets: [
-      {
-        data: [
-          data.totalProteinConsumedCalories,
-          data.totalCarbohydrateConsumedCalories,
-          data.totalLipidConsumedCalories,
-        ],
-        backgroundColor: ["#22c55e", "#3b82f6", "#ef4444"],
-      },
-    ],
-    responsive: true,
-    maintainAspectRatio: false,
-  };
+  let data_consumed = {};
+
+  if (
+    data.totalProteinConsumedCalories === 0 &&
+    data.totalCarbohydrateConsumedCalories === 0 &&
+    data.totalLipidConsumedCalories == 0
+  ) {
+    data_consumed = {
+      // labels: ["Protein", "Carbs", "Fat"],
+      datasets: [
+        {
+          data: [100],
+          backgroundColor: ["#a8a29e"],
+        },
+      ],
+      responsive: true,
+      maintainAspectRatio: false,
+    };
+  } else {
+    data_consumed = {
+      // labels: ["Protein", "Carbs", "Fat"],
+      datasets: [
+        {
+          data: [
+            data.totalProteinConsumedCalories,
+            data.totalCarbohydrateConsumedCalories,
+            data.totalLipidConsumedCalories,
+          ],
+          backgroundColor: ["#22c55e", "#3b82f6", "#ef4444"],
+        },
+      ],
+      responsive: true,
+      maintainAspectRatio: false,
+    };
+  }
 
   const data_burned = {
     // labels: ["Protein", "Carbs", "Fat"],
@@ -82,7 +102,7 @@ const MacroStats = ({ updateSignal, currentDate }) => {
     datasets: [
       {
         data: [aux1, aux2],
-        backgroundColor: ["#a8a29e", "#44403c"],
+        backgroundColor: ["#a8a29e", "#69635f"],
       },
     ],
   };
