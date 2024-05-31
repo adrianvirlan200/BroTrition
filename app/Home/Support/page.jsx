@@ -1,12 +1,7 @@
+import SupportPage from "@components/Support";
+
 const Support = () => {
-  return (
-    <div>
-      start Support page. Not yet implementedSupport page. Not yet
-      implementedSupport page. Not yet implementedSupport page. Not yet
-      implementedSupport page. Not yet implementedSupport page. Not yet
-      implemented
-    </div>
-  );
+  return <SupportPage />;
 };
 
 export default Support;

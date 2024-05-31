@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Coupon = () => {
   return (
-    <div className="border-1 border-gray-300 mb-4 flex rounded-lg p-3 bg-gradient-to-r from-blue-200 to-blue-300">
+    <div className="shadow-md border-1 border-gray-300 mb-4 flex rounded-lg p-3 bg-gradient-to-r from-blue-200 to-blue-300">
       <Image
         src="/brotrition_assets/svg/discount.svg"
         width="70"

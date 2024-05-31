@@ -2,7 +2,7 @@ import { Button } from "@nextui-org/react";
 
 const GoldCard = () => {
   return (
-    <div className="bg-white border-1 border-gray-300 mb-4 rounded-xl p-5">
+    <div className="shadow-md bg-white border-1 border-gray-300 mb-4 rounded-xl p-5">
       <h className="font-bold text-4xl">
         <span className="green_gradient">BroTrition </span>
         <span className="orange_gradient">Gold</span>

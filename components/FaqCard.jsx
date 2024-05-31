@@ -1,6 +1,6 @@
 const FAQCard = () => {
   return (
-    <div className="bg-white border-1 border-gray-300 mb-4 rounded-xl p-5">
+    <div className="shadow-md bg-white border-1 border-gray-300 mb-4 rounded-xl p-5">
       <h className="font-bold text-4xl mb-6">Why BroTrition Gold?</h>
       <p className="text-lg mb-4">Frequently Asked Questions</p>
 
