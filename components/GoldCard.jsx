@@ -10,7 +10,7 @@ const GoldCard = () => {
 
       <div className="grid grid-cols-[3fr_1fr]">
         <div>
-          <p className="text-base font-medium mt-4">
+          <p className="text-base font-medium mt-1">
             Reach your goals faster with Gold!
           </p>
 

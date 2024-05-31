@@ -6,17 +6,6 @@ const FAQCard = () => {
 
       <div className="grid grid-cols-1 gap-4">
         <div className="p-3 bg-gray-100 rounded-lg">
-          <h2 className="font-semibold text-lg">
-            Can I unsubscribe from BroTrition Gold at any time?
-          </h2>
-          <p className="text-base mt-2">
-            Yes, you can unsubscribe from BroTrition Gold at any time through
-            your account settings. Simply go to the subscription section and
-            choose to cancel your membership.
-          </p>
-        </div>
-
-        <div className="p-3 bg-gray-100 rounded-lg">
           <h2 className="font-semibold text-lg">What is BroTrition Gold?</h2>
           <p className="text-base mt-2">
             BroTrition Gold is our premium membership that offers exclusive
@@ -24,6 +13,7 @@ const FAQCard = () => {
             expert trainers, and more.
           </p>
         </div>
+
         <div className="p-3 bg-gray-100 rounded-lg">
           <h2 className="font-semibold text-lg">
             How can I subscribe to BroTrition Gold?
@@ -34,6 +24,18 @@ const FAQCard = () => {
             plan.
           </p>
         </div>
+
+        <div className="p-3 bg-gray-100 rounded-lg">
+          <h2 className="font-semibold text-lg">
+            Can I unsubscribe from BroTrition Gold at any time?
+          </h2>
+          <p className="text-base mt-2">
+            Yes, you can unsubscribe from BroTrition Gold at any time through
+            your account settings. Simply go to the subscription section and
+            choose to cancel your membership.
+          </p>
+        </div>
+
         <div className="p-3 bg-gray-100 rounded-lg">
           <h2 className="font-semibold text-lg">
             What are the payment options for BroTrition Gold?
