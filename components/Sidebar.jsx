@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Link } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { Button, Divider } from "@nextui-org/react";
-import { Question_mark } from "./NextUi/question_mark";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -67,6 +66,9 @@ const Sidebar = () => {
       <Button
         color="default"
         variant="light"
+        onPress={() => {
+          router.push("/Home/Gold");
+        }}
         className="mt-2 ml-2 text-white font-medium text-lg w-5/6 flex-start pt-2 hover:text-orange-500"
       >
         <Image
@@ -121,7 +123,6 @@ const Sidebar = () => {
           className="ml-7 mt-3"
         ></Image>
       </Link>
-
       <Link href={"https://www.apple.com/store"}>
         <Image
           src="/brotrition_assets/svg/apple-cropped.svg"
