@@ -48,7 +48,7 @@ const RootLayout = ({ children }) => {
                 {sidebar}
                 {children}
               </div>
-              {footer}
+              <Footer />
             </div>
           </NextUIProvider>
         </NextAuthSessionProvider>
