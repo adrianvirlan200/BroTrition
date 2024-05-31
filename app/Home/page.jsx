@@ -27,35 +27,39 @@ export default function Home() {
   };
 
   return (
-    <div className="ml-60 mt-6 w-full">
-      <div className="ml-6 grid lg:grid-cols-[3fr_1fr] sm:grid-cols-1 gap-3">
-        {/* Left column */}
-        <div>
-          <div className="border-1 border-gray-300 w-full p-2 bg-white rounded-2xl">
-            <div className="m-2">
-              <AddFoodButton onUpdate={handleUpdateTable} />
-              <AddExerciseButton onUpdate={handleUpdateTable} />
-              <AddBiometricsButton onUpdate={handleUpdateTable} />
-              <AddNoteButton onUpdate={handleUpdateTable} />
-            </div>
-            <MainTable
-              currentDate={date}
-              onDelete={handleUpdateTable}
-              updateSignal={updateSignal}
-            />
+    <div className="grid lg:grid-cols-[3fr_1fr] sm:grid-cols-1 gap-4">
+      {/* Left column */}
+      <div>
+        <div className="border-1 border-gray-300 w-full p-2 bg-white rounded-2xl">
+          <div className="m-2">
+            <AddFoodButton onUpdate={handleUpdateTable} />
+            <AddExerciseButton onUpdate={handleUpdateTable} />
+            <AddBiometricsButton onUpdate={handleUpdateTable} />
+            <AddNoteButton onUpdate={handleUpdateTable} />
           </div>
-
-          <div className="w-full mt-3 border-1 border-gray-300 content-center p-2 bg-white rounded-2xl">
-            <MacroStats currentDate={date} updateSignal={updateSignal} />
-          </div>
+          <MainTable
+            currentDate={date}
+            onDelete={handleUpdateTable}
+            updateSignal={updateSignal}
+          />
         </div>
 
-        {/* Right column */}
-        <div>
-          <div className="border-1 border-gray-300 content-center w-fit p-2 bg-white rounded-2xl">
-            <MainCalendar setDate={handleSetDate} />
-            <CalHistory updateSignal={updateSignal} />
+        <div className="w-full mt-3 border-1 border-gray-300 content-center p-2 bg-white rounded-2xl">
+          <MacroStats currentDate={date} updateSignal={updateSignal} />
+        </div>
+
+        <div className="w-full mt-3 border-1 border-gray-300 content-center p-2 bg-white rounded-2xl">
+          <div className="h-screen">
+            ToDo: add progress bars for all micro-nutrients
           </div>
+        </div>
+      </div>
+
+      {/* Right column */}
+      <div>
+        <div className="border-1 border-gray-300 content-center w-fit p-2 bg-white rounded-2xl">
+          <MainCalendar setDate={handleSetDate} />
+          <CalHistory updateSignal={updateSignal} />
         </div>
       </div>
     </div>

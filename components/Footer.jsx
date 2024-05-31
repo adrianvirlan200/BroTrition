@@ -2,8 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-screen mt-20 bg-zinc-800 border-black">
-      <div className="flex-col w-full mx-auto p-5 md:flex md:items-center md:justify-between">
+    <footer className="w-screen h-28 relative inset-x-0 bottom-0 mt-4 bg-zinc-800 border-black">
+      <div className="flex-col w-full mx-auto px-5 md:flex md:items-center md:justify-between">
         <span className="m-4 text-l text-white sm:text-center">
           © 2023{" "}
           <a href="http://localhost:3000/" className="hover:underline">

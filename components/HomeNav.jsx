@@ -25,46 +25,18 @@ const HomeNav = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
 
-  let homeLink;
-
-  if (pathname.startsWith("/Home")) {
-    homeLink = "/Home";
-  } else {
-    homeLink === "/";
-  }
-
   const handleLogout = () => {
     router.push("/api/auth/signout");
   };
 
   return (
     <Navbar
-      position="static"
+      shouldHideOnScroll
       isBordered
       maxWidth="full"
       isBlurred="false"
-      className="ml-60 pr-60 bg-zinc-800 border-b-1 border-black max-h-14"
+      className="bg-zinc-800 max-h-14 z-10"
     >
-      {/* <NavbarContent>
-        <NavbarBrand>
-          <Link
-            color="foreground"
-            className="text-xl text-bold"
-            href={homeLink}
-          >
-            <Image
-              src="/brotrition_assets/png/pear.png"
-              width="40"
-              height="40"
-              alt="Description of your image"
-            />
-            <p className="font-bold text-inherit text-4xl green_gradient">
-              BroTrition
-            </p>
-          </Link>
-        </NavbarBrand>
-      </NavbarContent> */}
-
       <NavbarContent as="div" justify="end" className="mr-5">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
