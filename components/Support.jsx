@@ -9,7 +9,7 @@ const SupportPage = () => {
         you need.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="min-w-48 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-md">
           <div className="flex items-center mb-4">
             <Image
