@@ -10,7 +10,7 @@ const middleware = async (request) => {
 };
 
 export const config = {
-  matcher: "/Home:path*",
+  matcher: ["/Home/:path*"],
 };
 
 // export { middleware };
