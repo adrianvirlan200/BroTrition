@@ -190,7 +190,6 @@ export default function MainTable({ currentDate, updateSignal, onDelete }) {
       defaultSelectedKeys={[]}
       isCompact
       aria-label="MainTable"
-      className="font-medium"
     >
       <TableHeader columns={columns}>
         {(column) => (

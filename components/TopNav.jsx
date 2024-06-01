@@ -39,7 +39,7 @@ const TopNav = () => {
       </NavbarBrand>
       <NavbarContent className="hidden lg:flex gap-16" justify="end">
         <NavbarItem>
-          <Link color="foreground" className="text-xl text-bold" href="#">
+          <Link color="foreground" className="text-xl text-bold" href="/About">
             About
           </Link>
         </NavbarItem>
@@ -49,7 +49,11 @@ const TopNav = () => {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#" aria-current="page" className="text-xl text-bold">
+          <Link
+            aria-current="page"
+            className="text-xl text-bold"
+            href="/Support"
+          >
             Support
           </Link>
         </NavbarItem>

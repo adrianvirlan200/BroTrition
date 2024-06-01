@@ -9,8 +9,8 @@ const SupportPage = () => {
         you need.
       </p>
 
-      <div className="min-w-48 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-md">
+      <div className="min-w-48 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white p-6 rounded-xl shadow-md border-1 border-gray-300">
           <div className="flex items-center mb-4">
             <Image
               src="/brotrition_assets/svg/book.svg"
@@ -29,7 +29,7 @@ const SupportPage = () => {
           </a>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
+        <div className="bg-white p-6 rounded-xl shadow-md border-1 border-gray-300">
           <div className="flex items-center mb-4">
             <Image
               src="/brotrition_assets/svg/video.svg"
@@ -48,7 +48,7 @@ const SupportPage = () => {
           </a>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
+        <div className="bg-white p-6 rounded-xl shadow-md border-1 border-gray-300">
           <div className="flex items-center mb-4">
             <Image
               src="/brotrition_assets/svg/phone.svg"
@@ -67,7 +67,7 @@ const SupportPage = () => {
           </a>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
+        <div className="bg-white p-6 rounded-xl shadow-md border-1 border-gray-300">
           <div className="flex items-center mb-4">
             <Image
               src="/brotrition_assets/svg/location.svg"
@@ -86,7 +86,7 @@ const SupportPage = () => {
           </a>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
+        <div className="bg-white p-6 rounded-xl shadow-md border-1 border-gray-300">
           <div className="flex items-center mb-4">
             <Image
               src="/brotrition_assets/svg/blog.svg"
@@ -105,7 +105,7 @@ const SupportPage = () => {
           </a>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
+        <div className="bg-white p-6 rounded-xl shadow-md border-1 border-gray-300">
           <div className="flex items-center mb-4">
             <Image
               src="/brotrition_assets/svg/forum.svg"

@@ -15,10 +15,9 @@ import {
   DropdownTrigger,
   Avatar,
 } from "@nextui-org/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const HomeNav = () => {
   const router = useRouter();

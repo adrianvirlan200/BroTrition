@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import { Button } from "@nextui-org/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const WelcomePage = () => {
@@ -11,7 +9,8 @@ const WelcomePage = () => {
   };
 
   return (
-    <div className="mx-16 mb-48 h-full grid lg:grid-cols-[3fr_2fr] sm:grid-cols-1 lg:gap-24 sm:gap-6 content-center">
+    <div className="mx-16 mb-48 h-full grid lg:grid-cols-[3fr_2fr] grid-cols-1 lg:gap-24 gap-6 content-center">
+      {/* left text */}
       <div className="grid grid-col-1 gap-1">
         <h1 className="text-5xl font-bold text-slate-900 decoration-6">
           Start your journey Here!
@@ -30,6 +29,7 @@ const WelcomePage = () => {
         </button>
       </div>
 
+      {/* right youtube video player */}
       <div className="">
         <iframe
           style={{ width: "600px", height: "400px" }}

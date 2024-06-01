@@ -4,7 +4,9 @@ const layout = ({ children }) => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="ml-64 mt-4 w-[calc(100vw-290px)]">{children}</div>
+      <div className="lg:ml-60 p-5 mx-auto lg:w-[calc(100vw-290px)]">
+        {children}
+      </div>
     </div>
   );
 };

@@ -21,7 +21,7 @@ const LoginNav = () => {
       shouldHideOnScroll
       isBordered
       maxWidth="full"
-      className="max-h-14 bg-zinc-800 text-white mb-16 border-b-1 border-black"
+      className="max-h-14 bg-zinc-800 text-white mb-4 border-b-1 border-black"
     >
       <NavbarBrand>
         <Link color="foreground" className="text-xl text-bold" href="/">

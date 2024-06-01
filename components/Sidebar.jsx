@@ -8,7 +8,7 @@ const Sidebar = () => {
   const router = useRouter();
 
   return (
-    <div className="z-20 top-0 fixed content-start sm:invisible lg:visible min-h-full w-60 rounded-none bg-zinc-800 text-white">
+    <div className="z-20 top-0 fixed content-start invisible lg:visible min-h-full w-60 rounded-none bg-zinc-800 text-white">
       <Link href={"/Home"} className="text-xl text-bold pt-3 pl-4 mb-5">
         <Image src="/brotrition_assets/png/pear.png" width="40" height="40" />
         <p className="font-bold text-inherit text-4xl green_gradient">
@@ -99,7 +99,7 @@ const Sidebar = () => {
         color="default"
         variant="light"
         onPress={() => {
-          router.push("/About");
+          router.push("/Home/About");
         }}
         className="mt-2 ml-2 text-white font-medium text-lg w-5/6 flex-start pt-2 hover:text-orange-500"
       >

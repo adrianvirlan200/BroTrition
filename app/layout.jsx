@@ -24,10 +24,10 @@ const RootLayout = ({ children }) => {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-[#fffcf6]">
+      <body className="bg-[#fffcf6] min-w-screen min-h-screen">
         <NextAuthSessionProvider>
           <NextUIProvider>
-            <div className="text-black">
+            <div className="text-black min-w-screen min-h-screen">
               {nav}
               <div className="flex">{children}</div>
               <Footer />

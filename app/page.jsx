@@ -17,13 +17,7 @@ const first_page = () => {
       if (session) router.push("/Home");
   }, [session, router, pathname]);
 
-  return (
-    <div>
-      <div className="p-5">
-        <WelcomePage />
-      </div>
-    </div>
-  );
+  return <WelcomePage />;
 };
 
 export default first_page;
