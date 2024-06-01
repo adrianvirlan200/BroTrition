@@ -6,18 +6,13 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  CheckboxGroup,
-  Checkbox,
   Input,
-  Select,
-  SelectItem,
   Table,
   TableHeader,
   TableColumn,
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
   Spinner,
   Button,
 } from "@nextui-org/react";
@@ -199,7 +194,7 @@ const AddFoodButton = ({ onUpdate }) => {
         onPress={onOpen}
         variant="light"
         color="success"
-        className="end text-lg font-medium"
+        className="text-lg font-medium"
       >
         ADD FOOD
       </Button>

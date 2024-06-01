@@ -107,8 +107,19 @@ const MacroStats = ({ updateSignal, currentDate }) => {
     ],
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+    cutout: "65%", // Adjust this value to change the thickness
+  };
+
   return (
-    <div className="p-3 border-gray-200 shadow-sm border-1 rounded-xl grid lg:grid-cols-[10fr_1fr_8fr] sm:grid-cols-1">
+    <div className="p-3 border-gray-200 shadow-sm border-1 rounded-xl grid lg:grid-cols-[10fr_1fr_8fr] md:grid-cols-1 grid-cols-1">
       <div className="mb-3">
         <h1 className="text-lg font-semibold mb-4">Energy Summary</h1>
 
@@ -136,7 +147,8 @@ const MacroStats = ({ updateSignal, currentDate }) => {
             <div className="content-center">
               <Doughnut
                 data={data_consumed}
-                className="min-w-28 max-w-28 min-h-28 max-h-28 mx-auto"
+                options={options}
+                className="max-w-28 max-h-28 min-w-28 max-w-28 mx-auto"
               />
               <p className="text-center font-bold text-base">Consumed</p>
               <p className="text-center font-semibold text-sm">
@@ -173,6 +185,7 @@ const MacroStats = ({ updateSignal, currentDate }) => {
             <div>
               <Doughnut
                 data={data_burned}
+                options={options}
                 className="min-w-28 max-w-28 min-h-28 max-h-28 mx-auto"
               />
               <p className="text-center font-bold text-base">Burned</p>
@@ -203,6 +216,7 @@ const MacroStats = ({ updateSignal, currentDate }) => {
             <div>
               <Doughnut
                 data={data_remaining}
+                options={options}
                 className="min-w-28 max-w-28 min-h-28 max-h-28 mx-auto"
               />
               <p className="text-center font-bold text-base">

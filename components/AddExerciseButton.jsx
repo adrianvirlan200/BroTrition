@@ -199,7 +199,7 @@ const AddExerciseButton = ({ onUpdate }) => {
         onPress={onOpen}
         variant="light"
         color="primary"
-        className="end text-lg font-medium"
+        className="text-lg font-medium"
       >
         ADD EXERCISE
       </Button>

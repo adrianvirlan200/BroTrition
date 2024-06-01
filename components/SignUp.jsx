@@ -2,14 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Button,
-  CheckboxGroup,
-  Checkbox,
-  Input,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Button, Checkbox, Input, Select, SelectItem } from "@nextui-org/react";
 
 const SignUp = () => {
   const router = useRouter();
@@ -36,6 +29,10 @@ const SignUp = () => {
   const [isInvalidNickname, setIsInvalidNickname] = useState(false);
   const [isInvalidHeight, setIsInvalidHeight] = useState(false);
   const [isInvalidWeight, setIsInvalidWeight] = useState(false);
+  const [isInvalidGoal, setIsInvalidGoal] = useState(false);
+  const [isInvalidLifestyle, setIsInvalidLifestyle] = useState(false);
+  const [isInvalidYearOfBirth, setIsInvalidYearOfBirth] = useState(false);
+  const [isInvalidGender, setIsInvalidGender] = useState(false);
 
   const [userExists, setUserExists] = useState(false);
 
@@ -99,7 +96,6 @@ const SignUp = () => {
 
     return;
   }
-
   function validateHeight() {
     // Allow decimal heights and range from 50 to 272 cm (approx range of shortest to tallest recorded humans)
     const regex = /^[0-9]{2,3}(\.[0-9]{1,2})?$/;
@@ -114,7 +110,6 @@ const SignUp = () => {
 
     return;
   }
-
   function validateWeight() {
     // Allow decimal weights and range from 2 to 635 kg (approx range of lightest to heaviest recorded humans)
     const regex = /^[0-9]{1,3}(\.[0-9]{1,2})?$/;
@@ -129,6 +124,45 @@ const SignUp = () => {
 
     return;
   }
+  function validateGoal() {
+    if (goal === "" || goal === undefined || goal === null) {
+      setIsInvalidGoal(true);
+    } else {
+      setIsInvalidGoal(false);
+    }
+
+    return;
+  }
+  function validateLifestyle() {
+    if (lifestyle === "" || lifestyle === undefined || lifestyle === null) {
+      setIsInvalidLifestyle(true);
+    } else {
+      setIsInvalidLifestyle(false);
+    }
+
+    return;
+  }
+  function validateYearOfBirth() {
+    if (years.includes(yearOfBirth)) {
+      setIsInvalidYearOfBirth(false);
+    } else {
+      setIsInvalidYearOfBirth(true);
+    }
+
+    return;
+  }
+  function validateGender() {
+    if (
+      selectedGender === "" ||
+      selectedGender === undefined ||
+      selectedGender === null
+    ) {
+      setIsInvalidGender(true);
+    } else {
+      setIsInvalidGender(false);
+    }
+  }
+
   // The status of submit button
   useEffect(() => {
     if (
@@ -140,6 +174,14 @@ const SignUp = () => {
       registerRetypePassword !== "" &&
       !isInvalidNickname &&
       nickname !== "" &&
+      !isInvalidGoal &&
+      goal !== "" &&
+      !isInvalidLifestyle &&
+      lifestyle !== "" &&
+      !isInvalidYearOfBirth &&
+      yearOfBirth !== "" &&
+      !isInvalidGender &&
+      selectedGender !== "" &&
       !isInvalidHeight &&
       height !== "" &&
       !isInvalidWeight &&
@@ -155,10 +197,21 @@ const SignUp = () => {
     isInvalidPassword,
     isInvalidRetypePassword,
     isInvalidNickname,
+    isInvalidGoal,
+    isInvalidLifestyle,
+    isInvalidYearOfBirth,
+    isInvalidGender,
     isInvalidHeight,
     isInvalidWeight,
     termsCheckbox,
   ]);
+
+  useEffect(() => {
+    validateGoal();
+    validateLifestyle();
+    validateYearOfBirth();
+    validateGender();
+  }, [goal, lifestyle, yearOfBirth, selectedGender]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -294,6 +347,7 @@ const SignUp = () => {
           <p1 className="text-start my-auto">Your Goal</p1>
           <Select
             variant="bordered"
+            isInvalid={isInvalidGoal}
             onChange={(e) => setGoal(e.target.value)}
             defaultSelectedKeys={[goal]}
             label="Goal"
@@ -313,6 +367,7 @@ const SignUp = () => {
           <p1 className="text-start my-auto">How active are you?</p1>
           <Select
             variant="bordered"
+            isInvalid={isInvalidLifestyle}
             onChange={(e) => setLifestyle(e.target.value)}
             defaultSelectedKeys={[lifestyle]}
             label="Lifestyle"
@@ -338,6 +393,7 @@ const SignUp = () => {
           <p1 className="text-start my-auto">Year of Birth</p1>
           <Select
             variant="bordered"
+            isInvalid={isInvalidYearOfBirth}
             onChange={(e) => setYearOfBirth(e.target.value)}
             defaultSelectedKeys={[yearOfBirth]}
             label="Birth Year"
@@ -353,6 +409,7 @@ const SignUp = () => {
           <p1 className="text-start my-auto">Sex</p1>
           <Select
             variant="bordered"
+            isInvalid={isInvalidGender}
             onChange={(e) => setSelectedGender(e.target.value)}
             defaultSelectedKeys={[selectedGender]}
             label="Gender"

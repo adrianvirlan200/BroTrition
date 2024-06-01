@@ -1,5 +1,4 @@
 import executeQuery from "@server/db.js";
-import { NextResponse } from "next/server";
 import { displayNumberOfCalories } from "@server/utils.js";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@app/nextauth/NextAuthOptions";
@@ -10,10 +9,10 @@ export async function GET(request) {
 
     const query =
       "SELECT dateCreated AS date, quantity, Protein, Carbohydrate, Total_Lipid\
-    FROM brotrition.food_log\
-    JOIN nutrition_data on nutrition_data.Id = foodID\
-    WHERE userID = ? AND date(dateCreated) BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 WEEK) AND CURDATE()\
-    ORDER BY dateCreated;";
+      FROM brotrition.food_log\
+      JOIN nutrition_data on nutrition_data.Id = foodID\
+      WHERE userID = ? AND date(dateCreated) BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 WEEK) AND CURDATE()\
+      ORDER BY dateCreated;";
     const result = await executeQuery(query, [session.user.id]);
     let values = [];
     let label = [];

@@ -46,6 +46,9 @@ export async function POST(request) {
       ads,
     ]);
 
+    const query2 = "INSERT INTO weight (userID, value) VALUES (?, ?);";
+    await executeQuery(query2, [result.insertId, weight]);
+
     return new Response(
       JSON.stringify({ message: "Registration successful.", status: 201 })
     );
