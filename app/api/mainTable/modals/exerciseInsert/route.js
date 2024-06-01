@@ -1,5 +1,4 @@
 "use server";
-import { NextResponse } from "next/server";
 import executeQuery from "@server/db.js";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@app/nextauth/NextAuthOptions";

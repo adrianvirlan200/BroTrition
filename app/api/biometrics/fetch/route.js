@@ -6,7 +6,7 @@ export async function POST(request) {
     const session = await getServerSession(authOptions);
 
     const query =
-      "SELECT value, date FROM weight\
+      "SELECT weight, height, date FROM biometrics\
       WHERE userID = ? AND date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)\
       ORDER BY date DESC;";
     const result = await executeQuery(query, [session.user.id]);

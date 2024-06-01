@@ -9,50 +9,126 @@ import {
   Input,
   Button,
 } from "@nextui-org/react";
-import { useState } from "react";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import { useState, useEffect } from "react";
+import { DateInput, Checkbox } from "@nextui-org/react";
+import { parseDate } from "@internationalized/date";
 
-const AddBiometricsButton = ({ onUpdate }) => {
+const AddBiometricsButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [date, setDate] = useState(new Date());
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState();
+  const [height, setHeight] = useState();
+  const [wCheck, setWCheck] = useState(false);
+  const [hCheck, setHCheck] = useState(false);
   const [invalidWeight, setInvalidWeight] = useState(false);
   const [invalidHeight, setInvalidHeight] = useState(false);
+  const [isGrayedOut, setIsGrayedOut] = useState(false);
 
-  // const handleInsert = async () => {
-  //   if (!weight || !height || isNaN(weight) || isNaN(height)) {
-  //     setInvalidWeight(isNaN(weight) || weight === "");
-  //     setInvalidHeight(isNaN(height) || height === "");
-  //     return;
-  //   }
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based, so we add 1
+  const day = String(date.getDate()).padStart(2, "0");
+  const today = `${year}-${month}-${day}`;
 
-  //   onOpenChange(false); // close the modal
+  function validateHeight() {
+    // Allow decimal heights and range from 50 to 272 cm (approx range of shortest to tallest recorded humans)
+    const regex = /^[0-9]{2,3}(\.[0-9]{1})?$/;
+    const value = parseFloat(height);
+    const isValid = regex.test(height) && value >= 50 && value <= 272;
 
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:3000/api/biometricsInsert",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           date,
-  //           weight,
-  //           height,
-  //         }),
-  //       }
-  //     );
+    if (isValid) {
+      setInvalidHeight(false);
+    } else {
+      setInvalidHeight(true);
+    }
 
-  //     if (response.ok) {
-  //       onUpdate(); // send a signal to the parent component to update the table
-  //     }
-  //   } catch (error) {
-  //     console.error("Catch block executed, Error:", error);
-  //   }
-  // };
+    return;
+  }
+  function validateWeight() {
+    // Allow decimal weights and range from 2 to 635 kg (approx range of lightest to heaviest recorded humans)
+    const regex = /^[0-9]{1,3}(\.[0-9]{1})?$/;
+    const value = parseFloat(weight);
+    const isValid = regex.test(weight) && value >= 2 && value <= 635;
+
+    if (isValid) {
+      setInvalidWeight(false);
+    } else {
+      setInvalidWeight(true);
+    }
+
+    return;
+  }
+  useEffect(() => {
+    validateHeight();
+    validateWeight();
+  }, [height, weight]);
+  useEffect(() => {
+    if (invalidHeight || invalidWeight || (!wCheck && !hCheck)) {
+      setIsGrayedOut(true);
+    } else {
+      setIsGrayedOut(false);
+    }
+  }, [invalidHeight, invalidWeight, wCheck, hCheck]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/mainTable/modals/biometricsSearch",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setWeight(data.data.weight);
+        setHeight(data.data.height);
+      }
+
+      if (data.data.status === 500) {
+        console.log("Fatal Error");
+        setWeight(0);
+        setHeight(0);
+      }
+    } catch (error) {
+      console.error("Catch block executed, Error:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleInsert = async () => {
+    onOpenChange(false);
+    console.log("Inserting Biometrics");
+    console.log("Weight Checkbox: ", wCheck);
+    console.log("Weight: ", weight);
+    console.log("Height Checkbox: ", hCheck);
+    console.log("Height: ", height);
+
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/mainTable/modals/biometricsInsert",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            wCheck: wCheck,
+            weight: weight,
+            hCheck: hCheck,
+            height: height,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error("Catch block executed, Error:", error);
+    }
+  };
 
   return (
     <>
@@ -76,47 +152,57 @@ const AddBiometricsButton = ({ onUpdate }) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-0 text-success-500">
+              <ModalHeader className="flex flex-col gap-0 text-success-500 text-purple-600">
                 ADD BIOMETRICS
               </ModalHeader>
 
               <ModalBody>
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium">Date</label>
-                    {/* <DatePicker
-                      selected={date}
-                      onChange={(date) => setDate(date)}
-                      className="border-gray-300 border-2 rounded-xl p-2"
-                    /> */}
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium">Weight (kg)</label>
-                    <Input
-                      value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
-                      isInvalid={invalidWeight}
-                      variant="bordered"
-                      placeholder="Enter your weight"
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium">Height (cm)</label>
-                    <Input
-                      value={height}
-                      onChange={(e) => setHeight(e.target.value)}
-                      isInvalid={invalidHeight}
-                      variant="bordered"
-                      placeholder="Enter your height"
-                      className="w-full"
-                    />
-                  </div>
+                <div className="content-centre w-32 grid grid-cols-[1fr_3fr_1fr] gap-4">
+                  <h1 className="font-medium mt-3">Date</h1>
+                  <DateInput
+                    label={"Today"}
+                    variant="underlined"
+                    isReadOnly
+                    defaultValue={parseDate(today)}
+                  />
+                  <div></div>
+
+                  <h1 className="font-medium mt-3">Weight</h1>
+                  <Input
+                    placeholder={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    isInvalid={invalidWeight}
+                    endContent="kg"
+                    variant="underlined"
+                    className="w-20"
+                  />
+                  <Checkbox
+                    isSelected={wCheck}
+                    onValueChange={setWCheck}
+                  ></Checkbox>
+
+                  <h1 className="font-medium mt-3">Height</h1>
+                  <Input
+                    placeholder={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                    isInvalid={invalidHeight}
+                    endContent="cm"
+                    variant="underlined"
+                    className="w-20"
+                  />
+                  <Checkbox
+                    isSelected={hCheck}
+                    onValueChange={setHCheck}
+                  ></Checkbox>
                 </div>
               </ModalBody>
 
               <ModalFooter>
-                <Button color="success" onPress={handleInsert} className="mb-0">
+                <Button
+                  color="secondary"
+                  isDisabled={isGrayedOut}
+                  onPress={handleInsert}
+                >
                   Add Biometrics
                 </Button>
               </ModalFooter>

@@ -26,6 +26,7 @@ import { useSession } from "next-auth/react";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { set } from "mongoose";
 
 const AddExerciseButton = ({ onUpdate }) => {
   const { data: session, status } = useSession();
@@ -33,6 +34,7 @@ const AddExerciseButton = ({ onUpdate }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [searchBoxValue, setSearchBoxValue] = useState("");
+  const [updateFetch, setUpdateFetch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [userWeight, setUserWeight] = useState(0);
@@ -99,7 +101,7 @@ const AddExerciseButton = ({ onUpdate }) => {
     return () => {
       clearTimeout(handler);
     };
-  }, [searchBoxValue]);
+  }, [searchBoxValue, updateFetch]);
 
   //make a request to insert the data into the database
   const handleInsert = async () => {
@@ -193,10 +195,17 @@ const AddExerciseButton = ({ onUpdate }) => {
     }
   }, [selectedRow, invalidDuration, invalidCalories]);
 
+  function pressBtn() {
+    onOpen();
+    setUpdateFetch(prev => !updateFetch);
+
+    console.log("test:", updateFetch);
+  }
+
   return (
     <>
       <Button
-        onPress={onOpen}
+        onPress={pressBtn}
         variant="light"
         color="primary"
         className="text-lg font-medium"

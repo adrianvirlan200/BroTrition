@@ -54,7 +54,6 @@ const SignUp = () => {
 
     return;
   }
-
   function validatePassword() {
     // Criteria:
     // Minimum 8 characters long
@@ -73,7 +72,6 @@ const SignUp = () => {
 
     return;
   }
-
   function validateRetypePassword() {
     if (registerPassword === registerRetypePassword) {
       setIsInvalidRetypePassword(false);
@@ -83,7 +81,6 @@ const SignUp = () => {
 
     return;
   }
-
   function validateNickname() {
     const regex = /^[a-zA-Z0-9._-]{3,20}$/;
     const isValid = regex.test(nickname);
@@ -98,7 +95,7 @@ const SignUp = () => {
   }
   function validateHeight() {
     // Allow decimal heights and range from 50 to 272 cm (approx range of shortest to tallest recorded humans)
-    const regex = /^[0-9]{2,3}(\.[0-9]{1,2})?$/;
+    const regex = /^[0-9]{2,3}(\.[0-9]{1})?$/;
     const value = parseFloat(height);
     const isValid = regex.test(height) && value >= 50 && value <= 272;
 
@@ -112,7 +109,7 @@ const SignUp = () => {
   }
   function validateWeight() {
     // Allow decimal weights and range from 2 to 635 kg (approx range of lightest to heaviest recorded humans)
-    const regex = /^[0-9]{1,3}(\.[0-9]{1,2})?$/;
+    const regex = /^[0-9]{1,3}(\.[0-9]{1})?$/;
     const value = parseFloat(weight);
     const isValid = regex.test(weight) && value >= 2 && value <= 635;
 

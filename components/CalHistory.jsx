@@ -50,8 +50,6 @@ const CalHistory = ({ updateSignal }) => {
     fetchData();
   }, [updateSignal]);
 
-  console.log(data.data);
-
   const data_chart = {
     labels: data.label,
     datasets: [
