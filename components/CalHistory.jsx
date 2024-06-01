@@ -92,6 +92,9 @@ const CalHistory = ({ updateSignal }) => {
           maxRotation: 0,
           minRotation: 0,
         },
+        grid: {
+          display: false,
+        },
       },
       y: {
         beginAtZero: true,

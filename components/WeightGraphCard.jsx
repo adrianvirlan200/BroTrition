@@ -61,11 +61,13 @@ const WeightGraphCard = () => {
           labels,
           datasets: [
             {
-              label: "Weight(kg)",
+              label: "kg",
               data,
               borderColor: "#7e22ce",
               backgroundColor: "#7e22ce",
               borderWidth: 2,
+              maxRotation: 90,
+              minRotation: 90,
               fill: true,
             },
           ],
@@ -94,7 +96,7 @@ const WeightGraphCard = () => {
     scales: {
       x: {
         grid: {
-          display: false, // Hide vertical grid lines
+          display: false,
         },
         title: {
           display: true,
@@ -104,15 +106,18 @@ const WeightGraphCard = () => {
         title: {
           display: true,
           text: "kg",
-          maxRotation: 90,
-          minRotation: 90,
+        },
+        ticks: {
+          autoSkip: false,
+          maxRotation: 0,
+          minRotation: 0,
         },
       },
     },
   };
 
   return (
-    <div className="bg-white rounded-xl p-4 border-1 border-gray-300 shadow-md">
+    <div className="lg:min-h-96 bg-white rounded-xl p-4 border-1 border-gray-300 shadow-md">
       <h2 className="text-xl font-bold mb-4">Weight Graph</h2>
       <Line data={chartData} options={options} />
     </div>
