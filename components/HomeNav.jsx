@@ -63,7 +63,14 @@ const HomeNav = () => {
               </p>
             </DropdownItem>
             <DropdownItem key="settings">My Account</DropdownItem>
-            <DropdownItem key="analytics">Analytics</DropdownItem>
+            <DropdownItem
+              key="analytics"
+              onClick={() => {
+                router.push("/Home/Trends");
+              }}
+            >
+              Analytics
+            </DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
             <DropdownItem key="team_settings">Settings</DropdownItem>
             <DropdownItem key="logout" color="danger" onClick={handleLogout}>

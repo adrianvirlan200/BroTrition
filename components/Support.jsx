@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const SupportPage = () => {
   return (
-    <div className="min-h-screen p-10">
+    <div className="min-h-screen p-4">
       <h1 className="font-bold text-3xl mb-4">Support</h1>
       <p className="mb-8">
         We have compiled all of our resources in one place so you find the help

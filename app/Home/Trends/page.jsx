@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import WeightGraphCard from "@components/WeightGraphCard";
 
 const Trends = () => {
   const router = useRouter();
@@ -36,6 +37,8 @@ const Trends = () => {
           Learn More
         </Button>
       </div>
+
+      <WeightGraphCard />
     </div>
   );
 };

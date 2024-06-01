@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { DateInput, Checkbox } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 
-const AddBiometricsButton = () => {
+const AddBiometricsButton = ({ onUpdate }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [weight, setWeight] = useState();
   const [height, setHeight] = useState();
@@ -103,12 +103,6 @@ const AddBiometricsButton = () => {
 
   const handleInsert = async () => {
     onOpenChange(false);
-    console.log("Inserting Biometrics");
-    console.log("Weight Checkbox: ", wCheck);
-    console.log("Weight: ", weight);
-    console.log("Height Checkbox: ", hCheck);
-    console.log("Height: ", height);
-
     try {
       const response = await fetch(
         "http://localhost:3000/api/mainTable/modals/biometricsInsert",
@@ -125,6 +119,8 @@ const AddBiometricsButton = () => {
           }),
         }
       );
+
+      onUpdate();
     } catch (error) {
       console.error("Catch block executed, Error:", error);
     }

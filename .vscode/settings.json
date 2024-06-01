@@ -5,6 +5,7 @@
 {
     // Specifies custom words for spell checking.
     "cSpell.words": [
+        "biom",
         "bodd",
         "brotrition",
         "chartjs",

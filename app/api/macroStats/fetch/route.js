@@ -12,9 +12,27 @@ export async function GET(request) {
     let data = {};
 
     const userQuery =
-      "SELECT goal, lifestyle, birth_year, sex, height, weight\
+      "SELECT goal, lifestyle, birth_year, sex\
        FROM user WHERE userID = ?";
     const userResult = await executeQuery(userQuery, [session.user.id]);
+
+    const wQuery =
+      "SELECT weight\
+       FROM biometrics\
+       WHERE userID = ?\
+       AND weight IS NOT NULL\
+       ORDER BY date DESC\
+       LIMIT 1;";
+    const wResult = await executeQuery(wQuery, [session.user.id]);
+
+    const hQuery =
+      "SELECT height\
+       FROM biometrics\
+       WHERE userID = ?\
+       AND height IS NOT NULL\
+       ORDER BY date DESC\
+       LIMIT 1;";
+    const hResult = await executeQuery(hQuery, [session.user.id]);
 
     const selectFoodQuery =
       "SELECT Protein, Total_Lipid, Carbohydrate, quantity\
@@ -37,8 +55,8 @@ export async function GET(request) {
     let BMR = 0;
     const currentYear = new Date().getFullYear();
 
-    const weight = parseFloat(userResult[0].weight);
-    const height = parseFloat(userResult[0].height);
+    const weight = parseFloat(wResult[0].weight);
+    const height = parseFloat(hResult[0].height);
     const years = currentYear - userResult[0].birth_year;
 
     //Mifflin-St Jeor Equation
