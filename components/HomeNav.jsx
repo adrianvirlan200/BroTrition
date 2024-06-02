@@ -35,7 +35,7 @@ const HomeNav = () => {
       isBlurred="false"
       className="bg-zinc-800 max-h-14 z-10"
     >
-      <div className="ml-96">
+      <div className="lg:invisible">
         <NavbarBrand>
           <Dropdown className="bg-zinc-800">
             <DropdownTrigger>
@@ -70,22 +70,108 @@ const HomeNav = () => {
                   </h1>
                 </div>
               </DropdownItem>
-              <DropdownItem key="settings">
-                <div className="flex items-center">
+              <DropdownItem
+                key="dashboard"
+                onClick={() => {
+                  router.push("/Home");
+                }}
+              >
+                <div className="flex items-center hover:text-orange-500">
                   <Image
                     src="/brotrition_assets/png/dashboard.png"
                     width="23"
                     height="23"
+                    alt="dashboard"
                     className="mr-2 transition ease-in-out group-hover:scale-110"
                   />{" "}
                   <h1>DashBoard</h1>
                 </div>
               </DropdownItem>
-              <DropdownItem key="team_settings">Trends</DropdownItem>
-              <DropdownItem key="analytics">Find a Gym</DropdownItem>
-              <DropdownItem key="system">Brotrition Gold</DropdownItem>
-              <DropdownItem key="configurations">Support</DropdownItem>
-              <DropdownItem key="configurations">About</DropdownItem>
+              <DropdownItem
+                key="trends"
+                onClick={() => {
+                  router.push("/Home/Trends");
+                }}
+              >
+                <div className="flex items-center hover:text-orange-500">
+                  <Image
+                    src="/brotrition_assets/png/trends.png"
+                    width="20"
+                    height="20"
+                    alt="trends"
+                    className="mr-2 transition ease-in-out group-hover:scale-110"
+                  />
+                  <h1>Trends</h1>
+                </div>
+              </DropdownItem>
+
+              <DropdownItem
+                key="gym"
+                onClick={() => {
+                  router.push("/Home/Gym");
+                }}
+              >
+                <div className="flex items-center hover:text-orange-500">
+                  <Image
+                    src="/brotrition_assets/png/dumbbell.png"
+                    width="23"
+                    height="23"
+                    className="mr-2 transition ease-in-out group-hover:scale-110"
+                  />
+                  <h1>Find a Gym</h1>
+                </div>
+              </DropdownItem>
+
+              <DropdownItem
+                key="gold"
+                onClick={() => {
+                  router.push("/Home/Gold");
+                }}
+              >
+                <div className="flex items-center hover:text-orange-500">
+                  <Image
+                    src="/brotrition_assets/png/dollar.png"
+                    width="22"
+                    height="22"
+                    className="mr-2 transition ease-in-out group-hover:scale-110"
+                  />
+                  <h1>Brotrition Gold</h1>
+                </div>
+              </DropdownItem>
+
+              <DropdownItem
+                key="support"
+                onClick={() => {
+                  router.push("/Home/Support");
+                }}
+              >
+                <div className="flex items-center hover:text-orange-500">
+                  <Image
+                    src="/brotrition_assets/png/question_mark.png"
+                    width="24"
+                    height="24"
+                    className="mr-2 transition ease-in-out group-hover:scale-110"
+                  />
+                  <h1>Support</h1>
+                </div>
+              </DropdownItem>
+
+              <DropdownItem
+                key="about"
+                onClick={() => {
+                  router.push("/Home/About");
+                }}
+              >
+                <div className="flex items-center hover:text-orange-500">
+                  <Image
+                    src="/brotrition_assets/png/i_logo.png"
+                    width="24"
+                    height="24"
+                    className="font-medium text-lg mr-2 transition ease-in-out group-hover:scale-110"
+                  />
+                  <h1>About</h1>
+                </div>
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </NavbarBrand>
