@@ -9,9 +9,9 @@ const WelcomePage = () => {
   };
 
   return (
-    <div className="mx-16 mb-48 h-full grid lg:grid-cols-[3fr_2fr] grid-cols-1 lg:gap-24 gap-6 content-center">
+    <div className="mx-16 w-full grid lg:grid-cols-[3fr_2fr] grid-cols-1 lg:gap-24 gap-6">
       {/* left text */}
-      <div className="grid grid-col-1 gap-1">
+      <div className="min-w-full min-h-5/6 grid grid-col-1 gap-1">
         <h1 className="text-5xl font-bold text-slate-900 decoration-6">
           Start your journey Here!
         </h1>
@@ -30,15 +30,17 @@ const WelcomePage = () => {
       </div>
 
       {/* right youtube video player */}
-      <div className="">
+      <div className="relative w-full max-w-4xl h-0 pb-[56.25%] mx-auto">
         <iframe
-          style={{ width: "600px", height: "400px" }}
-          src={"https://www.youtube.com/embed/SkJaRIX7c1k"}
+          className="absolute top-0 left-0 w-full h-full"
+          src="https://www.youtube.com/embed/SkJaRIX7c1k"
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
       </div>
+
+      <div className="h-56"></div>
     </div>
   );
 };
