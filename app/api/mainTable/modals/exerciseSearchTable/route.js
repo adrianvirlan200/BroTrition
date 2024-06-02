@@ -10,10 +10,10 @@ export async function POST(request) {
 
     const session = await getServerSession(authOptions);
 
-    const userQuery = "SELECT weight\
+    const userQuery =
+      "SELECT weight\
      FROM biometrics\
      WHERE userID = ?\
-     AND DATE(date) = CURDATE()\
      AND weight IS NOT NULL\
      ORDER BY date DESC\
      LIMIT 1;";

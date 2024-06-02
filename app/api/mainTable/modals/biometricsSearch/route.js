@@ -10,7 +10,6 @@ export async function GET(request) {
       "SELECT weight\
        FROM biometrics\
        WHERE userID = ?\
-       AND DATE(date) = CURDATE()\
        AND weight IS NOT NULL\
        ORDER BY date DESC\
        LIMIT 1;";
@@ -19,7 +18,6 @@ export async function GET(request) {
       "SELECT height\
        FROM biometrics\
        WHERE userID = ?\
-       AND DATE(date) = CURDATE()\
        AND height IS NOT NULL\
        ORDER BY date DESC\
        LIMIT 1;";
