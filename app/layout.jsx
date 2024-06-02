@@ -27,9 +27,9 @@ const RootLayout = ({ children }) => {
       <body className="bg-[#fffcf6] min-w-screen min-h-screen">
         <NextAuthSessionProvider>
           <NextUIProvider>
-            <div className="text-black min-w-screen min-h-screen">
+            <div className="text-black min-w-screen min-h-screen overflow-x-auto">
               {nav}
-              <div className="flex">{children}</div>
+              <div className="flex ">{children}</div>
               <Footer />
             </div>
           </NextUIProvider>

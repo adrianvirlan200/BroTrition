@@ -35,7 +35,7 @@ const HomeNav = () => {
       isBlurred="false"
       className="bg-zinc-800 max-h-14 z-10"
     >
-      <div className="lg:invisible">
+      <div className="md:invisible">
         <NavbarBrand>
           <Dropdown className="bg-zinc-800">
             <DropdownTrigger>

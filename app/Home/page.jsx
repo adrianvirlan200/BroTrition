@@ -28,7 +28,7 @@ export default function Home() {
   };
 
   return (
-    <div className="grid lg:grid-cols-[3fr_1fr] grid-cols-1 gap-4">
+    <div className="grid lg:grid-cols-[3fr_1fr] grid-cols-1 md:grid-cols-1 gap-4">
       {/* Left column */}
       <div>
         <div className="border-1 border-gray-300 w-full p-2 bg-white rounded-2xl">
