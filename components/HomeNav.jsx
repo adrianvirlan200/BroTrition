@@ -16,12 +16,11 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const HomeNav = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const { data: session, status } = useSession();
 
   const handleLogout = () => {
@@ -36,6 +35,62 @@ const HomeNav = () => {
       isBlurred="false"
       className="bg-zinc-800 max-h-14 z-10"
     >
+      <div className="ml-96">
+        <NavbarBrand>
+          <Dropdown className="bg-zinc-800">
+            <DropdownTrigger>
+              <Image
+                src="/brotrition_assets/svg/menu.svg"
+                width="40"
+                height="40"
+                alt="menu"
+              />
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Profile Actions"
+              variant="flat"
+              className="text-white"
+            >
+              <DropdownItem
+                key="logo"
+                className="h-14 gap-2"
+                onClick={() => {
+                  router.push("/Home");
+                }}
+              >
+                <div className="flex items-center border-b border-gray-300 pb-2">
+                  <Image
+                    src="/brotrition_assets/png/pear.png"
+                    width="30"
+                    height="30"
+                    alt="menu"
+                  />
+                  <h1 className="text-2xl green_gradient font-bold ml-2">
+                    BroTrition
+                  </h1>
+                </div>
+              </DropdownItem>
+              <DropdownItem key="settings">
+                <div className="flex items-center">
+                  <Image
+                    src="/brotrition_assets/png/dashboard.png"
+                    width="23"
+                    height="23"
+                    className="mr-2 transition ease-in-out group-hover:scale-110"
+                  />{" "}
+                  <h1>DashBoard</h1>
+                </div>
+              </DropdownItem>
+              <DropdownItem key="team_settings">Trends</DropdownItem>
+              <DropdownItem key="analytics">Find a Gym</DropdownItem>
+              <DropdownItem key="system">Brotrition Gold</DropdownItem>
+              <DropdownItem key="configurations">Support</DropdownItem>
+              <DropdownItem key="configurations">About</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </NavbarBrand>
+      </div>
+
       <NavbarContent as="div" justify="end" className="mr-5">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
