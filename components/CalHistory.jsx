@@ -106,7 +106,7 @@ const CalHistory = ({ updateSignal }) => {
     <Bar
       data={data_chart}
       options={options}
-      className="max-w-64 max-h-72 border-gray-200 border-1 rounded-2xl mt-4"
+      className="max-w-64 max-h-72 border-gray-200 border-1 rounded-2xl mt-4 shadow-md"
     />
   );
 };

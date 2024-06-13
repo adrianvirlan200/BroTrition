@@ -8,6 +8,7 @@ import MacroStats from "@components/MacroStats";
 import MainCalendar from "@components/MainCalendar";
 import CalHistory from "@components/CalHistory";
 import TryGold from "@components/TryGold";
+import MicroStats from "@components/MicroStats";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
 import { useState } from "react";
@@ -57,14 +58,14 @@ export default function Home() {
 
         <div className="w-full mt-3 border-1 border-gray-300 content-center p-2 bg-white rounded-2xl shadow-md">
           <div className="h-screen">
-            ToDo: add progress bars for all micro-nutrients
+            <MicroStats />
           </div>
         </div>
       </div>
 
       {/* Right column */}
       <div>
-        <div className="border-1 border-gray-300 content-center w-fit p-2 bg-white rounded-2xl shadow-md">
+        <div className="overflow-clip border-1 border-gray-300 content-center p-2 bg-white rounded-2xl shadow-md">
           <MainCalendar setDate={handleSetDate} />
           <CalHistory updateSignal={updateSignal} />
         </div>

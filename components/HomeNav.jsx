@@ -3,12 +3,6 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-  Link,
-  Button,
   Dropdown,
   DropdownMenu,
   DropdownItem,
@@ -200,10 +194,17 @@ const HomeNav = () => {
                 {status != "loading" ? session.user.name : "placeholder"}
               </p>
               <p className="font-medium text-xs">
-                {status != "loading" ? session.user.email : "placeholder "}
+                {status != "loading" ? session.user.email : "placeholder"}
               </p>
             </DropdownItem>
-            <DropdownItem key="settings">My Account</DropdownItem>
+            <DropdownItem
+              key="settings"
+              onClick={() => {
+                router.push("/Home/Settings");
+              }}
+            >
+              My Account
+            </DropdownItem>
             <DropdownItem
               key="analytics"
               onClick={() => {
@@ -212,8 +213,22 @@ const HomeNav = () => {
             >
               Analytics
             </DropdownItem>
-            <DropdownItem key="configurations">Configurations</DropdownItem>
-            <DropdownItem key="team_settings">Settings</DropdownItem>
+            <DropdownItem
+              key="configurations"
+              onClick={() => {
+                router.push("/Home/Settings");
+              }}
+            >
+              Configurations
+            </DropdownItem>
+            <DropdownItem
+              key="team_settings"
+              onClick={() => {
+                router.push("/Home/Settings");
+              }}
+            >
+              Settings
+            </DropdownItem>
             <DropdownItem key="logout" color="danger" onClick={handleLogout}>
               Log Out
             </DropdownItem>
