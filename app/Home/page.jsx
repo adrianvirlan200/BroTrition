@@ -65,7 +65,7 @@ export default function Home() {
 
       {/* Right column */}
       <div>
-        <div className="overflow-clip border-1 border-gray-300 content-center p-2 bg-white rounded-2xl shadow-md">
+        <div className="max-w-fit overflow-clip border-1 border-gray-300 content-center p-2 bg-white rounded-2xl shadow-md">
           <MainCalendar setDate={handleSetDate} />
           <CalHistory updateSignal={updateSignal} />
         </div>

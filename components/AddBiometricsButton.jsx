@@ -62,10 +62,16 @@ const AddBiometricsButton = ({ onUpdate }) => {
     validateWeight();
   }, [height, weight]);
   useEffect(() => {
-    if (invalidHeight || invalidWeight || (!wCheck && !hCheck)) {
+    if (invalidHeight && hCheck) {
+      setIsGrayedOut(true);
+    } else if (invalidWeight && wCheck) {
       setIsGrayedOut(true);
     } else {
       setIsGrayedOut(false);
+    }
+
+    if (!wCheck && !hCheck) {
+      setIsGrayedOut(true);
     }
   }, [invalidHeight, invalidWeight, wCheck, hCheck]);
 
@@ -148,7 +154,7 @@ const AddBiometricsButton = ({ onUpdate }) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-0 text-success-500 text-purple-600">
+              <ModalHeader className="flex flex-col gap-0 text-purple-600">
                 ADD BIOMETRICS
               </ModalHeader>
 

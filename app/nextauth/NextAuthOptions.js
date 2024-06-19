@@ -6,28 +6,17 @@ export const authOptions = {
     strategy: "jwt",
     maxAge: 7 * 24 * 60 * 60, //7days
   },
+
   providers: [
     Credentials({
       type: "credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "text",
-          placeholder: "Enter your email",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Enter your password",
-        },
-      },
       async authorize(credentials) {
         const { email, password } = credentials;
 
         const query = "SELECT * FROM brotrition.user WHERE email = ?;";
         const user = await executeQuery(query, [email]);
 
-        //if the query executed correctly && the user exists in the db
+        //if the query is successful && the user exists in the db
         if (user && user.length > 0) {
           const bcrypt = require("bcrypt");
           if (bcrypt.compareSync(password, user[0].password)) {
@@ -45,6 +34,7 @@ export const authOptions = {
       },
     }),
   ],
+
   pages: {
     signIn: "/Login",
   },

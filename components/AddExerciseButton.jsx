@@ -26,7 +26,6 @@ import { useSession } from "next-auth/react";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { set } from "mongoose";
 
 const AddExerciseButton = ({ onUpdate }) => {
   const { data: session, status } = useSession();
@@ -197,7 +196,7 @@ const AddExerciseButton = ({ onUpdate }) => {
 
   function pressBtn() {
     onOpen();
-    setUpdateFetch(prev => !updateFetch);
+    setUpdateFetch((prev) => !updateFetch);
 
     console.log("test:", updateFetch);
   }
