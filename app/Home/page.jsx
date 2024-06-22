@@ -57,8 +57,8 @@ export default function Home() {
         </div>
 
         <div className="w-full mt-3 border-1 border-gray-300 content-center p-2 bg-white rounded-2xl shadow-md">
-          <div className="h-screen">
-            <MicroStats />
+          <div className="h-fit">
+            <MicroStats currentDate={date} updateSignal={updateSignal} />
           </div>
         </div>
       </div>

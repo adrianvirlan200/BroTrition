@@ -7,7 +7,31 @@ import { useEffect, useState } from "react";
 ChartJS.register(ArcElement, Legend);
 
 const MacroStats = ({ updateSignal, currentDate }) => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    BMR: 0,
+    TDEE: 0,
+    activity: 0,
+    caloriesPercentage: 0,
+    caloriesRemaining: 0,
+    carbohydrateNeeded: 0,
+    carbohydratePercentage: 0,
+    goal: "",
+    goalCalories: 0,
+    lifestyleCalories: 0,
+    lifestyleFactor: 0,
+    lipidNeeded: 0,
+    lipidPercentage: 0,
+    proteinNeeded: 0,
+    proteinPercentage: 0,
+    totalCaloriesBurned: 0,
+    totalCaloriesConsumed: 0,
+    totalCarbohydrateConsumed: 0,
+    totalCarbohydrateConsumedCalories: 0,
+    totalLipidConsumed: 0,
+    totalLipidConsumedCalories: 0,
+    totalProteinConsumed: 0,
+    totalProteinConsumedCalories: 0,
+  });
 
   const fetchData = async () => {
     try {
@@ -148,7 +172,7 @@ const MacroStats = ({ updateSignal, currentDate }) => {
               <Doughnut
                 data={data_consumed}
                 options={options}
-                className="max-w-28 max-h-28 min-w-28 max-w-28 mx-auto"
+                className="max-w-28 max-h-28 min-w-28 mx-auto"
               />
               <p className="text-center font-bold text-base">Consumed</p>
               <p className="text-center font-semibold text-sm">

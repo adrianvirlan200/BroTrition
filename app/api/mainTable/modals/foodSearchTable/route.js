@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import executeQuery from "@server/db.js";
 import {
   displayNumberOfCalories,
@@ -6,10 +5,10 @@ import {
   truncMacro,
 } from "@server/utils";
 
-export async function POST(request) {
+export async function GET(request) {
   try {
-    const data = await request.json();
-    const searchingParams = data.searchBoxValue;
+    const params = new URL(request.url).searchParams;
+    const searchingParams = params.get("keyword");
 
     const query =
       " SELECT Id, Category, Description, Carbohydrate, Protein, Total_Lipid\

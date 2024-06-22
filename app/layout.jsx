@@ -6,7 +6,7 @@ import TopNav from "@components/TopNav";
 import LoginNav from "@components/LoginNav";
 import HomeNav from "@components/HomeNav";
 import { usePathname } from "next/navigation";
-import NextAuthSessionProvider from "./nextauth/NextAuthSessionProvider";
+import { SessionProvider } from "next-auth/react";
 
 const RootLayout = ({ children }) => {
   const pathname = usePathname();
@@ -25,15 +25,15 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-[#fffcf6] min-w-screen min-h-screen">
-        <NextAuthSessionProvider>
+        <SessionProvider>
           <NextUIProvider>
             <div className="text-black min-w-screen min-h-screen overflow-x-auto">
               {nav}
-              <div className="flex ">{children}</div>
+              <div className="flex">{children}</div>
               <Footer />
             </div>
           </NextUIProvider>
-        </NextAuthSessionProvider>
+        </SessionProvider>
       </body>
     </html>
   );

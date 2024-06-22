@@ -111,7 +111,7 @@ const SignUp = () => {
     // Allow decimal weights and range from 2 to 635 kg (approx range of lightest to heaviest recorded humans)
     const regex = /^[0-9]{1,3}(\.[0-9]{1})?$/;
     const value = parseFloat(weight);
-    const isValid = regex.test(weight) && value >= 2 && value <= 635;
+    const isValid = regex.test(weight) && value >= 20 && value <= 635;
 
     if (isValid) {
       setIsInvalidWeight(false);
@@ -240,8 +240,6 @@ const SignUp = () => {
       if (response.ok) {
         const data = await response.json();
 
-        console.log(data);
-
         if (data.status === 501) {
           setUserExists(true);
           return;
@@ -249,8 +247,6 @@ const SignUp = () => {
           setUserExists(false);
           console.log("Registration successful");
           router.push("/Login");
-        } else {
-          return;
         }
       } else {
         const data = await response.json();

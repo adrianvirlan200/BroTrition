@@ -74,15 +74,14 @@ const AddFoodButton = ({ onUpdate }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/mainTable/modals/foodSearchTable",
+        "http://localhost:3000/api/mainTable/modals/foodSearchTable" +
+          "?keyword=" +
+          searchBoxValue,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            searchBoxValue,
-          }),
         }
       );
 
