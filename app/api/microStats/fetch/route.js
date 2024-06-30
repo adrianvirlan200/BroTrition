@@ -312,25 +312,13 @@ export async function GET(request) {
       },
     };
 
-    console.log(data);
-
-    if (nutrients.length > 0) {
-      return new Response(
-        JSON.stringify({
-          message: "Fetching successful.",
-          data: data,
-          status: 201,
-        })
-      );
-    } else {
-      return new Response(
-        JSON.stringify({
-          message: "No entries found.",
-          data: [],
-          status: 201,
-        })
-      );
-    }
+    return new Response(
+      JSON.stringify({
+        message: "Fetching successful.",
+        data: data,
+        status: 201,
+      })
+    );
   } catch (error) {
     console.error(error);
     return new Response(

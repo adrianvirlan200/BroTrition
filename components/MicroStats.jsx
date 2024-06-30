@@ -18,159 +18,42 @@ const NutrientProgress = ({ nutrient, value, recommendedValue, units }) => {
 
 const MicroStats = ({ updateSignal, currentDate }) => {
   const [data, setData] = useState({
-    Id: 0,
-    Category: "",
-    Description: "",
-    Alpha_Carotene: {
-      value: 0,
-      recommendedValue: "700",
-      units: "µg",
-    },
-    Beta_Carotene: {
-      value: 0,
-      recommendedValue: "3000-6000",
-      units: "µg",
-    },
-    Beta_Cryptoxanthin: {
-      value: 0,
-      recommendedValue: "400",
-      units: "µg",
-    },
-    Calcium: {
-      value: 0,
-      recommendedValue: "1000",
-      units: "mg",
-    },
-    Cholesterol: {
-      value: 0,
-      recommendedValue: "300",
-      units: "mg",
-    },
-    Choline: {
-      value: 0,
-      recommendedValue: "550",
-      units: "mg",
-    },
-    Copper: {
-      value: 0,
-      recommendedValue: "900",
-      units: "µg",
-    },
-    Fiber: {
-      value: 0,
-      recommendedValue: "25-30",
-      units: "g",
-    },
-    Iron: {
-      value: 0,
-      recommendedValue: "8-18",
-      units: "mg",
-    },
-    Lutein_and_Zeaxanthin: {
-      value: 0,
-      recommendedValue: "10000",
-      units: "µg",
-    },
-    Lycopene: {
-      value: 0,
-      recommendedValue: "10000",
-      units: "µg",
-    },
-    Magnesium: {
-      value: 0,
-      recommendedValue: "400",
-      units: "mg",
-    },
-    Niacin: {
-      value: 0,
-      recommendedValue: "16",
-      units: "mg",
-    },
-    Phosphorus: {
-      value: 0,
-      recommendedValue: "700",
-      units: "mg",
-    },
-    Potassium: {
-      value: 0,
-      recommendedValue: "4700",
-      units: "mg",
-    },
-    Retinol: {
-      value: 0,
-      recommendedValue: "900",
-      units: "µg",
-    },
-    Riboflavin: {
-      value: 0,
-      recommendedValue: "1.3",
-      units: "mg",
-    },
-    Selenium: {
-      value: 0,
-      recommendedValue: "55",
-      units: "µg",
-    },
-    Sodium: {
-      value: 0,
-      recommendedValue: "2300",
-      units: "mg",
-    },
-    Sugar_Total: {
-      value: 0,
-      recommendedValue: "25-37.5",
-      units: "g",
-    },
-    Thiamin: {
-      value: 0,
-      recommendedValue: "1.2",
-      units: "mg",
-    },
-    Total_Lipid: {
-      value: 0,
-      recommendedValue: "70",
-      units: "g",
-    },
-    Vitamin_A_RAE: {
-      value: 0,
-      recommendedValue: "900",
-      units: "µg",
-    },
-    Vitamin_B12: {
-      value: 0,
-      recommendedValue: "2.4",
-      units: "µg",
-    },
-    Vitamin_B6: {
-      value: 0,
-      recommendedValue: "1.3",
-      units: "mg",
-    },
-    Vitamin_C: {
-      value: 0,
-      recommendedValue: "90",
-      units: "mg",
-    },
-    Vitamin_E: {
-      value: 0,
-      recommendedValue: "15",
-      units: "mg",
-    },
-    Vitamin_K: {
-      value: 0,
-      recommendedValue: "120",
-      units: "µg",
-    },
-    Water: {
-      value: 0,
-      recommendedValue: "3700",
-      units: "ml",
-    },
-    Zinc: {
-      value: 0,
-      recommendedValue: "11",
-      units: "mg",
-    },
+    Vitamin_A_RAE: { value: 0, recommendedValue: 900, units: "µg" },
+    Vitamin_B12: { value: 0, recommendedValue: 2.4, units: "µg" },
+    Vitamin_B6: { value: 0, recommendedValue: 1.3, units: "mg" },
+    Vitamin_C: { value: 0, recommendedValue: 90, units: "mg" },
+    Vitamin_E: { value: 0, recommendedValue: 15, units: "mg" },
+    Vitamin_K: { value: 0, recommendedValue: 120, units: "µg" },
+    Alpha_Carotene: { value: 0, recommendedValue: 700, units: "µg" },
+    Beta_Carotene: { value: 0, recommendedValue: 3000, units: "µg" },
+    Beta_Cryptoxanthin: { value: 0, recommendedValue: 400, units: "µg" },
+    Calcium: { value: 0, recommendedValue: 1000, units: "mg" },
+    Cholesterol: { value: 0, recommendedValue: 300, units: "mg" },
+    Choline: { value: 0, recommendedValue: 550, units: "mg" },
+    Copper: { value: 0, recommendedValue: 900, units: "µg" },
+    Fiber: { value: 0, recommendedValue: 30, units: "g" },
+    Iron: { value: 0, recommendedValue: 18, units: "mg" },
+    Lutein_and_Zeaxanthin: { value: 0, recommendedValue: 10000, units: "µg" },
+    Lycopene: { value: 0, recommendedValue: 10000, units: "µg" },
+    Magnesium: { value: 0, recommendedValue: 400, units: "mg" },
+    Niacin: { value: 0, recommendedValue: 16, units: "mg" },
+    Phosphorus: { value: 0, recommendedValue: 700, units: "mg" },
+    Potassium: { value: 0, recommendedValue: 4700, units: "mg" },
+    Retinol: { value: 0, recommendedValue: 900, units: "µg" },
+    Riboflavin: { value: 0, recommendedValue: 1.3, units: "mg" },
+    Selenium: { value: 0, recommendedValue: 55, units: "µg" },
+    Sodium: { value: 0, recommendedValue: 2300, units: "mg" },
+    Sugar_Total: { value: 0, recommendedValue: 37.5, units: "g" },
+    Thiamin: { value: 0, recommendedValue: 1.2, units: "mg" },
+    Total_Lipid: { value: 0, recommendedValue: 70, units: "g" },
+    Vitamin_A_RAE: { value: 0, recommendedValue: 900, units: "µg" },
+    Vitamin_B12: { value: 0, recommendedValue: 2.4, units: "µg" },
+    Vitamin_B6: { value: 0, recommendedValue: 1.3, units: "mg" },
+    Vitamin_C: { value: 0, recommendedValue: 90, units: "mg" },
+    Vitamin_E: { value: 0, recommendedValue: 15, units: "mg" },
+    Vitamin_K: { value: 0, recommendedValue: 120, units: "µg" },
+    Water: { value: 0, recommendedValue: 3700, units: "ml" },
+    Zinc: { value: 0, recommendedValue: 11, units: "mg" },
   });
 
   const fetchData = async () => {
@@ -189,7 +72,6 @@ const MicroStats = ({ updateSignal, currentDate }) => {
 
       if (response.ok) {
         setData(fetchedData.data);
-        console.log(data);
       }
 
       if (fetchedData.status === 500) {

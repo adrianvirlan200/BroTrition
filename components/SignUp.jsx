@@ -245,7 +245,6 @@ const SignUp = () => {
           return;
         } else if (data.status === 201) {
           setUserExists(false);
-          console.log("Registration successful");
           router.push("/Login");
         }
       } else {

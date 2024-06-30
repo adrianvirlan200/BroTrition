@@ -1,6 +1,4 @@
 import executeQuery from "@server/db.js";
-import { data } from "autoprefixer";
-import { NextResponse } from "next/server";
 import { displayNumberOfCalories } from "@server/utils.js";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@app/nextauth/NextAuthOptions";
