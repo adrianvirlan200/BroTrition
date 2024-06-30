@@ -181,7 +181,7 @@ const HomeNav = () => {
               color="success"
               name="Jason Hughes"
               size="md"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src="/brotrition_assets/svg/person.svg"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
